@@ -10,9 +10,8 @@ platform :ios do
     # match(type: "development", readonly: true)
     
     scan(workspace: "NorrisFacts.xcworkspace",
-            device: "iPhone 11",
-            scheme: "NorrisFacts",
-            code_coverage: true)
+      scheme: "NorrisFacts",
+      code_coverage: true)
   end
 
   desc "Build and send to testflight"
@@ -23,7 +22,6 @@ platform :ios do
     match(type: "appstore", readonly: true)
     
     scan(workspace: "NorrisFacts.xcworkspace", 
-      device: "iPhone 11",
       scheme: "NorrisFacts",
       code_coverage: true)
     
