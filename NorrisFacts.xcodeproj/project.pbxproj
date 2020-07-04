@@ -23,6 +23,9 @@
 		FA1CF5EC24B1235400409CB0 /* HttpService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5EB24B1235400409CB0 /* HttpService.swift */; };
 		FA1CF5F124B1245000409CB0 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5F024B1245000409CB0 /* Reachability.swift */; };
 		FA1CF5F424B124CC00409CB0 /* NorrisFactsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5F324B124CC00409CB0 /* NorrisFactsError.swift */; };
+		FA1CF5FA24B1276700409CB0 /* NorrisFactsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5F924B1276700409CB0 /* NorrisFactsAPI.swift */; };
+		FA1CF5FF24B1283500409CB0 /* Codable+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5FE24B1283500409CB0 /* Codable+ext.swift */; };
+		FA1CF60124B128C700409CB0 /* NorrisFactsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF60024B128C700409CB0 /* NorrisFactsService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +74,9 @@
 		FA1CF5EB24B1235400409CB0 /* HttpService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpService.swift; sourceTree = "<group>"; };
 		FA1CF5F024B1245000409CB0 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		FA1CF5F324B124CC00409CB0 /* NorrisFactsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactsError.swift; sourceTree = "<group>"; };
+		FA1CF5F924B1276700409CB0 /* NorrisFactsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactsAPI.swift; sourceTree = "<group>"; };
+		FA1CF5FE24B1283500409CB0 /* Codable+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+ext.swift"; sourceTree = "<group>"; };
+		FA1CF60024B128C700409CB0 /* NorrisFactsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactsService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,7 +187,7 @@
 		FA1CF5DA24B1105700409CB0 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				FA1CF5E124B1164600409CB0 /* FactsList */,
+				FA1CF5F524B126AD00409CB0 /* Facts */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -191,6 +197,7 @@
 			children = (
 				FA1CF5F224B124B700409CB0 /* Error */,
 				FA1CF5EA24B1231100409CB0 /* HttpService */,
+				FA1CF5FB24B1280500409CB0 /* Data */,
 				FA1CF5DF24B1127C00409CB0 /* BaseCoordinator.swift */,
 			);
 			path = Core;
@@ -229,6 +236,40 @@
 				FA1CF5F324B124CC00409CB0 /* NorrisFactsError.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		FA1CF5F524B126AD00409CB0 /* Facts */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF5E124B1164600409CB0 /* FactsList */,
+			);
+			path = Facts;
+			sourceTree = "<group>";
+		};
+		FA1CF5FB24B1280500409CB0 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF5FD24B1281C00409CB0 /* Networking */,
+				FA1CF5FC24B1281600409CB0 /* Services */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		FA1CF5FC24B1281600409CB0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF60024B128C700409CB0 /* NorrisFactsService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		FA1CF5FD24B1281C00409CB0 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF5F924B1276700409CB0 /* NorrisFactsAPI.swift */,
+				FA1CF5FE24B1283500409CB0 /* Codable+ext.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -453,14 +494,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA1CF5FF24B1283500409CB0 /* Codable+ext.swift in Sources */,
 				FA1CF5DD24B110F900409CB0 /* AppCoodinator.swift in Sources */,
 				FA1CF5AA24B0EBBB00409CB0 /* AppDelegate.swift in Sources */,
+				FA1CF60124B128C700409CB0 /* NorrisFactsService.swift in Sources */,
 				FA1CF5E324B1169700409CB0 /* FactsListCoordinator.swift in Sources */,
 				FA1CF5E624B1181D00409CB0 /* FactsListViewController.swift in Sources */,
 				FA1CF5E024B1127C00409CB0 /* BaseCoordinator.swift in Sources */,
 				FA1CF5F124B1245000409CB0 /* Reachability.swift in Sources */,
 				FA1CF5EC24B1235400409CB0 /* HttpService.swift in Sources */,
 				FA1CF5F424B124CC00409CB0 /* NorrisFactsError.swift in Sources */,
+				FA1CF5FA24B1276700409CB0 /* NorrisFactsAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -49,7 +49,16 @@ extension TargetType {
 
         return request
     }
+}
 
+extension TargetType {
+    func bodyPayload(_ dictionary: [String: Any]) -> Data? {
+        return try? JSONSerialization.data(withJSONObject: dictionary, options: [])
+    }
+    
+    func bodyPayload<T: Encodable>(_ object: T) -> Data? {
+        return try? JSON.encoder.encode(object)
+    }
 }
 
 enum HttpMethod: String {

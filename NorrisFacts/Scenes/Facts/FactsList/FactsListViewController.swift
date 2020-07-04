@@ -12,6 +12,10 @@ class FactsListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let factsService = NorrisFactsService()
+        factsService.searchFacts(term: "asdasd")
+        
     }
 
 }
