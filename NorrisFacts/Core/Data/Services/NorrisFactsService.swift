@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol NorrisFactsServiceType {
-    func searchFacts(term: String)
+    func searchFacts(term: String) -> Single<String>
 }
 
 class NorrisFactsService: NorrisFactsServiceType {
@@ -23,9 +24,7 @@ class NorrisFactsService: NorrisFactsServiceType {
         self.api = api
     }
     
-    func searchFacts(term: String) {
-        api.request(NorrisFactsAPI.search(term: term)) { result in
-            print(result)
-        }
+    func searchFacts(term: String) -> Single<String> {
+        api.rx.request(.search(term: term)).map { _ in "" }
     }
 }

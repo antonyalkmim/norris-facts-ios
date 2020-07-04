@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct JSON {
-    static var decoder: JSONDecoder {
+public struct JSON {
+    public static var decoder: JSONDecoder {
         JSONDecoder()
     }
 
-    static var encoder: JSONEncoder {
+    public static var encoder: JSONEncoder {
         JSONEncoder()
     }
 }

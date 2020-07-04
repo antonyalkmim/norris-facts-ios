@@ -7,14 +7,20 @@
 //
 
 import UIKit
+import RxSwift
 
 class FactsListViewController: UIViewController {
 
+    var disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let factsService = NorrisFactsService()
         factsService.searchFacts(term: "asdasd")
+            .subscribe { event in
+                print(event)
+            }.disposed(by: disposeBag)
         
     }
 
