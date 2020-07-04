@@ -15,13 +15,15 @@ protocol NorrisFactsServiceType {
 
 class NorrisFactsService: NorrisFactsServiceType {
     
-    var api: HttpService<NorrisFactsAPI> = HttpService<NorrisFactsAPI>()
-//    var storage: NorrisStorageStorage = NorrisStorageStorage()
+    var api: HttpService<NorrisFactsAPI>
+    var storage: NorrisFactsStorageType
     
     init(
-        api: HttpService<NorrisFactsAPI> = HttpService<NorrisFactsAPI>()
+        api: HttpService<NorrisFactsAPI> = HttpService<NorrisFactsAPI>(),
+        storage: NorrisFactsStorageType = NorrisFactsStorage()
     ) {
         self.api = api
+        self.storage = storage
     }
     
     func searchFacts(term: String) -> Single<String> {
