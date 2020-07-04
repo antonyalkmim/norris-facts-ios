@@ -1,0 +1,34 @@
+disabled_rules:
+    - line_length
+    - type_name
+    - large_tuple
+    - identifier_name
+    - trailing_whitespace
+  
+opt_in_rules:
+    - type_body_length
+    - empty_count
+    - force_cast
+    - force_try
+    - leading_whitespace
+    - function_body_length
+    - function_parameter_count
+    - legacy_constant
+    - operator_whitespace
+    - return_arrow_whitespace
+    - todo
+    - nesting
+    - operator_usage_whitespace
+    - unneeded_parentheses_in_closure_argument
+
+excluded:
+- Pods
+
+
+empty_count: warning
+type_body_length:
+warning: 300
+implicit_getter: warning
+force_cast: warning
+shorthand_operator: warning
+compiler_protocol_init: warning
