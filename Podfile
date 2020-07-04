@@ -5,7 +5,8 @@ target 'NorrisFacts' do
 
   # Tools
   pod 'SwiftLint'
-
+  pod 'SwiftGen'
+  
   # Rx
   pod 'RxSwift', '~> 5'
   pod 'RxCocoa', '~> 5'

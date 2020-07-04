@@ -27,6 +27,9 @@
 		FA1CF5FF24B1283500409CB0 /* Codable+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5FE24B1283500409CB0 /* Codable+ext.swift */; };
 		FA1CF60124B128C700409CB0 /* NorrisFactsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF60024B128C700409CB0 /* NorrisFactsService.swift */; };
 		FA1CF60324B12CAA00409CB0 /* HttpService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF60224B12CAA00409CB0 /* HttpService+Rx.swift */; };
+		FA1CF60724B12EF500409CB0 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF60624B12EF500409CB0 /* Assets.swift */; };
+		FA1CF60924B12EFD00409CB0 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF60824B12EFD00409CB0 /* Strings.swift */; };
+		FA1CF60B24B12F1B00409CB0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA1CF60A24B12F1B00409CB0 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +82,9 @@
 		FA1CF5FE24B1283500409CB0 /* Codable+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+ext.swift"; sourceTree = "<group>"; };
 		FA1CF60024B128C700409CB0 /* NorrisFactsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactsService.swift; sourceTree = "<group>"; };
 		FA1CF60224B12CAA00409CB0 /* HttpService+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HttpService+Rx.swift"; sourceTree = "<group>"; };
+		FA1CF60624B12EF500409CB0 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+		FA1CF60824B12EFD00409CB0 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		FA1CF60A24B12F1B00409CB0 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,7 +214,9 @@
 		FA1CF5DE24B1120200409CB0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FA1CF60524B12EEA00409CB0 /* Generated */,
 				FA1CF5B224B0EBBD00409CB0 /* Assets.xcassets */,
+				FA1CF60A24B12F1B00409CB0 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -275,6 +283,15 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		FA1CF60524B12EEA00409CB0 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF60624B12EF500409CB0 /* Assets.swift */,
+				FA1CF60824B12EFD00409CB0 /* Strings.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -283,6 +300,7 @@
 			buildConfigurationList = FA1CF5D024B0EBBD00409CB0 /* Build configuration list for PBXNativeTarget "NorrisFacts" */;
 			buildPhases = (
 				64A90F53DC773CDFC6C85A95 /* [CP] Check Pods Manifest.lock */,
+				FA1CF60424B12E9D00409CB0 /* SwiftGen */,
 				FA1CF5D924B0EFC300409CB0 /* SwiftLint */,
 				FA1CF5A224B0EBBB00409CB0 /* Sources */,
 				FA1CF5A324B0EBBB00409CB0 /* Frameworks */,
@@ -387,6 +405,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA1CF5E724B1181D00409CB0 /* FactsListViewController.xib in Resources */,
+				FA1CF60B24B12F1B00409CB0 /* Localizable.strings in Resources */,
 				FA1CF5B624B0EBBD00409CB0 /* LaunchScreen.storyboard in Resources */,
 				FA1CF5B324B0EBBD00409CB0 /* Assets.xcassets in Resources */,
 			);
@@ -527,6 +546,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
+		FA1CF60424B12E9D00409CB0 /* SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftGen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$PODS_ROOT\"/SwiftGen/bin/swiftgen xcassets -t swift4 \"$PROJECT_DIR/NorrisFacts/Resources/Assets.xcassets\" --output \"$PROJECT_DIR/NorrisFacts/Resources/Generated/Assets.swift\"\n\n\"$PODS_ROOT\"/SwiftGen/bin/swiftgen strings -t structured-swift4 \"$PROJECT_DIR/NorrisFacts/Resources/Localizable.strings\" --output \"$PROJECT_DIR/NorrisFacts/Resources/Generated/Strings.swift\"\n";
+		};
 		FE08FDC6F4C0CFE4BBB5FBBD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -557,8 +594,10 @@
 				FA1CF60124B128C700409CB0 /* NorrisFactsService.swift in Sources */,
 				FA1CF5E324B1169700409CB0 /* FactsListCoordinator.swift in Sources */,
 				FA1CF60324B12CAA00409CB0 /* HttpService+Rx.swift in Sources */,
+				FA1CF60924B12EFD00409CB0 /* Strings.swift in Sources */,
 				FA1CF5E624B1181D00409CB0 /* FactsListViewController.swift in Sources */,
 				FA1CF5E024B1127C00409CB0 /* BaseCoordinator.swift in Sources */,
+				FA1CF60724B12EF500409CB0 /* Assets.swift in Sources */,
 				FA1CF5F124B1245000409CB0 /* Reachability.swift in Sources */,
 				FA1CF5EC24B1235400409CB0 /* HttpService.swift in Sources */,
 				FA1CF5F424B124CC00409CB0 /* NorrisFactsError.swift in Sources */,
