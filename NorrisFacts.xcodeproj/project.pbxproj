@@ -20,6 +20,9 @@
 		FA1CF5E324B1169700409CB0 /* FactsListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5E224B1169700409CB0 /* FactsListCoordinator.swift */; };
 		FA1CF5E624B1181D00409CB0 /* FactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5E424B1181D00409CB0 /* FactsListViewController.swift */; };
 		FA1CF5E724B1181D00409CB0 /* FactsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA1CF5E524B1181D00409CB0 /* FactsListViewController.xib */; };
+		FA1CF5EC24B1235400409CB0 /* HttpService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5EB24B1235400409CB0 /* HttpService.swift */; };
+		FA1CF5F124B1245000409CB0 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5F024B1245000409CB0 /* Reachability.swift */; };
+		FA1CF5F424B124CC00409CB0 /* NorrisFactsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5F324B124CC00409CB0 /* NorrisFactsError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +68,9 @@
 		FA1CF5E224B1169700409CB0 /* FactsListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListCoordinator.swift; sourceTree = "<group>"; };
 		FA1CF5E424B1181D00409CB0 /* FactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListViewController.swift; sourceTree = "<group>"; };
 		FA1CF5E524B1181D00409CB0 /* FactsListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FactsListViewController.xib; sourceTree = "<group>"; };
+		FA1CF5EB24B1235400409CB0 /* HttpService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpService.swift; sourceTree = "<group>"; };
+		FA1CF5F024B1245000409CB0 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		FA1CF5F324B124CC00409CB0 /* NorrisFactsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactsError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +189,8 @@
 		FA1CF5DB24B1106100409CB0 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				FA1CF5F224B124B700409CB0 /* Error */,
+				FA1CF5EA24B1231100409CB0 /* HttpService */,
 				FA1CF5DF24B1127C00409CB0 /* BaseCoordinator.swift */,
 			);
 			path = Core;
@@ -204,6 +212,23 @@
 				FA1CF5E524B1181D00409CB0 /* FactsListViewController.xib */,
 			);
 			path = FactsList;
+			sourceTree = "<group>";
+		};
+		FA1CF5EA24B1231100409CB0 /* HttpService */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF5EB24B1235400409CB0 /* HttpService.swift */,
+				FA1CF5F024B1245000409CB0 /* Reachability.swift */,
+			);
+			path = HttpService;
+			sourceTree = "<group>";
+		};
+		FA1CF5F224B124B700409CB0 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF5F324B124CC00409CB0 /* NorrisFactsError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -433,6 +458,9 @@
 				FA1CF5E324B1169700409CB0 /* FactsListCoordinator.swift in Sources */,
 				FA1CF5E624B1181D00409CB0 /* FactsListViewController.swift in Sources */,
 				FA1CF5E024B1127C00409CB0 /* BaseCoordinator.swift in Sources */,
+				FA1CF5F124B1245000409CB0 /* Reachability.swift in Sources */,
+				FA1CF5EC24B1235400409CB0 /* HttpService.swift in Sources */,
+				FA1CF5F424B124CC00409CB0 /* NorrisFactsError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
