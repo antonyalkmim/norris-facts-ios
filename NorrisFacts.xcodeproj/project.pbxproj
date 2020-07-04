@@ -47,7 +47,7 @@
 		BE8159EC791DB91A4213F3E7 /* Pods_NorrisFacts_NorrisFactsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NorrisFacts_NorrisFactsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E60653223E53881C9C1D5B88 /* Pods-NorrisFactsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NorrisFactsTests.debug.xcconfig"; path = "Target Support Files/Pods-NorrisFactsTests/Pods-NorrisFactsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F47B6F25D66AB356E39213F4 /* Pods-NorrisFacts-NorrisFactsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NorrisFacts-NorrisFactsUITests.release.xcconfig"; path = "Target Support Files/Pods-NorrisFacts-NorrisFactsUITests/Pods-NorrisFacts-NorrisFactsUITests.release.xcconfig"; sourceTree = "<group>"; };
-		FA1CF5A624B0EBBB00409CB0 /* Norris Facts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Norris Facts.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA1CF5A624B0EBBB00409CB0 /* NorrisFacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NorrisFacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA1CF5A924B0EBBB00409CB0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA1CF5AB24B0EBBB00409CB0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		FA1CF5AD24B0EBBB00409CB0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -129,7 +129,7 @@
 		FA1CF5A724B0EBBB00409CB0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FA1CF5A624B0EBBB00409CB0 /* Norris Facts.app */,
+				FA1CF5A624B0EBBB00409CB0 /* NorrisFacts.app */,
 				FA1CF5BC24B0EBBD00409CB0 /* NorrisFactsTests.xctest */,
 				FA1CF5C724B0EBBD00409CB0 /* NorrisFactsUITests.xctest */,
 			);
@@ -187,7 +187,7 @@
 			);
 			name = NorrisFacts;
 			productName = NorrisFacts;
-			productReference = FA1CF5A624B0EBBB00409CB0 /* Norris Facts.app */;
+			productReference = FA1CF5A624B0EBBB00409CB0 /* NorrisFacts.app */;
 			productType = "com.apple.product-type.application";
 		};
 		FA1CF5BB24B0EBBD00409CB0 /* NorrisFactsTests */ = {
@@ -575,7 +575,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.norrisinc.NorrisFacts;
-				PRODUCT_NAME = "Norris Facts";
+				PRODUCT_NAME = NorrisFacts;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -595,7 +595,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.norrisinc.NorrisFacts;
-				PRODUCT_NAME = "Norris Facts";
+				PRODUCT_NAME = NorrisFacts;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
