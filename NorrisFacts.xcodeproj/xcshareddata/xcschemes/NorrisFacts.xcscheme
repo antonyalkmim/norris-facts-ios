@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FA1CF5A524B0EBBB00409CB0"
-               BuildableName = "Norris Facts.app"
+               BuildableName = "NorrisFacts.app"
                BlueprintName = "NorrisFacts"
                ReferencedContainer = "container:NorrisFacts.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FA1CF5A524B0EBBB00409CB0"
-            BuildableName = "Norris Facts.app"
+            BuildableName = "NorrisFacts.app"
             BlueprintName = "NorrisFacts"
             ReferencedContainer = "container:NorrisFacts.xcodeproj">
          </BuildableReference>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FA1CF5A524B0EBBB00409CB0"
-            BuildableName = "Norris Facts.app"
+            BuildableName = "NorrisFacts.app"
             BlueprintName = "NorrisFacts"
             ReferencedContainer = "container:NorrisFacts.xcodeproj">
          </BuildableReference>
@@ -93,7 +93,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FA1CF5A524B0EBBB00409CB0"
-            BuildableName = "Norris Facts.app"
+            BuildableName = "NorrisFacts.app"
             BlueprintName = "NorrisFacts"
             ReferencedContainer = "container:NorrisFacts.xcodeproj">
          </BuildableReference>
