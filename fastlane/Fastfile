@@ -1,0 +1,34 @@
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Run tests"
+  lane :tests do
+    
+    cocoapods
+    
+    # match(type: "development", readonly: true)
+    
+    scan(workspace: "NorrisFacts.xcworkspace",
+            device: "iPhone 11",
+            scheme: "NorrisFacts",
+            code_coverage: true)
+  end
+
+  desc "Build and send to testflight"
+  lane :release do
+    
+    cocoapods
+
+    match(type: "appstore", readonly: true)
+    
+    scan(workspace: "NorrisFacts.xcworkspace", 
+      device: "iPhone 11",
+      scheme: "NorrisFacts",
+      code_coverage: true)
+    
+    build_app(workspace: "NorrisFacts.xcworkspace")
+
+  end
+
+end
