@@ -15,6 +15,11 @@
 		FA1CF5B624B0EBBD00409CB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA1CF5B424B0EBBD00409CB0 /* LaunchScreen.storyboard */; };
 		FA1CF5C124B0EBBD00409CB0 /* NorrisFactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5C024B0EBBD00409CB0 /* NorrisFactsTests.swift */; };
 		FA1CF5CC24B0EBBD00409CB0 /* NorrisFactsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5CB24B0EBBD00409CB0 /* NorrisFactsUITests.swift */; };
+		FA1CF5DD24B110F900409CB0 /* AppCoodinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5DC24B110F900409CB0 /* AppCoodinator.swift */; };
+		FA1CF5E024B1127C00409CB0 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5DF24B1127C00409CB0 /* BaseCoordinator.swift */; };
+		FA1CF5E324B1169700409CB0 /* FactsListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5E224B1169700409CB0 /* FactsListCoordinator.swift */; };
+		FA1CF5E624B1181D00409CB0 /* FactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5E424B1181D00409CB0 /* FactsListViewController.swift */; };
+		FA1CF5E724B1181D00409CB0 /* FactsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA1CF5E524B1181D00409CB0 /* FactsListViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +60,11 @@
 		FA1CF5C724B0EBBD00409CB0 /* NorrisFactsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NorrisFactsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA1CF5CB24B0EBBD00409CB0 /* NorrisFactsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactsUITests.swift; sourceTree = "<group>"; };
 		FA1CF5CD24B0EBBD00409CB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA1CF5DC24B110F900409CB0 /* AppCoodinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoodinator.swift; sourceTree = "<group>"; };
+		FA1CF5DF24B1127C00409CB0 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
+		FA1CF5E224B1169700409CB0 /* FactsListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListCoordinator.swift; sourceTree = "<group>"; };
+		FA1CF5E424B1181D00409CB0 /* FactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListViewController.swift; sourceTree = "<group>"; };
+		FA1CF5E524B1181D00409CB0 /* FactsListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FactsListViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,8 +143,11 @@
 		FA1CF5A824B0EBBB00409CB0 /* NorrisFacts */ = {
 			isa = PBXGroup;
 			children = (
+				FA1CF5DE24B1120200409CB0 /* Resources */,
+				FA1CF5DB24B1106100409CB0 /* Core */,
+				FA1CF5DA24B1105700409CB0 /* Scenes */,
 				FA1CF5A924B0EBBB00409CB0 /* AppDelegate.swift */,
-				FA1CF5AF24B0EBBB00409CB0 /* Main.storyboard */,
+				FA1CF5DC24B110F900409CB0 /* AppCoodinator.swift */,
 				FA1CF5B424B0EBBD00409CB0 /* LaunchScreen.storyboard */,
 				FA1CF5B724B0EBBD00409CB0 /* Info.plist */,
 			);
@@ -157,6 +170,40 @@
 				FA1CF5CD24B0EBBD00409CB0 /* Info.plist */,
 			);
 			path = NorrisFactsUITests;
+			sourceTree = "<group>";
+		};
+		FA1CF5DA24B1105700409CB0 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF5E124B1164600409CB0 /* FactsList */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		FA1CF5DB24B1106100409CB0 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF5DF24B1127C00409CB0 /* BaseCoordinator.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		FA1CF5DE24B1120200409CB0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF5B224B0EBBD00409CB0 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		FA1CF5E124B1164600409CB0 /* FactsList */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF5E224B1169700409CB0 /* FactsListCoordinator.swift */,
+				FA1CF5E424B1181D00409CB0 /* FactsListViewController.swift */,
+				FA1CF5E524B1181D00409CB0 /* FactsListViewController.xib */,
+			);
+			path = FactsList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,6 +314,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA1CF5E724B1181D00409CB0 /* FactsListViewController.xib in Resources */,
 				FA1CF5B624B0EBBD00409CB0 /* LaunchScreen.storyboard in Resources */,
 				FA1CF5B324B0EBBD00409CB0 /* Assets.xcassets in Resources */,
 			);
@@ -380,7 +428,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA1CF5DD24B110F900409CB0 /* AppCoodinator.swift in Sources */,
 				FA1CF5AA24B0EBBB00409CB0 /* AppDelegate.swift in Sources */,
+				FA1CF5E324B1169700409CB0 /* FactsListCoordinator.swift in Sources */,
+				FA1CF5E624B1181D00409CB0 /* FactsListViewController.swift in Sources */,
+				FA1CF5E024B1127C00409CB0 /* BaseCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
