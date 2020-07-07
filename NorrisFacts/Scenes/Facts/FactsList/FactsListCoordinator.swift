@@ -19,9 +19,10 @@ class FactsListCoordinator: Coordinator<Void> {
     }
     
     override func start() -> Observable<Void> {
-        let factsListViewController = FactsListViewController()
+        let viewModel = FactsListViewModel()
+        let factsListViewController = FactsListViewController(viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: factsListViewController)
-        
+    
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         

@@ -5,3 +5,13 @@
   Created by Antony Nelson Daudt Alkmim on 04/07/20.
   Copyright © 2020 Antony Nelson Daudt Alkmim. All rights reserved.
 */
+
+"FactsList.title" = "Norris Facts";
+"FactsList.retryButton" = "Try again";
+
+
+"errors.noInternetConnection" = "There is no internet connection. Please turn on your Wi-fi or 4G.";
+"errors.unknow" = "Service unavailable.\nTry again later!";
+
+
+

@@ -13,7 +13,6 @@
 		FA1CF5AA24B0EBBB00409CB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5A924B0EBBB00409CB0 /* AppDelegate.swift */; };
 		FA1CF5B324B0EBBD00409CB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA1CF5B224B0EBBD00409CB0 /* Assets.xcassets */; };
 		FA1CF5B624B0EBBD00409CB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA1CF5B424B0EBBD00409CB0 /* LaunchScreen.storyboard */; };
-		FA1CF5C124B0EBBD00409CB0 /* NorrisFactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5C024B0EBBD00409CB0 /* NorrisFactsTests.swift */; };
 		FA1CF5CC24B0EBBD00409CB0 /* NorrisFactsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5CB24B0EBBD00409CB0 /* NorrisFactsUITests.swift */; };
 		FA1CF5DD24B110F900409CB0 /* AppCoodinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5DC24B110F900409CB0 /* AppCoodinator.swift */; };
 		FA1CF5E024B1127C00409CB0 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5DF24B1127C00409CB0 /* Coordinator.swift */; };
@@ -31,6 +30,16 @@
 		FA1CF60924B12EFD00409CB0 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF60824B12EFD00409CB0 /* Strings.swift */; };
 		FA1CF60B24B12F1B00409CB0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA1CF60A24B12F1B00409CB0 /* Localizable.strings */; };
 		FA1CF61124B1342200409CB0 /* NorricsFactsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF61024B1342200409CB0 /* NorricsFactsStorage.swift */; };
+		FA1CF61324B37D2200409CB0 /* FactsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF61224B37D2200409CB0 /* FactsListViewModel.swift */; };
+		FA1CF61524B37DB100409CB0 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF61424B37DB100409CB0 /* ActivityIndicator.swift */; };
+		FA1CF61924B3804700409CB0 /* FactsListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF61824B3804700409CB0 /* FactsListViewModelTests.swift */; };
+		FA1CF61C24B3830D00409CB0 /* FactCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF61B24B3830D00409CB0 /* FactCategory.swift */; };
+		FA1CF62024B3853E00409CB0 /* FactCategoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF61F24B3853E00409CB0 /* FactCategoryTests.swift */; };
+		FA1CF62324B3895000409CB0 /* RxSwift+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF62224B3895000409CB0 /* RxSwift+Ext.swift */; };
+		FA1CF62924B3D41F00409CB0 /* RMFactCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF62824B3D41F00409CB0 /* RMFactCategory.swift */; };
+		FA1CF62B24B408D000409CB0 /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF62A24B408D000409CB0 /* UIViewController+Rx.swift */; };
+		FA1CF63124B41E4500409CB0 /* FactsListViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF63024B41E4500409CB0 /* FactsListViewControllerTests.swift */; };
+		FA1CF63524B4212700409CB0 /* NorrisFactsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF63424B4212700409CB0 /* NorrisFactsServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +75,6 @@
 		FA1CF5B524B0EBBD00409CB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA1CF5B724B0EBBD00409CB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA1CF5BC24B0EBBD00409CB0 /* NorrisFactsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NorrisFactsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FA1CF5C024B0EBBD00409CB0 /* NorrisFactsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactsTests.swift; sourceTree = "<group>"; };
 		FA1CF5C224B0EBBD00409CB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA1CF5C724B0EBBD00409CB0 /* NorrisFactsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NorrisFactsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA1CF5CB24B0EBBD00409CB0 /* NorrisFactsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactsUITests.swift; sourceTree = "<group>"; };
@@ -87,6 +95,16 @@
 		FA1CF60824B12EFD00409CB0 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		FA1CF60A24B12F1B00409CB0 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		FA1CF61024B1342200409CB0 /* NorricsFactsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorricsFactsStorage.swift; sourceTree = "<group>"; };
+		FA1CF61224B37D2200409CB0 /* FactsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListViewModel.swift; sourceTree = "<group>"; };
+		FA1CF61424B37DB100409CB0 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		FA1CF61824B3804700409CB0 /* FactsListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListViewModelTests.swift; sourceTree = "<group>"; };
+		FA1CF61B24B3830D00409CB0 /* FactCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactCategory.swift; sourceTree = "<group>"; };
+		FA1CF61F24B3853E00409CB0 /* FactCategoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactCategoryTests.swift; sourceTree = "<group>"; };
+		FA1CF62224B3895000409CB0 /* RxSwift+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxSwift+Ext.swift"; sourceTree = "<group>"; };
+		FA1CF62824B3D41F00409CB0 /* RMFactCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMFactCategory.swift; sourceTree = "<group>"; };
+		FA1CF62A24B408D000409CB0 /* UIViewController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
+		FA1CF63024B41E4500409CB0 /* FactsListViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListViewControllerTests.swift; sourceTree = "<group>"; };
+		FA1CF63424B4212700409CB0 /* NorrisFactsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactsServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,7 +197,8 @@
 		FA1CF5BF24B0EBBD00409CB0 /* NorrisFactsTests */ = {
 			isa = PBXGroup;
 			children = (
-				FA1CF5C024B0EBBD00409CB0 /* NorrisFactsTests.swift */,
+				FA1CF61D24B3852700409CB0 /* Core */,
+				FA1CF61624B3802000409CB0 /* Scenes */,
 				FA1CF5C224B0EBBD00409CB0 /* Info.plist */,
 			);
 			path = NorrisFactsTests;
@@ -205,10 +224,12 @@
 		FA1CF5DB24B1106100409CB0 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				FA1CF62124B3894200409CB0 /* Extensions */,
 				FA1CF5F224B124B700409CB0 /* Error */,
 				FA1CF5EA24B1231100409CB0 /* HttpService */,
 				FA1CF5FB24B1280500409CB0 /* Data */,
 				FA1CF5DF24B1127C00409CB0 /* Coordinator.swift */,
+				FA1CF61424B37DB100409CB0 /* ActivityIndicator.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -229,6 +250,7 @@
 				FA1CF5E224B1169700409CB0 /* FactsListCoordinator.swift */,
 				FA1CF5E424B1181D00409CB0 /* FactsListViewController.swift */,
 				FA1CF5E524B1181D00409CB0 /* FactsListViewController.xib */,
+				FA1CF61224B37D2200409CB0 /* FactsListViewModel.swift */,
 			);
 			path = FactsList;
 			sourceTree = "<group>";
@@ -262,6 +284,7 @@
 		FA1CF5FB24B1280500409CB0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				FA1CF61A24B3830300409CB0 /* Models */,
 				FA1CF60F24B1340C00409CB0 /* Storage */,
 				FA1CF5FD24B1281C00409CB0 /* Networking */,
 				FA1CF5FC24B1281600409CB0 /* Services */,
@@ -298,9 +321,77 @@
 		FA1CF60F24B1340C00409CB0 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				FA1CF62724B3D3FF00409CB0 /* DatabaseEntities */,
 				FA1CF61024B1342200409CB0 /* NorricsFactsStorage.swift */,
 			);
 			path = Storage;
+			sourceTree = "<group>";
+		};
+		FA1CF61624B3802000409CB0 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF61724B3802D00409CB0 /* FactsList */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		FA1CF61724B3802D00409CB0 /* FactsList */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF61824B3804700409CB0 /* FactsListViewModelTests.swift */,
+				FA1CF63024B41E4500409CB0 /* FactsListViewControllerTests.swift */,
+			);
+			path = FactsList;
+			sourceTree = "<group>";
+		};
+		FA1CF61A24B3830300409CB0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF61B24B3830D00409CB0 /* FactCategory.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FA1CF61D24B3852700409CB0 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF63224B4210A00409CB0 /* Services */,
+				FA1CF61E24B3852C00409CB0 /* Models */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		FA1CF61E24B3852C00409CB0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF61F24B3853E00409CB0 /* FactCategoryTests.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FA1CF62124B3894200409CB0 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF62224B3895000409CB0 /* RxSwift+Ext.swift */,
+				FA1CF62A24B408D000409CB0 /* UIViewController+Rx.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FA1CF62724B3D3FF00409CB0 /* DatabaseEntities */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF62824B3D41F00409CB0 /* RMFactCategory.swift */,
+			);
+			path = DatabaseEntities;
+			sourceTree = "<group>";
+		};
+		FA1CF63224B4210A00409CB0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF63424B4212700409CB0 /* NorrisFactsServiceTests.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -599,21 +690,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA1CF62324B3895000409CB0 /* RxSwift+Ext.swift in Sources */,
 				FA1CF5FF24B1283500409CB0 /* Codable+ext.swift in Sources */,
 				FA1CF5DD24B110F900409CB0 /* AppCoodinator.swift in Sources */,
 				FA1CF61124B1342200409CB0 /* NorricsFactsStorage.swift in Sources */,
 				FA1CF5AA24B0EBBB00409CB0 /* AppDelegate.swift in Sources */,
 				FA1CF60124B128C700409CB0 /* NorrisFactsService.swift in Sources */,
+				FA1CF62924B3D41F00409CB0 /* RMFactCategory.swift in Sources */,
 				FA1CF5E324B1169700409CB0 /* FactsListCoordinator.swift in Sources */,
 				FA1CF60324B12CAA00409CB0 /* HttpService+Rx.swift in Sources */,
 				FA1CF60924B12EFD00409CB0 /* Strings.swift in Sources */,
 				FA1CF5E624B1181D00409CB0 /* FactsListViewController.swift in Sources */,
 				FA1CF5E024B1127C00409CB0 /* Coordinator.swift in Sources */,
 				FA1CF60724B12EF500409CB0 /* Assets.swift in Sources */,
+				FA1CF62B24B408D000409CB0 /* UIViewController+Rx.swift in Sources */,
 				FA1CF5F124B1245000409CB0 /* Reachability.swift in Sources */,
+				FA1CF61324B37D2200409CB0 /* FactsListViewModel.swift in Sources */,
 				FA1CF5EC24B1235400409CB0 /* HttpService.swift in Sources */,
 				FA1CF5F424B124CC00409CB0 /* NorrisFactsError.swift in Sources */,
+				FA1CF61C24B3830D00409CB0 /* FactCategory.swift in Sources */,
 				FA1CF5FA24B1276700409CB0 /* NorrisFactsAPI.swift in Sources */,
+				FA1CF61524B37DB100409CB0 /* ActivityIndicator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,7 +718,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA1CF5C124B0EBBD00409CB0 /* NorrisFactsTests.swift in Sources */,
+				FA1CF63124B41E4500409CB0 /* FactsListViewControllerTests.swift in Sources */,
+				FA1CF61924B3804700409CB0 /* FactsListViewModelTests.swift in Sources */,
+				FA1CF62024B3853E00409CB0 /* FactCategoryTests.swift in Sources */,
+				FA1CF63524B4212700409CB0 /* NorrisFactsServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

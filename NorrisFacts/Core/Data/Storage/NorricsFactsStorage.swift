@@ -8,15 +8,32 @@
 
 import Foundation
 import RxSwift
+import RealmSwift
+import RxRealm
 
 protocol NorrisFactsStorageType {
-    func insert() -> Single<Void>
+    func getCategories() -> Observable<[FactCategory]>
+    func saveCategories(_ categories: [FactCategory])
 }
 
 class NorrisFactsStorage: NorrisFactsStorageType {
     
-    func insert() -> Single<Void> {
-        .just(())
+    let realm: Realm!
+    
+    init(realm: Realm? = nil) {
+        self.realm = realm ?? (try? Realm())
+    }
+    
+    func getCategories() -> Observable<[FactCategory]> {
+        Observable.collection(from: realm.objects(RMFactCategory.self))
+            .map { $0.map { $0.object } }
+    }
+    
+    func saveCategories(_ categories: [FactCategory]) {
+        try? realm.write {
+            let entities = categories.map(RMFactCategory.init)
+            self.realm.add(entities, update: .modified)
+        }
     }
     
 }
