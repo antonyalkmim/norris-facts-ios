@@ -111,6 +111,27 @@ class FactsListViewModelTests: XCTestCase {
         XCTAssertNil(error)
     }
     
+    func testLoad10RandomFacts() {
+
+        let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
+        factsServiceMocked.getFactsResult = .just(factsToTest)
+        
+        let scheduler = TestScheduler(initialClock: 0)
+        let itemsObserver = scheduler.createObserver([FactItemViewModel].self)
+        
+        viewModel.outputs.factsViewModels
+            .subscribe(itemsObserver)
+            .disposed(by: disposeBag)
+
+        viewModel.inputs.viewDidAppear.onNext(())
+        
+        scheduler.start()
+        
+        let itemsViewModels = itemsObserver.events.compactMap { $0.value.element }.first
+        
+        XCTAssertEqual(itemsViewModels?.count, 10)
+    }
+    
 }
 
 class NorrisFactsServiceMocked: NorrisFactsServiceType {
@@ -122,7 +143,7 @@ class NorrisFactsServiceMocked: NorrisFactsServiceType {
         syncFactsCategoriesResult
     }
     
-    func getFacts(limit: Int) -> Observable<[NorrisFact]> {
+    func getFacts(searchTerm: String) -> Observable<[NorrisFact]> {
         getFactsResult
     }
 }

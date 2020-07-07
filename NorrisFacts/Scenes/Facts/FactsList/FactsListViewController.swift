@@ -65,6 +65,12 @@ extension FactsListViewController {
             })
             .disposed(by: disposeBag)
         
+        viewModel.outputs.factsViewModels
+            .bind { itemsViewModels in
+                print(itemsViewModels)
+            }
+            .disposed(by: disposeBag)
+        
         errorActionButton.rx.tap
             .mapToVoid()
             .bind(to: viewModel.inputs.retryErrorAction)
