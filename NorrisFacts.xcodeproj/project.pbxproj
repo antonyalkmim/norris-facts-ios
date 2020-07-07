@@ -40,6 +40,9 @@
 		FA1CF62B24B408D000409CB0 /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF62A24B408D000409CB0 /* UIViewController+Rx.swift */; };
 		FA1CF63124B41E4500409CB0 /* FactsListViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF63024B41E4500409CB0 /* FactsListViewControllerTests.swift */; };
 		FA1CF63524B4212700409CB0 /* NorrisFactsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF63424B4212700409CB0 /* NorrisFactsServiceTests.swift */; };
+		FA1CF63924B4D4F400409CB0 /* FactItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF63824B4D4F400409CB0 /* FactItemViewModel.swift */; };
+		FA1CF63B24B4D51E00409CB0 /* FactListErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF63A24B4D51E00409CB0 /* FactListErrorViewModel.swift */; };
+		FA1CF63D24B4D61100409CB0 /* NorrisFact.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF63C24B4D61100409CB0 /* NorrisFact.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +108,9 @@
 		FA1CF62A24B408D000409CB0 /* UIViewController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
 		FA1CF63024B41E4500409CB0 /* FactsListViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListViewControllerTests.swift; sourceTree = "<group>"; };
 		FA1CF63424B4212700409CB0 /* NorrisFactsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactsServiceTests.swift; sourceTree = "<group>"; };
+		FA1CF63824B4D4F400409CB0 /* FactItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactItemViewModel.swift; sourceTree = "<group>"; };
+		FA1CF63A24B4D51E00409CB0 /* FactListErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactListErrorViewModel.swift; sourceTree = "<group>"; };
+		FA1CF63C24B4D61100409CB0 /* NorrisFact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFact.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +253,8 @@
 		FA1CF5E124B1164600409CB0 /* FactsList */ = {
 			isa = PBXGroup;
 			children = (
+				FA1CF63724B4D4E200409CB0 /* Cells */,
+				FA1CF63624B4D4D800409CB0 /* ErrorView */,
 				FA1CF5E224B1169700409CB0 /* FactsListCoordinator.swift */,
 				FA1CF5E424B1181D00409CB0 /* FactsListViewController.swift */,
 				FA1CF5E524B1181D00409CB0 /* FactsListViewController.xib */,
@@ -348,6 +356,7 @@
 			isa = PBXGroup;
 			children = (
 				FA1CF61B24B3830D00409CB0 /* FactCategory.swift */,
+				FA1CF63C24B4D61100409CB0 /* NorrisFact.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -392,6 +401,22 @@
 				FA1CF63424B4212700409CB0 /* NorrisFactsServiceTests.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		FA1CF63624B4D4D800409CB0 /* ErrorView */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF63A24B4D51E00409CB0 /* FactListErrorViewModel.swift */,
+			);
+			path = ErrorView;
+			sourceTree = "<group>";
+		};
+		FA1CF63724B4D4E200409CB0 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FA1CF63824B4D4F400409CB0 /* FactItemViewModel.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -699,10 +724,12 @@
 				FA1CF62924B3D41F00409CB0 /* RMFactCategory.swift in Sources */,
 				FA1CF5E324B1169700409CB0 /* FactsListCoordinator.swift in Sources */,
 				FA1CF60324B12CAA00409CB0 /* HttpService+Rx.swift in Sources */,
+				FA1CF63924B4D4F400409CB0 /* FactItemViewModel.swift in Sources */,
 				FA1CF60924B12EFD00409CB0 /* Strings.swift in Sources */,
 				FA1CF5E624B1181D00409CB0 /* FactsListViewController.swift in Sources */,
 				FA1CF5E024B1127C00409CB0 /* Coordinator.swift in Sources */,
 				FA1CF60724B12EF500409CB0 /* Assets.swift in Sources */,
+				FA1CF63D24B4D61100409CB0 /* NorrisFact.swift in Sources */,
 				FA1CF62B24B408D000409CB0 /* UIViewController+Rx.swift in Sources */,
 				FA1CF5F124B1245000409CB0 /* Reachability.swift in Sources */,
 				FA1CF61324B37D2200409CB0 /* FactsListViewModel.swift in Sources */,
@@ -710,6 +737,7 @@
 				FA1CF5F424B124CC00409CB0 /* NorrisFactsError.swift in Sources */,
 				FA1CF61C24B3830D00409CB0 /* FactCategory.swift in Sources */,
 				FA1CF5FA24B1276700409CB0 /* NorrisFactsAPI.swift in Sources */,
+				FA1CF63B24B4D51E00409CB0 /* FactListErrorViewModel.swift in Sources */,
 				FA1CF61524B37DB100409CB0 /* ActivityIndicator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
