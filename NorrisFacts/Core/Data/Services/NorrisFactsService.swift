@@ -11,6 +11,7 @@ import RxSwift
 
 protocol NorrisFactsServiceType {
     func syncFactsCategories() -> Single<Void>
+    func getFacts(limit: Int) -> Observable<[NorrisFact]>
 }
 
 class NorrisFactsService: NorrisFactsServiceType {
@@ -44,4 +45,9 @@ class NorrisFactsService: NorrisFactsServiceType {
             }
             .asSingle()
     }
+    
+    func getFacts(limit: Int) -> Observable<[NorrisFact]> {
+        .just([])
+    }
+    
 }

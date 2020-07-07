@@ -37,9 +37,8 @@ class FactsListViewControllerTests: XCTestCase {
     }
     
     func testSyncCategoriesError() {
-        factsServiceMocked.error = .network(.noInternetConnection)
-        
-        viewModel.inputs.syncCategories.onNext(())
+        factsServiceMocked.syncFactsCategoriesResult = .error(NorrisFactsError.network(.noInternetConnection))
+        viewModel.inputs.viewDidAppear.onNext(())
         
         XCTAssertFalse(viewController.errorView.isHidden)
         XCTAssertFalse(viewController.errorActionButton.isHidden)

@@ -50,7 +50,7 @@ extension FactsListViewController {
         guard let viewModel = viewModel else { return }
         
         rx.viewDidAppear
-            .bind(to: viewModel.inputs.syncCategories)
+            .bind(to: viewModel.inputs.viewDidAppear)
             .disposed(by: disposeBag)
         
         viewModel.outputs.isLoading
@@ -67,16 +67,21 @@ extension FactsListViewController {
         
         errorActionButton.rx.tap
             .mapToVoid()
-            .bind(to: viewModel.inputs.syncCategories)
+            .bind(to: viewModel.inputs.retryErrorAction)
             .disposed(by: disposeBag)
 
     }
         
     private func bindErrorViewModel(_ errorViewModel: FactListErrorViewModel) {
         
-        errorActionButton.isHidden = !errorViewModel.isRetryEnabled
+        switch  errorViewModel.factListError {
+        case .syncCategories:
+            errorActionButton.isHidden = false
+        default:
+            errorActionButton.isHidden = true
+        }
         
-        let error = errorViewModel.error
+        let error = errorViewModel.factListError.error
         switch error.code {
         case NetworkError.noInternetConnection.code:
             errorMessageLabel.text = L10n.Errors.noInternetConnection

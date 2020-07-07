@@ -42,14 +42,54 @@ class FactsListViewModelTests: XCTestCase {
             .subscribe(errorObserver)
             .disposed(by: disposeBag)
         
-        factsServiceMocked.error = .network(.noInternetConnection)
-        viewModel.inputs.syncCategories.onNext(())
+        factsServiceMocked.syncFactsCategoriesResult = .error(NorrisFactsError.network(.noInternetConnection))
+        viewModel.inputs.viewDidAppear.onNext(())
         
         scheduler.start()
         
         // error message
         let errorViewModel = errorObserver.events.compactMap { $0.value.element }.first
-        XCTAssertEqual(errorViewModel?.error.code, NetworkError.noInternetConnection.code)
+        
+        switch errorViewModel?.factListError {
+        case .syncCategories:
+            XCTAssert(true)
+        default:
+            XCTFail("Error should be FactsListViewModel.FactListError.syncCategories")
+        }
+        
+        XCTAssertEqual(errorViewModel?.factListError.error.code, NetworkError.noInternetConnection.code)
+    }
+    
+    func testSyncCategoriesErrorRetry() {
+        
+        let scheduler = TestScheduler(initialClock: 0)
+        let errorObserver = scheduler.createObserver(FactListErrorViewModel.self)
+        
+        viewModel.outputs.errorViewModel
+            .subscribe(errorObserver)
+            .disposed(by: disposeBag)
+        
+        factsServiceMocked.syncFactsCategoriesResult = .error(NorrisFactsError.network(.noInternetConnection))
+        
+        viewModel.inputs.viewDidAppear.onNext(())
+        viewModel.inputs.retryErrorAction.onNext(())
+        
+        scheduler.start()
+        
+        // error message
+        let errorViewModels = errorObserver.events.compactMap { $0.value.element }
+        XCTAssertEqual(errorViewModels.count, 2)
+        
+        let lastErrorViewModel = errorViewModels.last
+        switch lastErrorViewModel?.factListError {
+        case .syncCategories:
+            XCTAssert(true)
+        default:
+            XCTFail("Error should be FactsListViewModel.FactListError.syncCategories")
+        }
+
+        XCTAssertEqual(lastErrorViewModel?.factListError.error.code, NetworkError.noInternetConnection.code)
+        
     }
     
     func testSyncCategoriesSuccess() {
@@ -61,8 +101,8 @@ class FactsListViewModelTests: XCTestCase {
             .subscribe(errorObserver)
             .disposed(by: disposeBag)
         
-        factsServiceMocked.error = nil
-        viewModel.inputs.syncCategories.onNext(())
+        factsServiceMocked.syncFactsCategoriesResult = .just(())
+        viewModel.inputs.viewDidAppear.onNext(())
         
         scheduler.start()
         
@@ -75,9 +115,14 @@ class FactsListViewModelTests: XCTestCase {
 
 class NorrisFactsServiceMocked: NorrisFactsServiceType {
     
-    var error: NorrisFactsError?
+    var syncFactsCategoriesResult: Single<Void> = .just(())
+    var getFactsResult: Observable<[NorrisFact]> = .just([])
     
     func syncFactsCategories() -> Single<Void> {
-        error != nil ? .error(error!) : .just(())
+        syncFactsCategoriesResult
+    }
+    
+    func getFacts(limit: Int) -> Observable<[NorrisFact]> {
+        getFactsResult
     }
 }
