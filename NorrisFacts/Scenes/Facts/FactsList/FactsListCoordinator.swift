@@ -14,14 +14,19 @@ class FactsListCoordinator: Coordinator {
     let window: UIWindow
     var navigationController: UINavigationController?
     var factsListViewController: FactsListViewController?
+    var factsListViewModel: FactsListViewModelType?
     
     init(window: UIWindow) {
         self.window = window
     }
     
     func start() {
-        let viewController = FactsListViewController()
+        let viewModel = FactsListViewModel()
+        factsListViewModel = viewModel
+        
+        let viewController = FactsListViewController(viewModel: viewModel)
         factsListViewController = viewController
+        
         navigationController = UINavigationController(rootViewController: viewController)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()

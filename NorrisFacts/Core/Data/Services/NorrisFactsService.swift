@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 protocol NorrisFactsServiceType {
-    func searchFacts(term: String) -> Single<String>
+    func syncFactsCategories() -> Single<Void>
 }
 
 class NorrisFactsService: NorrisFactsServiceType {
@@ -26,7 +26,22 @@ class NorrisFactsService: NorrisFactsServiceType {
         self.storage = storage
     }
     
-    func searchFacts(term: String) -> Single<String> {
-        api.rx.request(.search(term: term)).map { _ in "" }
+    func syncFactsCategories() -> Single<Void> {
+        let syncCategories = api.rx.request(.getCategories)
+            .map([FactCategory].self)
+            .observeOn(MainScheduler.instance)
+            .flatMap { [weak self] remoteCategories -> Single<Void> in
+                guard let `self` = self else { return .never() }
+                self.storage.saveCategories(remoteCategories)
+                return .just(())
+            }
+        
+        return storage.getCategories()
+            .filter { $0.isEmpty }
+            .asObservable()
+            .flatMap {
+                $0.isEmpty ? syncCategories : .just(())
+            }
+            .asSingle()
     }
 }
