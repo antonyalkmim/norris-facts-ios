@@ -9,32 +9,32 @@
 import Foundation
 
 enum NorrisFactsAPI {
-    case search(term: String)
+    case getCategories
 }
 
 extension NorrisFactsAPI: TargetType {
     
     var baseURL: URL {
-        return URL(string: "https://api.chucknorris.io")!
+        return URL(string: "https://api.chucknorris.io/jokes")!
     }
 
     var path: String {
         switch self {
-        case .search:
-            return ""
+        case .getCategories:
+            return "/categories"
         }
     }
 
     var method: HttpMethod {
         switch self {
-        case .search:
-            return .post
+        case .getCategories:
+            return .get
         }
     }
 
     var body: Data? {
         switch self {
-        case .search:
+        case .getCategories:
             return nil
         }
     }

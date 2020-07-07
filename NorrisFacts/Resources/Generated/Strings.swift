@@ -11,6 +11,20 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name
 internal enum L10n {
+
+  internal enum FactsList {
+    /// Try again
+    internal static let retryButton = L10n.tr("Localizable", "FactsList.retryButton")
+    /// Norris Facts
+    internal static let title = L10n.tr("Localizable", "FactsList.title")
+  }
+
+  internal enum Errors {
+    /// There is no internet connection. Please turn on your Wi-fi or 4G.
+    internal static let noInternetConnection = L10n.tr("Localizable", "errors.noInternetConnection")
+    /// Service unavailable.\nTry again later!
+    internal static let unknow = L10n.tr("Localizable", "errors.unknow")
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name

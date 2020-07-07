@@ -8,15 +8,19 @@
 
 import Foundation
 
-enum NorrisFactsError: Error {
-    case unknow
-    case application(NorrisFactsErrorType)
-    case network(NetworkError)
-}
-
-protocol NorrisFactsErrorType {
+protocol NorrisFactsErrorType: LocalizedError {
     var code: Int { get }
     var message: String { get }
+}
+
+extension NorrisFactsErrorType {
+    public var localizedDescription: String { self.message }
+}
+
+enum NorrisFactsError: Error {
+    case unknow(Error?)
+    case application(NorrisFactsErrorType)
+    case network(NetworkError)
 }
 
 extension NorrisFactsError: NorrisFactsErrorType {
@@ -38,19 +42,20 @@ extension NorrisFactsError: NorrisFactsErrorType {
     }
 }
 
-extension NorrisFactsError: LocalizedError {
-    public var localizedDescription: String { self.message }
-}
-
-enum NetworkError: Error {
+enum NetworkError: NorrisFactsErrorType, LocalizedError {
     case unknow(Error?)
     case jsonMapping(Error?)
     case connectionError
     case noInternetConnection
-}
 
-extension NetworkError: NorrisFactsErrorType {
-    var code: Int { 1 }
+    var code: Int {
+        switch self {
+        case .unknow: return 0
+        case .jsonMapping: return 1
+        case .connectionError: return 2
+        case .noInternetConnection: return 3
+        }
+    }
     
     var message: String {
         switch self {
@@ -60,8 +65,4 @@ extension NetworkError: NorrisFactsErrorType {
         case .noInternetConnection: return "No internet connection"
         }
     }
-}
-
-extension NetworkError: LocalizedError {
-    public var localizedDescription: String { self.message }
 }
