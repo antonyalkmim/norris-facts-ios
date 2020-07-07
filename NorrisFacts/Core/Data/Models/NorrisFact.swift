@@ -11,7 +11,7 @@ import Foundation
 struct NorrisFact: Decodable {
     let id: String
     let text: String
-    let iconUrl: URL
+    let iconUrl: String
     let createdAt: Date
     let updatedAt: Date
     let categories: [FactCategory]

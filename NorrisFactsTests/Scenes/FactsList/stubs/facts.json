@@ -1,0 +1,145 @@
+[
+    {
+      "categories": [
+        "political"
+      ],
+      "created_at": "2020-01-05 13:42:29.855523",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "uynvnqrmt1oqjeoxo5y73w",
+      "updated_at": "2020-01-05 13:42:29.855523",
+      "url": "https://api.chucknorris.io/jokes/uynvnqrmt1oqjeoxo5y73w",
+      "value": "July 4th is Independence day. And the day Chuck Norris was born. Coincidence? I think not."
+    },
+    {
+      "categories": [
+        "political"
+      ],
+      "created_at": "2020-01-05 13:42:29.855523",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "2uynvnqrmt1oqjeoxo5y73w",
+      "updated_at": "2020-01-05 13:42:29.855523",
+      "url": "https://api.chucknorris.io/jokes/2uynvnqrmt1oqjeoxo5y73w",
+      "value": "Another political norris fact"
+    },
+    {
+      "categories": [
+        "food"
+      ],
+      "created_at": "2020-01-05 13:42:18.823766",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "4zavbyaktuqhluply6eqmw",
+      "updated_at": "2020-01-05 13:42:18.823766",
+      "url": "https://api.chucknorris.io/jokes/4zavbyaktuqhluply6eqmw",
+      "value": "Chuck Norris uses tabasco sauce instead of visine."
+    },
+    {
+      "categories": [
+        "money"
+      ],
+      "created_at": "2020-01-05 13:42:21.179347",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "gnRIdaF_QqyrE0G-GdCuWA",
+      "updated_at": "2020-05-22 06:16:41.133769",
+      "url": "https://api.chucknorris.io/jokes/gnRIdaF_QqyrE0G-GdCuWA",
+      "value": "Chuck Norris will not be printed on money; no one pays out Chuck Norris. Ever."
+    },
+    {
+      "categories": [
+        "career"
+      ],
+      "created_at": "2020-01-05 13:42:19.576875",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "zk14uc6xr82d7ig9qhaymg",
+      "updated_at": "2020-01-05 13:42:19.576875",
+      "url": "https://api.chucknorris.io/jokes/zk14uc6xr82d7ig9qhaymg",
+      "value": "Chuck Norris is actually the front man for Apple. He let's Steve Jobs run the show when he's on a mission. Chuck Norris is always on a mission."
+    },
+    {
+      "categories": [
+        "animal"
+      ],
+      "created_at": "2020-01-05 13:42:19.104863",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "o-vfxwx6rgecuo_f5cecpq",
+      "updated_at": "2020-01-05 13:42:19.104863",
+      "url": "https://api.chucknorris.io/jokes/o-vfxwx6rgecuo_f5cecpq",
+      "value": "They say curiosity killed the cat. This is false. Chuck Norris killed the cat. Every single one of them."
+    },
+    {
+      "categories": [
+        "celebrity"
+      ],
+      "created_at": "2020-01-05 13:42:19.324003",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "xbae5jywto6wjcwalfwlmq",
+      "updated_at": "2020-01-05 13:42:19.324003",
+      "url": "https://api.chucknorris.io/jokes/xbae5jywto6wjcwalfwlmq",
+      "value": "Chuck Norris is the reason why Waldo is hiding."
+    },
+    {
+      "categories": [
+        "dev"
+      ],
+      "created_at": "2020-01-05 13:42:19.324003",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "aybvxdnmr82jc_jssvkegw",
+      "updated_at": "2020-01-05 13:42:19.324003",
+      "url": "https://api.chucknorris.io/jokes/aybvxdnmr82jc_jssvkegw",
+      "value": "When Chuck Norris throws exceptions, it's across the room."
+    },
+    {
+      "categories": [
+        "explicit"
+      ],
+      "created_at": "2020-01-05 13:42:20.262289",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "1NG5TxB4RGWaahnzOErUiw",
+      "updated_at": "2020-01-05 13:42:20.262289",
+      "url": "https://api.chucknorris.io/jokes/1NG5TxB4RGWaahnzOErUiw",
+      "value": "Chuck Norris doesn't consider it good sex unless the women dies."
+    },
+    {
+      "categories": [
+        "fashion"
+      ],
+      "created_at": "2020-01-05 13:42:18.823766",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "0wdewlp2tz-mt_upesvrjw",
+      "updated_at": "2020-01-05 13:42:18.823766",
+      "url": "https://api.chucknorris.io/jokes/0wdewlp2tz-mt_upesvrjw",
+      "value": "Chuck Norris does not follow fashion trends, they follow him. But then he turns around and kicks their ass. Nobody follows Chuck Norris."
+    },
+    {
+      "categories": [
+        "history"
+      ],
+      "created_at": "2020-01-05 13:42:19.576875",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "vxmg5zgusq6ra35ns4e5sw",
+      "updated_at": "2020-01-05 13:42:19.576875",
+      "url": "https://api.chucknorris.io/jokes/vxmg5zgusq6ra35ns4e5sw",
+      "value": "After returning from World War 2 unscrathed, Bob Dole was congratulated by Chuck Norris with a handshake. The rest is history."
+    },
+    {
+      "categories": [
+        "sport"
+      ],
+      "created_at": "2020-01-05 13:42:19.576875",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "tvrzu4lzrn-b6q0tzaa-ba",
+      "updated_at": "2020-01-05 13:42:19.576875",
+      "url": "https://api.chucknorris.io/jokes/tvrzu4lzrn-b6q0tzaa-ba",
+      "value": "There are no steroids in baseball. Just players Chuck Norris has breathed on."
+    },
+    {
+      "categories": [
+        "travel"
+      ],
+      "created_at": "2020-01-05 13:42:19.576875",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "9rqqcar_s5mqpujm0yu5za",
+      "updated_at": "2020-01-05 13:42:19.576875",
+      "url": "https://api.chucknorris.io/jokes/9rqqcar_s5mqpujm0yu5za",
+      "value": "For Spring Break '05, Chuck Norris drove to Madagascar, riding a chariot pulled by two electric eels."
+    }
+]

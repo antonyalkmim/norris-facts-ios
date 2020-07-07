@@ -94,13 +94,15 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
             .map { FactListError.syncCategories($0) }
         
         // Load facts
+        
         let loadFacts = viewDidAppearSubject
             .flatMapLatest {
-                factsService.getFacts(limit: 10)
+                // load 10 random facts
+                factsService.getFacts(searchTerm: "")
                     .trackActivity(_isLoading)
-                    .asObservable()
-                    .materialize()
+                    .map { Array($0.shuffled().prefix(10)) }
             }
+            .materialize()
             .share()
         
         let loadFactsError = loadFacts
