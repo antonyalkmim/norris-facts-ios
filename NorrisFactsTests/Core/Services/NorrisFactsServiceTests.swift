@@ -60,6 +60,43 @@ class NorrisFactsServiceTests: XCTestCase {
         currentCategories = try storageMock.getCategories().toBlocking().first() ?? []
         XCTAssertEqual(currentCategories.count, 3)
     }
+    
+    func testGetFacts() throws {
+        
+        let scheduler = TestScheduler(initialClock: 0)
+        let factsObserver = scheduler.createObserver([NorrisFact].self)
+        
+        let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
+        storageMock.saveFacts(factsToTest)
+        
+        service.getFacts(searchTerm: "")
+            .subscribe(factsObserver)
+            .disposed(by: disposeBag)
+        
+        scheduler.start()
+        
+        let facts = factsObserver.events.compactMap { $0.value.element }.first
+        XCTAssertEqual(facts?.count, 13)
+    }
+    
+    func testGetFactsFilterBySearchTerm() throws {
+        
+        let scheduler = TestScheduler(initialClock: 0)
+        let factsObserver = scheduler.createObserver([NorrisFact].self)
+        
+        let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
+        
+        storageMock.saveFacts(factsToTest)
+        
+        service.getFacts(searchTerm: "political")
+            .subscribe(factsObserver)
+            .disposed(by: disposeBag)
+        
+        scheduler.start()
+        
+        let facts = factsObserver.events.compactMap { $0.value.element }.first
+        XCTAssertEqual(facts?.count, 2)
+    }
 
 }
 

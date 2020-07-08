@@ -17,6 +17,8 @@ internal enum L10n {
     internal static let retryButton = L10n.tr("Localizable", "FactsList.retryButton")
     /// Norris Facts
     internal static let title = L10n.tr("Localizable", "FactsList.title")
+    /// Uncategorized
+    internal static let uncategorized = L10n.tr("Localizable", "FactsList.uncategorized")
   }
 
   internal enum Errors {

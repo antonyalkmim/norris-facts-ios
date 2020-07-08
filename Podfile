@@ -13,6 +13,7 @@ def common_pods
   pod 'RxSwift', '~> 5'
   pod 'RxCocoa', '~> 5'
   pod 'RxRealm', '~> 3.1.0'
+  pod 'RxDataSources', '~> 4.0'
   
 end
 

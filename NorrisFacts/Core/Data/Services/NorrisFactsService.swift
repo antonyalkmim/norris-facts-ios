@@ -11,6 +11,7 @@ import RxSwift
 
 protocol NorrisFactsServiceType {
     func syncFactsCategories() -> Single<Void>
+    func getFacts(searchTerm: String) -> Observable<[NorrisFact]>
 }
 
 class NorrisFactsService: NorrisFactsServiceType {
@@ -35,7 +36,7 @@ class NorrisFactsService: NorrisFactsServiceType {
                 self.storage.saveCategories(remoteCategories)
                 return .just(())
             }
-        
+
         return storage.getCategories()
             .filter { $0.isEmpty }
             .asObservable()
@@ -44,4 +45,10 @@ class NorrisFactsService: NorrisFactsServiceType {
             }
             .asSingle()
     }
+    
+    func getFacts(searchTerm: String) -> Observable<[NorrisFact]> {
+        storage.getFacts(searchTerm: searchTerm)
+        // TODO: caso searchTerm nao estiver vazio devera buscar na API pelo searchTerm
+    }
+    
 }
