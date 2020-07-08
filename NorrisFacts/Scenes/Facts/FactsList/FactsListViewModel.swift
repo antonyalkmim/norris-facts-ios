@@ -70,6 +70,8 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
         
         let currentErrorSubject = BehaviorSubject<FactListError?>(value: nil)
         
+        // sync categories
+        
         let retrySyncCategories = retryErrorActionSubject
             .withLatestFrom(currentErrorSubject)
             .compactMap { $0 }
@@ -114,6 +116,7 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
             .map { $0.map(FactItemViewModel.init) }
         
         // General errors
+        
         self.errorViewModel = Observable.merge(syncFactsCategoriesError, loadFactsError)
             .do(onNext: currentErrorSubject.onNext)
             .map(FactListErrorViewModel.init)

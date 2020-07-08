@@ -36,7 +36,7 @@ class NorrisFactsService: NorrisFactsServiceType {
                 self.storage.saveCategories(remoteCategories)
                 return .just(())
             }
-        
+
         return storage.getCategories()
             .filter { $0.isEmpty }
             .asObservable()
