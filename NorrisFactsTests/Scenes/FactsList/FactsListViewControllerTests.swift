@@ -34,15 +34,31 @@ class FactsListViewControllerTests: XCTestCase {
         disposeBag = nil
         factsServiceMocked = nil
         viewModel = nil
+        viewController = nil
     }
     
-    func testSyncCategoriesError() {
+    func testShowErrorViewWhenListIsEmpty() {
         factsServiceMocked.syncFactsCategoriesResult = .error(NorrisFactsError.network(.noInternetConnection))
+        factsServiceMocked.getFactsResult = .just([])
+        
         viewModel.inputs.viewDidAppear.onNext(())
         
         XCTAssertFalse(viewController.errorView.isHidden)
+        XCTAssertTrue(viewController.emptyView.isHidden)
         XCTAssertFalse(viewController.errorActionButton.isHidden)
         XCTAssertEqual(viewController.errorMessageLabel.text, L10n.Errors.noInternetConnection)
+    }
+    
+    func testEmptyState() {
+        let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
+            
+        factsServiceMocked.getFactsResult = .just([])
+        viewModel.inputs.viewDidAppear.onNext(())
+        XCTAssertFalse(viewController.emptyView.isHidden)
+        
+        factsServiceMocked.getFactsResult = .just(factsToTest)
+        viewModel.inputs.viewDidAppear.onNext(())
+        XCTAssertTrue(viewController.emptyView.isHidden)
     }
 
 }

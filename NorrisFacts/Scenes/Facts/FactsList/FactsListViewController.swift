@@ -19,6 +19,9 @@ class FactsListViewController: UIViewController {
     @IBOutlet weak var errorMessageLabel: UILabel!
     @IBOutlet weak var errorActionButton: UIButton!
     
+    @IBOutlet weak var searchFactsButton: UIButton!
+    @IBOutlet weak var emptyView: UIStackView!
+    
     init(viewModel: FactsListViewModelType) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -54,21 +57,10 @@ extension FactsListViewController {
             .disposed(by: disposeBag)
         
         viewModel.outputs.isLoading
-            .drive(onNext: { [weak self] isLoading in
-                self?.errorView.isHidden = isLoading
+            .debug("isLoading", trimOutput: true)
+            .drive(onNext: { isLoading in
+                print("isLoading: \(isLoading)")
             })
-            .disposed(by: disposeBag)
-        
-        viewModel.outputs.errorViewModel
-            .bind(onNext: { [weak self] errorViewModel in
-                self?.bindErrorViewModel(errorViewModel)
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.outputs.factsViewModels
-            .bind { itemsViewModels in
-                print(itemsViewModels)
-            }
             .disposed(by: disposeBag)
         
         errorActionButton.rx.tap
@@ -76,9 +68,57 @@ extension FactsListViewController {
             .bind(to: viewModel.inputs.retryErrorAction)
             .disposed(by: disposeBag)
 
+        let factsViewModels = viewModel.outputs.factsViewModels.share()
+        
+        factsViewModels.bind { itemsViewModels in
+            print("there is \(itemsViewModels.count) items in the list")
+        }.disposed(by: disposeBag)
+        
+        let isFactListEmpty = factsViewModels
+            .map { $0.isEmpty }
+            .share()
+        
+        // show empty state
+        isFactListEmpty
+            .asDriver(onErrorJustReturn: false)
+            .debug("emptyState", trimOutput: true)
+            .drive(onNext: { [weak self] isEmpty in
+                self?.showEmptyState(isEmpty)
+            })
+            .disposed(by: disposeBag)
+        
+        let errorViewModel = viewModel.outputs.errorViewModel.share()
+        
+        // show error view when empty list
+        Observable
+            .combineLatest(isFactListEmpty, errorViewModel)
+            .filter { isListEmpty, _  in isListEmpty } // empty list
+            .map { _, errorViewModel in errorViewModel }
+            .debug("error view", trimOutput: true)
+            .bind(onNext: { [weak self] errorViewModel in
+                self?.bindErrorViewModel(errorViewModel)
+            })
+            .disposed(by: disposeBag)
+        
+        // show error toast when list is not empty
+        Observable
+            .combineLatest(isFactListEmpty, errorViewModel )
+            .filter { isListEmpty, _  in !isListEmpty } // list not empty
+            .map { _, errorViewModel in errorViewModel }
+            .debug("error toast", trimOutput: true)
+            .bind {
+                print("Show toast for \($0.factListError.localizedDescription)")
+            }.disposed(by: disposeBag)
+    }
+    
+    private func showEmptyState(_ isEmptyState: Bool) {
+        emptyView.isHidden = !isEmptyState
+        errorView.isHidden = isEmptyState
     }
         
     private func bindErrorViewModel(_ errorViewModel: FactListErrorViewModel) {
+        errorView.isHidden = false
+        emptyView.isHidden = true
         
         switch  errorViewModel.factListError {
         case .syncCategories:
