@@ -62,5 +62,29 @@ class FactsListViewControllerTests: XCTestCase {
         XCTAssertTrue(viewController.emptyView.isHidden)
         XCTAssertFalse(viewController.tableView.isHidden)
     }
+    
+    func testFactCellFontSizeWithShortText() {
+        guard let factShortText = stub("fact-short-text", type: NorrisFact.self) else {
+            XCTFail("Fact should not be nil")
+            return
+        }
+        factsServiceMocked.getFactsResult = .just([factShortText])
+        viewModel.inputs.viewDidAppear.onNext(())
+        
+        let cell = viewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? FactTableViewCell
+        XCTAssertEqual(cell?.factTextLabel.font.pointSize, 23)
+    }
+    
+    func testFactCellFontSizeWithLongText() {
+        guard let factLongText = stub("fact-long-text", type: NorrisFact.self) else {
+            XCTFail("Fact should not be nil")
+            return
+        }
+        factsServiceMocked.getFactsResult = .just([factLongText])
+        viewModel.inputs.viewDidAppear.onNext(())
+        
+        let cell = viewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? FactTableViewCell
+        XCTAssertEqual(cell?.factTextLabel.font.pointSize, 17)
+    }
 
 }

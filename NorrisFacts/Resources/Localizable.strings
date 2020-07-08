@@ -8,6 +8,7 @@
 
 "FactsList.title" = "Norris Facts";
 "FactsList.retryButton" = "Try again";
+"FactsList.uncategorized" = "Uncategorized";
 
 
 "errors.noInternetConnection" = "There is no internet connection. Please turn on your Wi-fi or 4G.";
