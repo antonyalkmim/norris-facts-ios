@@ -55,10 +55,12 @@ class FactsListViewControllerTests: XCTestCase {
         factsServiceMocked.getFactsResult = .just([])
         viewModel.inputs.viewDidAppear.onNext(())
         XCTAssertFalse(viewController.emptyView.isHidden)
+        XCTAssertTrue(viewController.tableView.isHidden)
         
         factsServiceMocked.getFactsResult = .just(factsToTest)
         viewModel.inputs.viewDidAppear.onNext(())
         XCTAssertTrue(viewController.emptyView.isHidden)
+        XCTAssertFalse(viewController.tableView.isHidden)
     }
 
 }

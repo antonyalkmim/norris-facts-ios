@@ -117,7 +117,7 @@ class FactsListViewModelTests: XCTestCase {
         factsServiceMocked.getFactsResult = .just(factsToTest)
         
         let scheduler = TestScheduler(initialClock: 0)
-        let itemsObserver = scheduler.createObserver([FactItemViewModel].self)
+        let itemsObserver = scheduler.createObserver([FactsSectionViewModel].self)
         
         viewModel.outputs.factsViewModels
             .subscribe(itemsObserver)
@@ -127,9 +127,9 @@ class FactsListViewModelTests: XCTestCase {
         
         scheduler.start()
         
-        let itemsViewModels = itemsObserver.events.compactMap { $0.value.element }.first
-        
-        XCTAssertEqual(itemsViewModels?.count, 10)
+        let sectionViewModels = itemsObserver.events.compactMap { $0.value.element }.first
+        let firstSection = sectionViewModels?.first
+        XCTAssertEqual(firstSection?.items.count, 10)
     }
     
 }

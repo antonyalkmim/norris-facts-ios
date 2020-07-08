@@ -25,3 +25,9 @@ struct NorrisFact: Decodable {
         case categories
     }
 }
+
+
+extension NorrisFact: Equatable { }
+func == (lhs: NorrisFact, rhs: NorrisFact) -> Bool {
+    return lhs.id == rhs.id
+}
