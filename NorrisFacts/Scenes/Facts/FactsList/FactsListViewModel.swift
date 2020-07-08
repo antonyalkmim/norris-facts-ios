@@ -8,6 +8,9 @@
 
 import Foundation
 import RxSwift
+import RxDataSources
+
+typealias FactsSectionViewModel = AnimatableSectionModel<String, FactItemViewModel>
 
 protocol FactsListViewModelInput {
     var viewDidAppear: AnyObserver<Void> { get }
@@ -18,7 +21,7 @@ protocol FactsListViewModelInput {
 protocol FactsListViewModelOutput {
     var isLoading: ActivityIndicator { get }
     var errorViewModel: Observable<FactListErrorViewModel> { get }
-    var factsViewModels: Observable<[FactItemViewModel]> { get }
+    var factsViewModels: Observable<[FactsSectionViewModel]> { get }
 }
 
 protocol FactsListViewModelType {
@@ -45,7 +48,7 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
     
     var isLoading: ActivityIndicator
     var errorViewModel: Observable<FactListErrorViewModel>
-    var factsViewModels: Observable<[FactItemViewModel]>
+    var factsViewModels: Observable<[FactsSectionViewModel]>
     
     // MARK: - RX privates
     
@@ -114,6 +117,7 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
         self.factsViewModels = loadFacts
             .elements()
             .map { $0.map(FactItemViewModel.init) }
+            .map { [FactsSectionViewModel(model: "", items: $0)] }
         
         // General errors
         

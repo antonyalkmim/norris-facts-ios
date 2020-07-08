@@ -75,6 +75,7 @@ extension FactsListViewController {
         }.disposed(by: disposeBag)
         
         let isFactListEmpty = factsViewModels
+            .map { $0.flatMap { $0.items } } // get all items in all sections
             .map { $0.isEmpty }
             .share()
         

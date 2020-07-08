@@ -15,6 +15,7 @@
                 <outlet property="errorMessageLabel" destination="vct-D4-5RK" id="xw2-TO-qwC"/>
                 <outlet property="errorView" destination="6tj-nY-ep7" id="hO7-S2-cf3"/>
                 <outlet property="searchFactsButton" destination="Wir-dM-ECS" id="Gb3-k2-t9L"/>
+                <outlet property="tableView" destination="NS8-Xy-60j" id="aGL-uH-4ee"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -69,20 +70,28 @@
                         </button>
                     </subviews>
                 </stackView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NS8-Xy-60j">
+                    <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                    <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                </tableView>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="701-AP-E51" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="32" id="7ob-a8-RcR"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6tj-nY-ep7" secondAttribute="trailing" constant="32" id="9JZ-f8-N2d"/>
+                <constraint firstAttribute="trailing" secondItem="NS8-Xy-60j" secondAttribute="trailing" id="XLM-dM-37K"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="701-AP-E51" secondAttribute="trailing" constant="32" id="aml-HH-tPx"/>
+                <constraint firstItem="NS8-Xy-60j" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="dd1-4q-gDd"/>
                 <constraint firstItem="6tj-nY-ep7" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="eyD-Nh-tQs"/>
                 <constraint firstItem="6tj-nY-ep7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="32" id="gLB-hB-GjM"/>
+                <constraint firstItem="NS8-Xy-60j" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="kDT-wK-iIJ"/>
+                <constraint firstItem="NS8-Xy-60j" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="oxa-OS-fU3"/>
                 <constraint firstItem="6tj-nY-ep7" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="qHq-Cw-NSt"/>
                 <constraint firstItem="701-AP-E51" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="rLo-k5-Va5"/>
                 <constraint firstItem="701-AP-E51" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="xdD-Z9-Jt4"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="132" y="153"/>
+            <point key="canvasLocation" x="131.8840579710145" y="152.67857142857142"/>
         </view>
     </objects>
     <resources>
