@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxDataSources
 
 class FactsListViewController: UIViewController {
 
@@ -21,6 +22,8 @@ class FactsListViewController: UIViewController {
     
     @IBOutlet weak var searchFactsButton: UIButton!
     @IBOutlet weak var emptyView: UIStackView!
+    
+    @IBOutlet weak var tableView: UITableView!
     
     init(viewModel: FactsListViewModelType) {
         self.viewModel = viewModel
@@ -42,6 +45,11 @@ class FactsListViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         errorActionButton.setTitle(L10n.FactsList.retryButton, for: .normal)
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
+        tableView.tableFooterView = UIView()
+        tableView.registerCellWithNib(FactTableViewCell.self)
     }
 
 }
@@ -52,9 +60,18 @@ extension FactsListViewController {
         
         guard let viewModel = viewModel else { return }
         
+        // Inputs
+        
         rx.viewDidAppear
             .bind(to: viewModel.inputs.viewDidAppear)
             .disposed(by: disposeBag)
+        
+        errorActionButton.rx.tap
+            .mapToVoid()
+            .bind(to: viewModel.inputs.retryErrorAction)
+            .disposed(by: disposeBag)
+
+        // Outputs
         
         viewModel.outputs.isLoading
             .debug("isLoading", trimOutput: true)
@@ -63,16 +80,24 @@ extension FactsListViewController {
             })
             .disposed(by: disposeBag)
         
-        errorActionButton.rx.tap
-            .mapToVoid()
-            .bind(to: viewModel.inputs.retryErrorAction)
-            .disposed(by: disposeBag)
-
         let factsViewModels = viewModel.outputs.factsViewModels.share()
         
         factsViewModels.bind { itemsViewModels in
             print("there is \(itemsViewModels.count) items in the list")
         }.disposed(by: disposeBag)
+        
+        let dataSource = RxTableViewSectionedAnimatedDataSource<FactsSectionViewModel>(
+            configureCell: { _, tableView, indexPath, factViewModel -> UITableViewCell in
+                let cell = tableView.dequeueReusableCell(type: FactTableViewCell.self, indexPath: indexPath)
+                cell.bindViewModel(factViewModel)
+                return cell
+            }
+        )
+        
+        factsViewModels
+            .asDriver(onErrorJustReturn: [])
+            .drive(tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
         let isFactListEmpty = factsViewModels
             .map { $0.flatMap { $0.items } } // get all items in all sections
@@ -115,6 +140,7 @@ extension FactsListViewController {
     private func showEmptyState(_ isEmptyState: Bool) {
         emptyView.isHidden = !isEmptyState
         errorView.isHidden = isEmptyState
+        tableView.isHidden = isEmptyState
     }
         
     private func bindErrorViewModel(_ errorViewModel: FactListErrorViewModel) {
