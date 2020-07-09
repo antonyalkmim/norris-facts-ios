@@ -8,27 +8,24 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
-class FactsListCoordinator: Coordinator {
+class FactsListCoordinator: Coordinator<Void> {
     
-    let window: UIWindow
-    var navigationController: UINavigationController?
-    var factsListViewController: FactsListViewController?
+    private let window: UIWindow
     
     init(window: UIWindow) {
         self.window = window
     }
     
-    func start() {
-        let viewController = FactsListViewController()
-        factsListViewController = viewController
-        navigationController = UINavigationController(rootViewController: viewController)
+    override func start() -> Observable<Void> {
+        let factsListViewController = FactsListViewController()
+        let navigationController = UINavigationController(rootViewController: factsListViewController)
+        
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
+        
+        return .never()
     }
-    
-    func stop() {
-        navigationController = nil
-        factsListViewController = nil
-    }
+
 }

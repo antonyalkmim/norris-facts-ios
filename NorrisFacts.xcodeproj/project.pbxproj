@@ -16,7 +16,7 @@
 		FA1CF5C124B0EBBD00409CB0 /* NorrisFactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5C024B0EBBD00409CB0 /* NorrisFactsTests.swift */; };
 		FA1CF5CC24B0EBBD00409CB0 /* NorrisFactsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5CB24B0EBBD00409CB0 /* NorrisFactsUITests.swift */; };
 		FA1CF5DD24B110F900409CB0 /* AppCoodinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5DC24B110F900409CB0 /* AppCoodinator.swift */; };
-		FA1CF5E024B1127C00409CB0 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5DF24B1127C00409CB0 /* BaseCoordinator.swift */; };
+		FA1CF5E024B1127C00409CB0 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5DF24B1127C00409CB0 /* Coordinator.swift */; };
 		FA1CF5E324B1169700409CB0 /* FactsListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5E224B1169700409CB0 /* FactsListCoordinator.swift */; };
 		FA1CF5E624B1181D00409CB0 /* FactsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5E424B1181D00409CB0 /* FactsListViewController.swift */; };
 		FA1CF5E724B1181D00409CB0 /* FactsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA1CF5E524B1181D00409CB0 /* FactsListViewController.xib */; };
@@ -72,7 +72,7 @@
 		FA1CF5CB24B0EBBD00409CB0 /* NorrisFactsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactsUITests.swift; sourceTree = "<group>"; };
 		FA1CF5CD24B0EBBD00409CB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA1CF5DC24B110F900409CB0 /* AppCoodinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoodinator.swift; sourceTree = "<group>"; };
-		FA1CF5DF24B1127C00409CB0 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
+		FA1CF5DF24B1127C00409CB0 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		FA1CF5E224B1169700409CB0 /* FactsListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListCoordinator.swift; sourceTree = "<group>"; };
 		FA1CF5E424B1181D00409CB0 /* FactsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListViewController.swift; sourceTree = "<group>"; };
 		FA1CF5E524B1181D00409CB0 /* FactsListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FactsListViewController.xib; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 				FA1CF5F224B124B700409CB0 /* Error */,
 				FA1CF5EA24B1231100409CB0 /* HttpService */,
 				FA1CF5FB24B1280500409CB0 /* Data */,
-				FA1CF5DF24B1127C00409CB0 /* BaseCoordinator.swift */,
+				FA1CF5DF24B1127C00409CB0 /* Coordinator.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -608,7 +608,7 @@
 				FA1CF60324B12CAA00409CB0 /* HttpService+Rx.swift in Sources */,
 				FA1CF60924B12EFD00409CB0 /* Strings.swift in Sources */,
 				FA1CF5E624B1181D00409CB0 /* FactsListViewController.swift in Sources */,
-				FA1CF5E024B1127C00409CB0 /* BaseCoordinator.swift in Sources */,
+				FA1CF5E024B1127C00409CB0 /* Coordinator.swift in Sources */,
 				FA1CF60724B12EF500409CB0 /* Assets.swift in Sources */,
 				FA1CF5F124B1245000409CB0 /* Reachability.swift in Sources */,
 				FA1CF5EC24B1235400409CB0 /* HttpService.swift in Sources */,

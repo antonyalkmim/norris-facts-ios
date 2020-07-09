@@ -8,25 +8,18 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
-class AppCoordinator: Coordinator {
+class AppCoordinator: Coordinator<Void> {
     
     let window: UIWindow
         
-    // Child coordinators
-    var fatcsListCoordinator: FactsListCoordinator?
-    
     init(window: UIWindow) {
         self.window = window
     }
     
-    func start() {
-        fatcsListCoordinator = FactsListCoordinator(window: window)
-        fatcsListCoordinator?.start()
+    override func start() -> Observable<Void> {
+        return coordinate(to: FactsListCoordinator(window: window))
     }
     
-    func stop() {
-        fatcsListCoordinator = nil
-    }
-
 }
