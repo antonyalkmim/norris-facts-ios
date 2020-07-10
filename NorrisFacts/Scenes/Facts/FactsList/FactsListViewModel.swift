@@ -40,6 +40,9 @@ protocol FactsListViewModelOutput {
     
     /// Emmits an event to coordinator present the search form screen
     var showSearchFactForm: Observable<Void> { get }
+    
+    /// Emmits an event of current searchTerm to be shown
+    var currentSearchTerm: Observable<String> { get }
 }
 
 protocol FactsListViewModelType {
@@ -70,6 +73,7 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
     var errorViewModel: Observable<FactListErrorViewModel>
     var factsViewModels: Observable<[FactsSectionViewModel]>
     var showSearchFactForm: Observable<Void>
+    var currentSearchTerm: Observable<String>
     
     // MARK: - RX privates
     
@@ -89,8 +93,9 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
         self.retryErrorAction = retryErrorActionSubject.asObserver()
         
         // current search term
-        let currentSearchTerm = BehaviorSubject<String>(value: "")
-        self.setCurrentSearchTerm = currentSearchTerm.asObserver()
+        let currentSearchTermSubject = BehaviorSubject<String>(value: "")
+        self.setCurrentSearchTerm = currentSearchTermSubject.asObserver()
+        self.currentSearchTerm = currentSearchTermSubject.asObservable()
         
         let currentErrorSubject = BehaviorSubject<FactListError?>(value: nil)
         

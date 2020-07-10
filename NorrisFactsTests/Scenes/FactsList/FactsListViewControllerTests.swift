@@ -39,7 +39,7 @@ class FactsListViewControllerTests: XCTestCase {
     
     func testShowErrorViewWhenListIsEmpty() {
         factsServiceMocked.syncFactsCategoriesResult = .error(NorrisFactsError.network(.noInternetConnection))
-        factsServiceMocked.getFactsResult = .just([])
+        factsServiceMocked.getFactsResult[""] = .just([])
         
         viewModel.inputs.viewDidAppear.onNext(())
         
@@ -52,12 +52,12 @@ class FactsListViewControllerTests: XCTestCase {
     func testEmptyState() {
         let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
             
-        factsServiceMocked.getFactsResult = .just([])
+        factsServiceMocked.getFactsResult[""] = .just([])
         viewModel.inputs.viewDidAppear.onNext(())
         XCTAssertFalse(viewController.emptyView.isHidden)
         XCTAssertTrue(viewController.tableView.isHidden)
         
-        factsServiceMocked.getFactsResult = .just(factsToTest)
+        factsServiceMocked.getFactsResult[""] = .just(factsToTest)
         viewModel.inputs.viewDidAppear.onNext(())
         XCTAssertTrue(viewController.emptyView.isHidden)
         XCTAssertFalse(viewController.tableView.isHidden)
@@ -68,7 +68,7 @@ class FactsListViewControllerTests: XCTestCase {
             XCTFail("Fact should not be nil")
             return
         }
-        factsServiceMocked.getFactsResult = .just([factShortText])
+        factsServiceMocked.getFactsResult[""] = .just([factShortText])
         viewModel.inputs.viewDidAppear.onNext(())
         
         let cell = viewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? FactTableViewCell
@@ -80,7 +80,7 @@ class FactsListViewControllerTests: XCTestCase {
             XCTFail("Fact should not be nil")
             return
         }
-        factsServiceMocked.getFactsResult = .just([factLongText])
+        factsServiceMocked.getFactsResult[""] = .just([factLongText])
         viewModel.inputs.viewDidAppear.onNext(())
         
         let cell = viewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? FactTableViewCell

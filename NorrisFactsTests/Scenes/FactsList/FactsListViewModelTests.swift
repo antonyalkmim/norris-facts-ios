@@ -10,6 +10,7 @@ import XCTest
 import RxSwift
 import RxBlocking
 import RxTest
+import RealmSwift
 
 @testable import NorrisFacts
 
@@ -17,11 +18,20 @@ class FactsListViewModelTests: XCTestCase {
     
     var viewModel: FactsListViewModelType!
     var factsServiceMocked: NorrisFactsServiceMocked!
+    var apiMock: HttpServiceMock!
+    var storageMock: NorrisFactsStorageType!
+    var testRealm: Realm!
     
     var disposeBag: DisposeBag!
     
-    override func setUp() {
+    override func setUpWithError() throws {
+
         disposeBag = DisposeBag()
+        
+        testRealm = try Realm(configuration: .init(inMemoryIdentifier: self.name))
+        
+        apiMock = HttpServiceMock()
+        storageMock = NorrisFactsStorage(realm: testRealm)
         
         factsServiceMocked = NorrisFactsServiceMocked()
         viewModel = FactsListViewModel(factsService: factsServiceMocked)
@@ -29,8 +39,14 @@ class FactsListViewModelTests: XCTestCase {
     
     override func tearDown() {
         disposeBag = nil
+        apiMock = nil
+        storageMock = nil
         factsServiceMocked = nil
         viewModel = nil
+        
+        try? testRealm.write {
+            testRealm.deleteAll()
+        }
     }
     
     func testSyncCategoriesError() {
@@ -114,7 +130,7 @@ class FactsListViewModelTests: XCTestCase {
     func testLoad10RandomFacts() {
 
         let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
-        factsServiceMocked.getFactsResult = .just(factsToTest)
+        factsServiceMocked.getFactsResult[""] = .just(factsToTest)
         
         let scheduler = TestScheduler(initialClock: 0)
         let itemsObserver = scheduler.createObserver([FactsSectionViewModel].self)
@@ -132,12 +148,111 @@ class FactsListViewModelTests: XCTestCase {
         XCTAssertEqual(firstSection?.items.count, 10)
     }
     
+    func testChangeSearchTerm() {
+
+        let scheduler = TestScheduler(initialClock: 0)
+        let itemsObserver = scheduler.createObserver([FactsSectionViewModel].self)
+        
+        let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
+        
+        let sportSearchResult = factsToTest
+        let politicalSearchResult = Array(factsToTest.prefix(1))
+        factsServiceMocked.getFactsResult["sport"] = .just(sportSearchResult)
+        factsServiceMocked.getFactsResult["political"] = .just(politicalSearchResult)
+        
+        viewModel.outputs.factsViewModels
+            .subscribe(itemsObserver)
+            .disposed(by: disposeBag)
+
+        scheduler.start()
+        
+        // empty search
+        viewModel.inputs.viewDidAppear.onNext(())
+        let localItemsSearched = itemsObserver.events
+            .compactMap { $0.value.element }.last?.first
+        XCTAssertEqual(localItemsSearched?.items.count, 0)
+        
+        // sport search
+        viewModel.inputs.setCurrentSearchTerm.onNext("sport")
+        let sportItemsSearched = itemsObserver.events
+            .compactMap { $0.value.element }.last?.first
+        XCTAssertEqual(sportItemsSearched?.items.count, 13)
+        
+        // political search
+        viewModel.inputs.setCurrentSearchTerm.onNext("political")
+        let politicalItemsSearched = itemsObserver.events
+            .compactMap { $0.value.element }.last?.first
+        XCTAssertEqual(politicalItemsSearched?.items.count, 1)
+        
+        let events = itemsObserver.events.compactMap { $0.value.element }
+        XCTAssertEqual(events.count, 3)
+    }
+    
+    func testChangeSearchTerm_ShouldFilterItems() {
+
+        let service = NorrisFactsService(api: apiMock, storage: storageMock)
+        viewModel = FactsListViewModel(factsService: service)
+        
+        let longTextFact = stub("fact-long-text", type: NorrisFact.self)
+        storageMock.saveSearch(term: "sport", facts: [longTextFact].compactMap { $0 })
+        
+        let politicalFacts = stub("facts", type: [NorrisFact].self) ?? []
+        storageMock.saveSearch(term: "political", facts: politicalFacts)
+        
+        let scheduler = TestScheduler(initialClock: 0)
+        let itemsObserver = scheduler.createObserver([FactsSectionViewModel].self)
+        
+        viewModel.outputs.factsViewModels
+            .subscribe(itemsObserver)
+            .disposed(by: disposeBag)
+
+        scheduler.start()
+        
+        // empty search
+        viewModel.inputs.viewDidAppear.onNext(())
+        let localItemsSearched = itemsObserver.events
+            .compactMap { $0.value.element }.last?.first
+        XCTAssertEqual(localItemsSearched?.items.count, 10)
+        
+        // sport search
+        viewModel.inputs.setCurrentSearchTerm.onNext("sport")
+        let sportItemsSearched = itemsObserver.events
+            .compactMap { $0.value.element }.last?.first
+        XCTAssertEqual(sportItemsSearched?.items.count, 1)
+        
+        // political search
+        viewModel.inputs.setCurrentSearchTerm.onNext("political")
+        let politicalItemsSearched = itemsObserver.events
+            .compactMap { $0.value.element }.last?.first
+        XCTAssertEqual(politicalItemsSearched?.items.count, 13)
+        
+        let events = itemsObserver.events.compactMap { $0.value.element }
+        XCTAssertEqual(events.count, 3) // [local10RandomFacts, sportFacts, politicalFacts]
+    }
+    
+    func testShowSearchForm() {
+        let scheduler = TestScheduler(initialClock: 0)
+        let itemsObserver = scheduler.createObserver(Void.self)
+        
+        viewModel.outputs.showSearchFactForm
+            .subscribe(itemsObserver)
+            .disposed(by: disposeBag)
+        
+        scheduler.start()
+        
+        viewModel.inputs.searchButtonAction.onNext(())
+        viewModel.inputs.searchButtonAction.onNext(())
+        
+        let events = itemsObserver.events.filter { $0.value.element != nil }
+        XCTAssertEqual(events.count, 2)
+    }
+    
 }
 
 class NorrisFactsServiceMocked: NorrisFactsServiceType {
     
     var syncFactsCategoriesResult: Single<Void> = .just(())
-    var getFactsResult: Observable<[NorrisFact]> = .just([])
+    var getFactsResult: [String: Observable<[NorrisFact]>] = ["": .just([])]
     var searchFactsResult: Observable<[NorrisFact]> = .just([])
     
     func syncFactsCategories() -> Single<Void> {
@@ -145,7 +260,7 @@ class NorrisFactsServiceMocked: NorrisFactsServiceType {
     }
     
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]> {
-        getFactsResult
+        getFactsResult[searchTerm] ?? .just([])
     }
     
     func searchFacts(searchTerm: String) -> Observable<[NorrisFact]> {

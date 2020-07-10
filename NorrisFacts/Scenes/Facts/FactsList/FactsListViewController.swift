@@ -23,7 +23,14 @@ class FactsListViewController: UIViewController {
     @IBOutlet weak var searchFactsButton: UIButton!
     @IBOutlet weak var emptyView: UIStackView!
     
+    @IBOutlet weak var searchTermView: UIView!
+    @IBOutlet weak var searchTermLabel: UILabel!
+    @IBOutlet weak var clearSearchButton: UIButton!
+    
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var searchViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var tableViewTopSafeAreaConstraint: NSLayoutConstraint!
     
     let searchBarButtonItem = UIBarButtonItem.init(image: Asset.searchIcon.image,
                                                    style: .plain,
@@ -52,6 +59,8 @@ class FactsListViewController: UIViewController {
         
         errorActionButton.setTitle(L10n.FactsList.retryButton, for: .normal)
         
+        searchTermView.layer.cornerRadius = 16
+        
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
@@ -76,7 +85,12 @@ extension FactsListViewController {
             .mapToVoid()
             .bind(to: viewModel.inputs.retryErrorAction)
             .disposed(by: disposeBag)
-
+        
+        clearSearchButton.rx.tap
+            .map { "" }
+            .bind(to: viewModel.inputs.setCurrentSearchTerm)
+            .disposed(by: disposeBag)
+        
         // show search form screen
         let searchButtonTap = searchFactsButton.rx.tap.mapToVoid()
         let searchBarButtonItemTap = searchBarButtonItem.rx.tap.mapToVoid()
@@ -93,11 +107,14 @@ extension FactsListViewController {
             })
             .disposed(by: disposeBag)
         
-        let factsViewModels = viewModel.outputs.factsViewModels.share()
+        viewModel.outputs.currentSearchTerm
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] currentTerm in
+                self?.bindCurrentSearchTerm(currentTerm)
+            })
+            .disposed(by: disposeBag)
         
-        factsViewModels.bind { itemsViewModels in
-            print("there is \(itemsViewModels.count) items in the list")
-        }.disposed(by: disposeBag)
+        let factsViewModels = viewModel.outputs.factsViewModels.share()
         
         let dataSource = RxTableViewSectionedAnimatedDataSource<FactsSectionViewModel>(
             configureCell: { _, tableView, indexPath, factViewModel -> UITableViewCell in
@@ -151,6 +168,34 @@ extension FactsListViewController {
         emptyView.isHidden = !isEmptyState
         errorView.isHidden = isEmptyState
         tableView.isHidden = isEmptyState
+    }
+    
+    private func bindCurrentSearchTerm(_ currentTerm: String) {
+
+        searchTermLabel.text = currentTerm.capitalized
+        
+        // Show animation should start with searchView visible and out of screen
+        // Hide animation should start with searchView visible and hide when complete the animation
+        if !currentTerm.isEmpty {
+            self.searchTermView.isHidden = false
+        }
+        
+        // animate the tableview top constraint to have place for searchTermView appears
+        // and animate the searchView translation from left side of screen to inside the screen
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            let currentTableViewTopConstraint: CGFloat = currentTerm.isEmpty ? 0 : 58
+            self.tableViewTopSafeAreaConstraint.constant = currentTableViewTopConstraint
+            
+            let searchViewWidth = self.searchTermView.frame.width
+            let currentSearchViewLeadingConstraint: CGFloat = currentTerm.isEmpty ? -searchViewWidth : 16
+            self.searchViewLeadingConstraint.constant = currentSearchViewLeadingConstraint
+            
+            self.view.setNeedsLayout()
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            self.searchTermView.isHidden = currentTerm.isEmpty
+        })
+        
     }
         
     private func bindErrorViewModel(_ errorViewModel: FactListErrorViewModel) {
