@@ -25,6 +25,11 @@ class FactsListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    let searchBarButtonItem = UIBarButtonItem.init(image: Asset.searchIcon.image,
+                                                   style: .plain,
+                                                   target: nil,
+                                                   action: nil)
+    
     init(viewModel: FactsListViewModelType) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -43,6 +48,7 @@ class FactsListViewController: UIViewController {
     private func setupViews() {
         title = L10n.FactsList.title
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = searchBarButtonItem
         
         errorActionButton.setTitle(L10n.FactsList.retryButton, for: .normal)
         
@@ -71,8 +77,11 @@ extension FactsListViewController {
             .bind(to: viewModel.inputs.retryErrorAction)
             .disposed(by: disposeBag)
 
-        searchFactsButton.rx.tap
-            .mapToVoid()
+        // show search form screen
+        let searchButtonTap = searchFactsButton.rx.tap.mapToVoid()
+        let searchBarButtonItemTap = searchBarButtonItem.rx.tap.mapToVoid()
+        
+        Observable.merge(searchButtonTap, searchBarButtonItemTap)
             .bind(to: viewModel.inputs.searchButtonAction)
             .disposed(by: disposeBag)
         
