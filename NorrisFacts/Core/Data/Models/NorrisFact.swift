@@ -26,7 +26,6 @@ struct NorrisFact: Decodable {
     }
 }
 
-
 extension NorrisFact: Equatable { }
 func == (lhs: NorrisFact, rhs: NorrisFact) -> Bool {
     return lhs.id == rhs.id

@@ -36,4 +36,27 @@ class FactsItemViewModelTests: XCTestCase {
         let viewModel = FactItemViewModel(fact: fact)
         XCTAssertEqual(viewModel.factText, fact.text)
     }
+    
+    func testEquatable() {
+        
+        guard let fact = stub("fact-short-text", type: NorrisFact.self) else {
+            XCTFail("fact-short-text.json could not be parsed as NorrisFact")
+            return
+        }
+        
+        let viewModelToTest = FactItemViewModel(fact: fact)
+        let viewModel = FactItemViewModel(fact: fact)
+        XCTAssertEqual(viewModelToTest, viewModel)
+    }
+    
+    func testIdentifiable() {
+        
+        guard let fact = stub("fact-short-text", type: NorrisFact.self) else {
+            XCTFail("fact-short-text.json could not be parsed as NorrisFact")
+            return
+        }
+        
+        let viewModelToTest = FactItemViewModel(fact: fact)
+        XCTAssertEqual(viewModelToTest.identity, fact.id)
+    }
 }

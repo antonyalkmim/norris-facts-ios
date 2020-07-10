@@ -10,8 +10,15 @@ import Foundation
 import RxSwift
 
 protocol NorrisFactsServiceType {
+    
+    /// get categories if there is no one on local database
     func syncFactsCategories() -> Single<Void>
+    
+    /// get facts saved on local database filtering by searchTerm
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]>
+    
+    /// search facts by searchTerm and save it locally
+    func searchFacts(searchTerm: String) -> Observable<[NorrisFact]>
 }
 
 class NorrisFactsService: NorrisFactsServiceType {
@@ -48,7 +55,23 @@ class NorrisFactsService: NorrisFactsServiceType {
     
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]> {
         storage.getFacts(searchTerm: searchTerm)
-        // TODO: caso searchTerm nao estiver vazio devera buscar na API pelo searchTerm
     }
+    
+    func searchFacts(searchTerm: String) -> Observable<[NorrisFact]> {
+        Observable.just(searchTerm)
+            .filter { !$0.isEmpty }
+            .flatMapLatest { [weak self] term -> Observable<[NorrisFact]> in
+                guard let `self` = self else { return .empty() }
+
+                return self.api.rx.request(.search(term: term))
+                    .map(SearchFactResponse.self)
+                    .map { $0.facts }
+                    .asObservable()
+            }
+            .observeOn(MainScheduler.instance)
+            .do(onNext: { [weak self] facts in
+                self?.storage.saveSearch(term: searchTerm, facts: facts)
+            })
+      }
     
 }

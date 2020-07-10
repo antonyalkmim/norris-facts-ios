@@ -17,6 +17,8 @@ class RMNorrisFact: Object {
     @objc dynamic var updatedAt: Date = Date()
     let categories = List<RMFactCategory>()
     
+    let search = LinkingObjects(fromType: RMSearch.self, property: "facts")
+    
     override static func primaryKey() -> String? {
         return "id"
     }

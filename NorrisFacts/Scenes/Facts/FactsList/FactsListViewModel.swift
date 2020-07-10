@@ -13,15 +13,36 @@ import RxDataSources
 typealias FactsSectionViewModel = AnimatableSectionModel<String, FactItemViewModel>
 
 protocol FactsListViewModelInput {
+    
+    /// Call when view did appear to start loading facts and sync categories
     var viewDidAppear: AnyObserver<Void> { get }
-    var syncCategories: AnyObserver<Void> { get }
+    
+    /// Call to retry the last errored operation. Ex: syncCategories
     var retryErrorAction: AnyObserver<Void> { get }
+    
+    /// Call to show the search form screen
+    var searchButtonAction: AnyObserver<Void> { get }
+    
+    /// Call to update the current search term
+    var setCurrentSearchTerm: AnyObserver<String> { get }
 }
 
 protocol FactsListViewModelOutput {
+    
+    /// Emmits an boolean indicating if is loading something from API
     var isLoading: ActivityIndicator { get }
+    
+    /// Emmits an errorViewModel to be shown
     var errorViewModel: Observable<FactListErrorViewModel> { get }
+    
+    /// Emmits an array of section viewmodels to bind on tableView
     var factsViewModels: Observable<[FactsSectionViewModel]> { get }
+    
+    /// Emmits an event to coordinator present the search form screen
+    var showSearchFactForm: Observable<Void> { get }
+    
+    /// Emmits an event of current searchTerm to be shown
+    var currentSearchTerm: Observable<String> { get }
 }
 
 protocol FactsListViewModelType {
@@ -37,18 +58,22 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
     // MARK: - Dependencies
     
     let factsService: NorrisFactsServiceType
+    var disposeBag = DisposeBag()
     
     // MARK: - RX Inputs
     
     var viewDidAppear: AnyObserver<Void>
-    var syncCategories: AnyObserver<Void>
     var retryErrorAction: AnyObserver<Void>
+    var searchButtonAction: AnyObserver<Void>
+    var setCurrentSearchTerm: AnyObserver<String>
     
     // MARK: - RX Outputs
     
     var isLoading: ActivityIndicator
     var errorViewModel: Observable<FactListErrorViewModel>
     var factsViewModels: Observable<[FactsSectionViewModel]>
+    var showSearchFactForm: Observable<Void>
+    var currentSearchTerm: Observable<String>
     
     // MARK: - RX privates
     
@@ -67,9 +92,10 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
         let retryErrorActionSubject = PublishSubject<Void>()
         self.retryErrorAction = retryErrorActionSubject.asObserver()
         
-        // Sync Categories
-        let syncCategoriesSubject = PublishSubject<Void>()
-        self.syncCategories = syncCategoriesSubject.asObserver()
+        // current search term
+        let currentSearchTermSubject = BehaviorSubject<String>(value: "")
+        self.setCurrentSearchTerm = currentSearchTermSubject.asObserver()
+        self.currentSearchTerm = currentSearchTermSubject.asObservable()
         
         let currentErrorSubject = BehaviorSubject<FactListError?>(value: nil)
         
@@ -86,44 +112,56 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
             }
             .mapToVoid()
         
+        // attempt to sync categories when view appears of user taps the retryButton
+        // TODO: change to syncCategories in SearchForm screen
         let syncFactsCategoriesError = Observable.merge(viewDidAppearSubject, retrySyncCategories)
             .asObservable()
             .mapToVoid()
             .flatMapLatest {
                 factsService.syncFactsCategories()
-                    .trackActivity(_isLoading)
-                    .asObservable()
-                    .materialize()
             }
+            .materialize()
             .errors()
             .map { FactListError.syncCategories($0) }
         
-        // Load facts
-        
-        let loadFacts = viewDidAppearSubject
+        // search facts filtering by currentSearchTerm
+        let searchFacts = Observable
+            .combineLatest(viewDidAppearSubject, currentSearchTerm) { _, term in term }
+            .filter { !$0.isEmpty }
             .flatMapLatest {
-                // load 10 random facts
-                factsService.getFacts(searchTerm: "")
+                factsService.searchFacts(searchTerm: $0)
                     .trackActivity(_isLoading)
-                    .map { Array($0.shuffled().prefix(10)) }
             }
-            .materialize()
-            .share()
         
-        let loadFactsError = loadFacts
+        let searchFactsError = searchFacts
+            .materialize()
             .errors()
             .map { FactListError.loadFacts($0) }
         
-        self.factsViewModels = loadFacts
+        self.factsViewModels = Observable
+            .combineLatest(viewDidAppearSubject, currentSearchTerm) { _, term in term }
+            .flatMapLatest { term -> Observable<[NorrisFact]> in
+                guard !term.isEmpty else {
+                    return factsService.getFacts(searchTerm: "")
+                        .map { Array($0.shuffled().prefix(10)) }
+                }
+                return factsService.getFacts(searchTerm: term)
+            }
+            .materialize()
             .elements()
             .map { $0.map(FactItemViewModel.init) }
             .map { [FactsSectionViewModel(model: "", items: $0)] }
         
         // General errors
-        
-        self.errorViewModel = Observable.merge(syncFactsCategoriesError, loadFactsError)
+
+        self.errorViewModel = Observable.merge(syncFactsCategoriesError, searchFactsError)
             .do(onNext: currentErrorSubject.onNext)
             .map(FactListErrorViewModel.init)
+        
+        // show search facts
+        let searchButtonActionSubject = PublishSubject<Void>()
+        self.searchButtonAction = searchButtonActionSubject.asObserver()
+        self.showSearchFactForm = searchButtonActionSubject.asObservable()
     }
     
     enum FactListError: Error {

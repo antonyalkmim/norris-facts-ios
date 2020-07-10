@@ -25,6 +25,7 @@ class NorrisFactsServiceTests: XCTestCase {
     
     override func setUpWithError() throws {
         disposeBag = DisposeBag()
+        
         apiMock = HttpServiceMock()
         
         testRealm = try Realm(configuration: .init(inMemoryIdentifier: self.name))
@@ -79,23 +80,56 @@ class NorrisFactsServiceTests: XCTestCase {
         XCTAssertEqual(facts?.count, 13)
     }
     
-    func testGetFactsFilterBySearchTerm() throws {
+    func testSearchFactsBySearchTerm_ShouldSaveNewFacts() throws {
+        
+        let searchTerm = "sport"
+        
+        let responseData = stub("search-facts-response") ?? Data()
+        apiMock.responseResult = .success(responseData)
+        
+        // assert the database is empty
+        var currentFacts = try storageMock.getFacts(searchTerm: searchTerm)
+            .toBlocking().first() ?? []
+        XCTAssertTrue(currentFacts.isEmpty)
+        
+        service.searchFacts(searchTerm: searchTerm)
+            .subscribe()
+            .disposed(by: disposeBag)
+        
+        // assert that facts were saved
+        currentFacts = try storageMock.getFacts(searchTerm: searchTerm)
+            .toBlocking().first() ?? []
+        XCTAssertFalse(currentFacts.isEmpty)
+    }
+    
+    func testGestFactsByTerm_ShouldFilter() throws {
         
         let scheduler = TestScheduler(initialClock: 0)
         let factsObserver = scheduler.createObserver([NorrisFact].self)
+        let searchTerm = "political"
         
-        let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
+        // save data for test searchTerm (political)
+        let fakeFacts = stub("facts", type: [NorrisFact].self) ?? []
+        storageMock.saveSearch(term: searchTerm, facts: fakeFacts)
         
-        storageMock.saveFacts(factsToTest)
+        // save data that should not be listed
+        guard let smallFact = stub("fact-long-text", type: NorrisFact.self) else {
+            XCTFail("smallFact should not be nil")
+            return
+        }
+        storageMock.saveSearch(term: "sport", facts: [smallFact])
         
-        service.getFacts(searchTerm: "political")
+        service.getFacts(searchTerm: searchTerm)
             .subscribe(factsObserver)
             .disposed(by: disposeBag)
         
         scheduler.start()
         
+        let allFacts = try storageMock.getFacts(searchTerm: "").toBlocking().first() ?? []
+        XCTAssertEqual(allFacts.count, 14)
+        
         let facts = factsObserver.events.compactMap { $0.value.element }.first
-        XCTAssertEqual(facts?.count, 2)
+        XCTAssertEqual(facts?.count, 13)
     }
 
 }

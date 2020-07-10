@@ -26,6 +26,6 @@ extension RMFactCategory {
     }
     
     var object: FactCategory {
-        return FactCategory(title: "title")
+        return FactCategory(title: title)
     }
 }

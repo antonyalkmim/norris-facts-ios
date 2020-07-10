@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        processLaunchArguments()
+        setupAppearence()
+        
         window = UIWindow()
         appCoordinator = AppCoordinator(window: window ?? UIWindow())
         appCoordinator?.start()
@@ -26,6 +29,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .disposed(by: disposeBag)
         
         return true
+    }
+    
+    private func setupAppearence() {
+        UINavigationBar.appearance().tintColor = .black
     }
 
 }
