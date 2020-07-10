@@ -15,6 +15,9 @@ def common_pods
   pod 'RxRealm', '~> 3.1.0'
   pod 'RxDataSources', '~> 4.0'
   
+  # UI
+  pod 'lottie-ios'
+  
 end
 
 def test_pods

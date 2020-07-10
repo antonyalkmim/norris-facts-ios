@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxDataSources
+import Lottie
 
 class FactsListViewController: UIViewController {
 
@@ -31,6 +32,8 @@ class FactsListViewController: UIViewController {
     
     @IBOutlet weak var searchViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var tableViewTopSafeAreaConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var loadingView: AnimationView!
     
     let searchBarButtonItem = UIBarButtonItem.init(image: Asset.searchIcon.image,
                                                    style: .plain,
@@ -60,6 +63,9 @@ class FactsListViewController: UIViewController {
         errorActionButton.setTitle(L10n.FactsList.retryButton, for: .normal)
         
         searchTermView.layer.cornerRadius = 16
+        
+        loadingView.animation = Animation.named("loading-blue")
+        loadingView.loopMode = .loop
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
@@ -102,8 +108,8 @@ extension FactsListViewController {
         // Outputs
         
         viewModel.outputs.isLoading
-            .drive(onNext: { isLoading in
-                print("isLoading: \(isLoading)")
+            .drive(onNext: { [weak self] isLoading in
+                self?.showLoading(isLoading)
             })
             .disposed(by: disposeBag)
         
@@ -168,6 +174,19 @@ extension FactsListViewController {
         emptyView.isHidden = !isEmptyState
         errorView.isHidden = isEmptyState
         tableView.isHidden = isEmptyState
+    }
+    
+    private func showLoading(_ isLoading: Bool) {
+        loadingView.isHidden = !isLoading
+        
+        if isLoading {
+            errorView.isHidden = true
+            emptyView.isHidden = true
+            
+            loadingView.play()
+        } else {
+            loadingView.stop()
+        }
     }
     
     private func bindCurrentSearchTerm(_ currentTerm: String) {

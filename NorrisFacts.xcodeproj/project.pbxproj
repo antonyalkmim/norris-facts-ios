@@ -56,6 +56,7 @@
 		FAD3201924B79D770044C83E /* SearchFactResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3201824B79D770044C83E /* SearchFactResponse.swift */; };
 		FAD3201C24B7A9EC0044C83E /* search-facts-response.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3201B24B7A9EC0044C83E /* search-facts-response.json */; };
 		FAD3201E24B8229E0044C83E /* RMSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3201D24B8229E0044C83E /* RMSearch.swift */; };
+		FAD3202724B8F0910044C83E /* loading-blue.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3202624B8F0910044C83E /* loading-blue.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +138,7 @@
 		FAD3201824B79D770044C83E /* SearchFactResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactResponse.swift; sourceTree = "<group>"; };
 		FAD3201B24B7A9EC0044C83E /* search-facts-response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "search-facts-response.json"; sourceTree = "<group>"; };
 		FAD3201D24B8229E0044C83E /* RMSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSearch.swift; sourceTree = "<group>"; };
+		FAD3202624B8F0910044C83E /* loading-blue.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "loading-blue.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,6 +272,7 @@
 		FA1CF5DE24B1120200409CB0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FAD3202124B8EC130044C83E /* LottieAnimations */,
 				FA1CF60524B12EEA00409CB0 /* Generated */,
 				FA1CF5B224B0EBBD00409CB0 /* Assets.xcassets */,
 				FA1CF60A24B12F1B00409CB0 /* Localizable.strings */,
@@ -490,6 +493,14 @@
 			path = stubs;
 			sourceTree = "<group>";
 		};
+		FAD3202124B8EC130044C83E /* LottieAnimations */ = {
+			isa = PBXGroup;
+			children = (
+				FAD3202624B8F0910044C83E /* loading-blue.json */,
+			);
+			path = LottieAnimations;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -604,6 +615,7 @@
 			files = (
 				FA1CF5E724B1181D00409CB0 /* FactsListViewController.xib in Resources */,
 				FA1CF60B24B12F1B00409CB0 /* Localizable.strings in Resources */,
+				FAD3202724B8F0910044C83E /* loading-blue.json in Resources */,
 				FA1CF5B624B0EBBD00409CB0 /* LaunchScreen.storyboard in Resources */,
 				FA1CF64D24B62B3A00409CB0 /* FactTableViewCell.xib in Resources */,
 				FA1CF5B324B0EBBD00409CB0 /* Assets.xcassets in Resources */,
