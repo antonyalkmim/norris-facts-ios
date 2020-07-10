@@ -14,8 +14,12 @@ class TestHelper { }
 
 extension XCTestCase {
     func stub<T: Decodable>(_ filename: String, type parseType: T.Type, decoder: JSONDecoder = JSON.decoder) -> T? {
+        
         let bundle = Bundle(for: type(of: self))
-        guard let fileUrl = bundle.url(forResource: filename, withExtension: ".json") else { return nil }
+        
+        guard let fileUrl = bundle.url(forResource: filename, withExtension: ".json") else {
+            return nil
+        }
         
         do {
             let data = try Data(contentsOf: fileUrl)
@@ -24,6 +28,17 @@ extension XCTestCase {
         } catch {
             return nil
         }
+    }
+    
+    func stub(_ filename: String) -> Data? {
+        
+        let bundle = Bundle(for: type(of: self))
+        
+        guard let fileUrl = bundle.url(forResource: filename, withExtension: ".json") else {
+            return nil
+        }
+        
+        return try? Data(contentsOf: fileUrl)
     }
 
 }

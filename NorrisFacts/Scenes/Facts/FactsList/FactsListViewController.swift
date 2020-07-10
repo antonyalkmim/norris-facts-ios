@@ -71,10 +71,14 @@ extension FactsListViewController {
             .bind(to: viewModel.inputs.retryErrorAction)
             .disposed(by: disposeBag)
 
+        searchFactsButton.rx.tap
+            .mapToVoid()
+            .bind(to: viewModel.inputs.searchButtonAction)
+            .disposed(by: disposeBag)
+        
         // Outputs
         
         viewModel.outputs.isLoading
-            .debug("isLoading", trimOutput: true)
             .drive(onNext: { isLoading in
                 print("isLoading: \(isLoading)")
             })
@@ -107,7 +111,6 @@ extension FactsListViewController {
         // show empty state
         isFactListEmpty
             .asDriver(onErrorJustReturn: false)
-            .debug("emptyState", trimOutput: true)
             .drive(onNext: { [weak self] isEmpty in
                 self?.showEmptyState(isEmpty)
             })
@@ -120,7 +123,6 @@ extension FactsListViewController {
             .combineLatest(isFactListEmpty, errorViewModel)
             .filter { isListEmpty, _  in isListEmpty } // empty list
             .map { _, errorViewModel in errorViewModel }
-            .debug("error view", trimOutput: true)
             .bind(onNext: { [weak self] errorViewModel in
                 self?.bindErrorViewModel(errorViewModel)
             })
@@ -131,7 +133,6 @@ extension FactsListViewController {
             .combineLatest(isFactListEmpty, errorViewModel )
             .filter { isListEmpty, _  in !isListEmpty } // list not empty
             .map { _, errorViewModel in errorViewModel }
-            .debug("error toast", trimOutput: true)
             .bind {
                 print("Show toast for \($0.factListError.localizedDescription)")
             }.disposed(by: disposeBag)

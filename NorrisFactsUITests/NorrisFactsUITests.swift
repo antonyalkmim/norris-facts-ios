@@ -23,13 +23,17 @@ class NorrisFactsUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testShowEmptyViewWhenFirstAccess() throws {
+        
         let app = XCUIApplication()
         app.launch()
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+//        app.launchArguments = ["-reset", "-with-fake-facts"]
+        // TODO: tratar launchArguments para:
+        // - limpar banco de dados quando passar o arg -reset
+        // - salvar dados no database quando passar o arg -with-fake-facts
+        
+        let emptyViewLabel = app.staticTexts["You haven't seen any Chuck Norris facts yet."]
+        XCTAssert(emptyViewLabel.exists)
     }
 
 }

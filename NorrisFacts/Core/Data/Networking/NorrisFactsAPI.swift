@@ -10,6 +10,7 @@ import Foundation
 
 enum NorrisFactsAPI {
     case getCategories
+    case search(term: String)
 }
 
 extension NorrisFactsAPI: TargetType {
@@ -22,19 +23,21 @@ extension NorrisFactsAPI: TargetType {
         switch self {
         case .getCategories:
             return "/categories"
+        case .search(let term):
+            return "/search?query=\(term)"
         }
     }
 
     var method: HttpMethod {
         switch self {
-        case .getCategories:
+        case .getCategories, .search:
             return .get
         }
     }
 
     var body: Data? {
         switch self {
-        case .getCategories:
+        case .getCategories, .search:
             return nil
         }
     }

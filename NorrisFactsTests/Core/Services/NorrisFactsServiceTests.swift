@@ -25,9 +25,12 @@ class NorrisFactsServiceTests: XCTestCase {
     
     override func setUpWithError() throws {
         disposeBag = DisposeBag()
+        
+        Realm.Configuration.defaultConfiguration.inMemoryIdentifier = self.name
+        
         apiMock = HttpServiceMock()
         
-        testRealm = try Realm(configuration: .init(inMemoryIdentifier: self.name))
+        testRealm = try Realm()
         storageMock = NorrisFactsStorage(realm: testRealm)
         
         service = NorrisFactsService(api: apiMock,
@@ -84,18 +87,18 @@ class NorrisFactsServiceTests: XCTestCase {
         let scheduler = TestScheduler(initialClock: 0)
         let factsObserver = scheduler.createObserver([NorrisFact].self)
         
-        let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
+        let responseData = stub("search-facts-response") ?? Data()
+        apiMock.responseResult = .success(responseData)
         
-        storageMock.saveFacts(factsToTest)
-        
-        service.getFacts(searchTerm: "political")
+        service.getFacts(searchTerm: "sport")
             .subscribe(factsObserver)
             .disposed(by: disposeBag)
         
         scheduler.start()
         
-        let facts = factsObserver.events.compactMap { $0.value.element }.first
-        XCTAssertEqual(facts?.count, 2)
+        let events = factsObserver.events.compactMap { $0.value.element }
+        XCTAssertEqual(events.count, 2)
+        XCTAssertEqual(events.last?.count, 1)
     }
 
 }

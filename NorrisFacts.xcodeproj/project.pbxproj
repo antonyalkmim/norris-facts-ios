@@ -53,6 +53,8 @@
 		FAD3201224B6472E0044C83E /* fact-short-text.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3201124B6472E0044C83E /* fact-short-text.json */; };
 		FAD3201424B647580044C83E /* fact-long-text.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3201324B647580044C83E /* fact-long-text.json */; };
 		FAD3201624B64A6C0044C83E /* FactItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3201524B64A6C0044C83E /* FactItemViewModel.swift */; };
+		FAD3201924B79D770044C83E /* SearchFactResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3201824B79D770044C83E /* SearchFactResponse.swift */; };
+		FAD3201C24B7A9EC0044C83E /* search-facts-response.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3201B24B7A9EC0044C83E /* search-facts-response.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +133,8 @@
 		FAD3201124B6472E0044C83E /* fact-short-text.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fact-short-text.json"; sourceTree = "<group>"; };
 		FAD3201324B647580044C83E /* fact-long-text.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fact-long-text.json"; sourceTree = "<group>"; };
 		FAD3201524B64A6C0044C83E /* FactItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactItemViewModel.swift; sourceTree = "<group>"; };
+		FAD3201824B79D770044C83E /* SearchFactResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactResponse.swift; sourceTree = "<group>"; };
+		FAD3201B24B7A9EC0044C83E /* search-facts-response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "search-facts-response.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -332,6 +336,7 @@
 		FA1CF5FD24B1281C00409CB0 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				FAD3201724B79D5F0044C83E /* Responses */,
 				FA1CF5F924B1276700409CB0 /* NorrisFactsAPI.swift */,
 				FA1CF5FE24B1283500409CB0 /* Codable+ext.swift */,
 			);
@@ -424,6 +429,7 @@
 		FA1CF63224B4210A00409CB0 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				FAD3201A24B7A9DC0044C83E /* stubs */,
 				FA1CF63424B4212700409CB0 /* NorrisFactsServiceTests.swift */,
 			);
 			path = Services;
@@ -461,6 +467,22 @@
 				FA1CF64424B514AA00409CB0 /* facts.json */,
 				FAD3201124B6472E0044C83E /* fact-short-text.json */,
 				FAD3201324B647580044C83E /* fact-long-text.json */,
+			);
+			path = stubs;
+			sourceTree = "<group>";
+		};
+		FAD3201724B79D5F0044C83E /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				FAD3201824B79D770044C83E /* SearchFactResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		FAD3201A24B7A9DC0044C83E /* stubs */ = {
+			isa = PBXGroup;
+			children = (
+				FAD3201B24B7A9EC0044C83E /* search-facts-response.json */,
 			);
 			path = stubs;
 			sourceTree = "<group>";
@@ -591,6 +613,7 @@
 			files = (
 				FA1CF64524B514AA00409CB0 /* facts.json in Resources */,
 				FAD3201224B6472E0044C83E /* fact-short-text.json in Resources */,
+				FAD3201C24B7A9EC0044C83E /* search-facts-response.json in Resources */,
 				FAD3201424B647580044C83E /* fact-long-text.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -768,6 +791,7 @@
 				FA1CF62324B3895000409CB0 /* RxSwift+Ext.swift in Sources */,
 				FA1CF5FF24B1283500409CB0 /* Codable+ext.swift in Sources */,
 				FA1CF5DD24B110F900409CB0 /* AppCoodinator.swift in Sources */,
+				FAD3201924B79D770044C83E /* SearchFactResponse.swift in Sources */,
 				FA1CF61124B1342200409CB0 /* NorricsFactsStorage.swift in Sources */,
 				FA1CF64924B629FC00409CB0 /* UITableView+ext.swift in Sources */,
 				FA1CF5AA24B0EBBB00409CB0 /* AppDelegate.swift in Sources */,

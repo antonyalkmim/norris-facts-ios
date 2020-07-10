@@ -23,10 +23,24 @@ class FactsListCoordinator: Coordinator<Void> {
         let factsListViewController = FactsListViewController(viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: factsListViewController)
     
+        viewModel.outputs.showSearchFactForm
+            .flatMap { [weak self] _ -> Observable<String?> in
+                guard let `self` = self else { return .empty() }
+                return self.showSearchForm()
+            }
+            .filter { $0 != nil }
+            .compactMap { $0 }
+            .bind(to: viewModel.inputs.setCurrentSearchTerm)
+            .disposed(by: disposeBag)
+        
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
         return .never()
+    }
+    
+    private func showSearchForm() -> Observable<String?> {
+        .just("political")
     }
 
 }

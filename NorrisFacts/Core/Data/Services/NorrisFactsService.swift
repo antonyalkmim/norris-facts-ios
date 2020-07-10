@@ -47,8 +47,33 @@ class NorrisFactsService: NorrisFactsServiceType {
     }
     
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]> {
-        storage.getFacts(searchTerm: searchTerm)
-        // TODO: caso searchTerm nao estiver vazio devera buscar na API pelo searchTerm
+        
+        let localFacts = storage.getFacts(searchTerm: searchTerm)
+        
+        let fetchFacts = Observable.just(searchTerm)
+            .flatMapLatest { [weak self] term -> Observable<[NorrisFact]> in
+                
+                guard let `self` = self, !term.isEmpty else {
+                    return .just([])
+                }
+
+                return self.api.rx.request(.search(term: term))
+                    .map(SearchFactResponse.self)
+                    .map { $0.facts }
+                    .asObservable()
+            }
+            .observeOn(MainScheduler.instance)
+            .do(onNext: { [weak self] facts in
+                self?.storage.saveFacts(facts)
+            })
+            .flatMapLatest { [weak self] _ -> Observable<[NorrisFact]> in
+                guard let `self` = self else { return .empty() }
+                return self.storage.getFacts(searchTerm: searchTerm)
+            }
+  
+        return Observable
+            .merge(localFacts, fetchFacts)
+            .distinctUntilChanged()
     }
     
 }
