@@ -61,6 +61,8 @@
 		FAD3202F24B902190044C83E /* Stubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3202E24B902190044C83E /* Stubs.swift */; };
 		FAD3203224B902AE0044C83E /* sport-facts.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3203124B902AE0044C83E /* sport-facts.json */; };
 		FAD3203424B902F10044C83E /* political-facts.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3203324B902F10044C83E /* political-facts.json */; };
+		FAD3203924B91C990044C83E /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3203724B91C990044C83E /* ToastView.swift */; };
+		FAD3203C24B91D670044C83E /* UIColor+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3203B24B91D670044C83E /* UIColor+ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +149,8 @@
 		FAD3202E24B902190044C83E /* Stubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stubs.swift; sourceTree = "<group>"; };
 		FAD3203124B902AE0044C83E /* sport-facts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sport-facts.json"; sourceTree = "<group>"; };
 		FAD3203324B902F10044C83E /* political-facts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "political-facts.json"; sourceTree = "<group>"; };
+		FAD3203724B91C990044C83E /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		FAD3203B24B91D670044C83E /* UIColor+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +272,7 @@
 		FA1CF5DB24B1106100409CB0 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				FAD3203524B91C640044C83E /* UI */,
 				FA1CF62124B3894200409CB0 /* Extensions */,
 				FA1CF5F224B124B700409CB0 /* Error */,
 				FA1CF5EA24B1231100409CB0 /* HttpService */,
@@ -429,6 +434,7 @@
 				FA1CF64624B5285300409CB0 /* DateFormatter+ext.swift */,
 				FA1CF64824B629FC00409CB0 /* UITableView+ext.swift */,
 				FAD3202E24B902190044C83E /* Stubs.swift */,
+				FAD3203B24B91D670044C83E /* UIColor+ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -519,6 +525,22 @@
 				FAD3203324B902F10044C83E /* political-facts.json */,
 			);
 			path = Stubs;
+			sourceTree = "<group>";
+		};
+		FAD3203524B91C640044C83E /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				FAD3203624B91C710044C83E /* Toast */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		FAD3203624B91C710044C83E /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				FAD3203724B91C990044C83E /* ToastView.swift */,
+			);
+			path = Toast;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -832,7 +854,9 @@
 				FA1CF61124B1342200409CB0 /* NorricsFactsStorage.swift in Sources */,
 				FAD3202D24B8F9200044C83E /* AppDelegate+LaunchArguments.swift in Sources */,
 				FA1CF64924B629FC00409CB0 /* UITableView+ext.swift in Sources */,
+				FAD3203924B91C990044C83E /* ToastView.swift in Sources */,
 				FA1CF5AA24B0EBBB00409CB0 /* AppDelegate.swift in Sources */,
+				FAD3203C24B91D670044C83E /* UIColor+ext.swift in Sources */,
 				FA1CF60124B128C700409CB0 /* NorrisFactsService.swift in Sources */,
 				FA1CF62924B3D41F00409CB0 /* RMFactCategory.swift in Sources */,
 				FA1CF5E324B1169700409CB0 /* FactsListCoordinator.swift in Sources */,
