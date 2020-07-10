@@ -108,56 +108,48 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
             .mapToVoid()
         
         // attempt to sync categories when view appears of user taps the retryButton
+        // TODO: change to syncCategories in SearchForm screen
         let syncFactsCategoriesError = Observable.merge(viewDidAppearSubject, retrySyncCategories)
             .asObservable()
             .mapToVoid()
             .flatMapLatest {
                 factsService.syncFactsCategories()
-                    .trackActivity(_isLoading)
-                    .asObservable()
-                    .materialize()
             }
+            .materialize()
             .errors()
             .map { FactListError.syncCategories($0) }
         
-        // Load facts
-        
-        let load10RandomFacts = Observable
-            .combineLatest(viewDidAppearSubject, currentSearchTerm) { _, term in term }
-            .filter { $0.isEmpty }
-            .flatMapLatest { _ in
-                factsService.getFacts(searchTerm: "")
-                    .trackActivity(_isLoading)
-                    .map { Array($0.shuffled().prefix(10)) }
-            }
-        
+        // search facts filtering by currentSearchTerm
         let searchFacts = Observable
-            .combineLatest(viewDidAppearSubject, currentSearchTerm) { _, term in term  }
-            .skip(1)
-            .map { $0 }
+            .combineLatest(viewDidAppearSubject, currentSearchTerm) { _, term in term }
             .filter { !$0.isEmpty }
             .flatMapLatest {
-                factsService.getFacts(searchTerm: $0)
+                factsService.searchFacts(searchTerm: $0)
                     .trackActivity(_isLoading)
             }
-            
-        let loadFacts = Observable
-            .merge(load10RandomFacts, searchFacts)
-            .materialize()
-            .share()
         
-        let loadFactsError = loadFacts
+        let searchFactsError = searchFacts
+            .materialize()
             .errors()
             .map { FactListError.loadFacts($0) }
         
-        self.factsViewModels = loadFacts
+        self.factsViewModels = Observable
+            .combineLatest(viewDidAppearSubject, currentSearchTerm) { _, term in term }
+            .flatMapLatest { term -> Observable<[NorrisFact]> in
+                guard !term.isEmpty else {
+                    return factsService.getFacts(searchTerm: "")
+                        .map { Array($0.shuffled().prefix(10)) }
+                }
+                return factsService.getFacts(searchTerm: term)
+            }
+            .materialize()
             .elements()
             .map { $0.map(FactItemViewModel.init) }
             .map { [FactsSectionViewModel(model: "", items: $0)] }
         
         // General errors
 
-        self.errorViewModel = Observable.merge(syncFactsCategoriesError, loadFactsError)
+        self.errorViewModel = Observable.merge(syncFactsCategoriesError, searchFactsError)
             .do(onNext: currentErrorSubject.onNext)
             .map(FactListErrorViewModel.init)
         

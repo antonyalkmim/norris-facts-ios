@@ -138,6 +138,7 @@ class NorrisFactsServiceMocked: NorrisFactsServiceType {
     
     var syncFactsCategoriesResult: Single<Void> = .just(())
     var getFactsResult: Observable<[NorrisFact]> = .just([])
+    var searchFactsResult: Observable<[NorrisFact]> = .just([])
     
     func syncFactsCategories() -> Single<Void> {
         syncFactsCategoriesResult
@@ -145,5 +146,9 @@ class NorrisFactsServiceMocked: NorrisFactsServiceType {
     
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]> {
         getFactsResult
+    }
+    
+    func searchFacts(searchTerm: String) -> Observable<[NorrisFact]> {
+        searchFactsResult
     }
 }

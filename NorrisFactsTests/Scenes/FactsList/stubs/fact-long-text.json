@@ -1,11 +1,9 @@
 {
-  "categories": [
-    "career"
-  ],
-  "created_at": "2020-01-05 13:42:19.576875",
+  "categories": [],
+  "created_at": "2020-01-05 13:42:20.568859",
   "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
-  "id": "zk14uc6xr82d7ig9qhaymg",
-  "updated_at": "2020-01-05 13:42:19.576875",
-  "url": "https://api.chucknorris.io/jokes/zk14uc6xr82d7ig9qhaymg",
-  "value": "Chuck Norris is actually the front man for Apple. He let's Steve Jobs run the show when he's on a mission. Chuck Norris is always on a mission."
+  "id": "5AJRynf8S9Sd-bbwnEYEYA",
+  "updated_at": "2020-01-05 13:42:20.568859",
+  "url": "https://api.chucknorris.io/jokes/5AJRynf8S9Sd-bbwnEYEYA",
+  "value": "All professional sports teams pay Chuck Norris Not to play--saves money on body bags and funeral arrangements."
 }

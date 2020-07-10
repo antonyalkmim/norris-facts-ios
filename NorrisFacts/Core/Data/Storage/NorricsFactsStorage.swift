@@ -17,6 +17,8 @@ protocol NorrisFactsStorageType {
     
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]>
     func saveFacts(_ facts: [NorrisFact])
+    
+    func saveSearch(term: String, facts: [NorrisFact])
 }
 
 class NorrisFactsStorage: NorrisFactsStorageType {
@@ -42,12 +44,11 @@ class NorrisFactsStorage: NorrisFactsStorageType {
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]> {
         
         var facts = realm.objects(RMNorrisFact.self)
-        
-        // filter in case searchTerm is not empty
+            
         facts = searchTerm.isEmpty
             ? facts
-            : facts.filter("ANY categories.title = %@", searchTerm)
-            
+            : facts.filter("ANY search.term = %@", searchTerm)
+        
         return Observable.collection(from: facts)
             .map { $0.map { $0.object } }
     }
@@ -59,4 +60,10 @@ class NorrisFactsStorage: NorrisFactsStorageType {
         }
     }
     
+    func saveSearch(term: String, facts: [NorrisFact]) {
+        try? realm.write {
+            let entity = RMSearch(term: term, facts: facts)
+            self.realm.add(entity, update: .modified)
+        }
+    }
 }

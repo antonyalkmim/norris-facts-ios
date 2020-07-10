@@ -10,8 +10,15 @@ import Foundation
 import RxSwift
 
 protocol NorrisFactsServiceType {
+    
+    /// get categories if there is no one on local database
     func syncFactsCategories() -> Single<Void>
+    
+    /// get facts saved on local database filtering by searchTerm
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]>
+    
+    /// search facts by searchTerm and save it locally
+    func searchFacts(searchTerm: String) -> Observable<[NorrisFact]>
 }
 
 class NorrisFactsService: NorrisFactsServiceType {
@@ -47,15 +54,14 @@ class NorrisFactsService: NorrisFactsServiceType {
     }
     
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]> {
-        
-        let localFacts = storage.getFacts(searchTerm: searchTerm)
-        
-        let fetchFacts = Observable.just(searchTerm)
+        storage.getFacts(searchTerm: searchTerm)
+    }
+    
+    func searchFacts(searchTerm: String) -> Observable<[NorrisFact]> {
+        Observable.just(searchTerm)
+            .filter { !$0.isEmpty }
             .flatMapLatest { [weak self] term -> Observable<[NorrisFact]> in
-                
-                guard let `self` = self, !term.isEmpty else {
-                    return .just([])
-                }
+                guard let `self` = self else { return .empty() }
 
                 return self.api.rx.request(.search(term: term))
                     .map(SearchFactResponse.self)
@@ -64,16 +70,8 @@ class NorrisFactsService: NorrisFactsServiceType {
             }
             .observeOn(MainScheduler.instance)
             .do(onNext: { [weak self] facts in
-                self?.storage.saveFacts(facts)
+                self?.storage.saveSearch(term: searchTerm, facts: facts)
             })
-            .flatMapLatest { [weak self] _ -> Observable<[NorrisFact]> in
-                guard let `self` = self else { return .empty() }
-                return self.storage.getFacts(searchTerm: searchTerm)
-            }
-  
-        return Observable
-            .merge(localFacts, fetchFacts)
-            .distinctUntilChanged()
-    }
+      }
     
 }

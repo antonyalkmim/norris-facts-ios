@@ -55,6 +55,7 @@
 		FAD3201624B64A6C0044C83E /* FactItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3201524B64A6C0044C83E /* FactItemViewModel.swift */; };
 		FAD3201924B79D770044C83E /* SearchFactResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3201824B79D770044C83E /* SearchFactResponse.swift */; };
 		FAD3201C24B7A9EC0044C83E /* search-facts-response.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3201B24B7A9EC0044C83E /* search-facts-response.json */; };
+		FAD3201E24B8229E0044C83E /* RMSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3201D24B8229E0044C83E /* RMSearch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +136,7 @@
 		FAD3201524B64A6C0044C83E /* FactItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactItemViewModel.swift; sourceTree = "<group>"; };
 		FAD3201824B79D770044C83E /* SearchFactResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactResponse.swift; sourceTree = "<group>"; };
 		FAD3201B24B7A9EC0044C83E /* search-facts-response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "search-facts-response.json"; sourceTree = "<group>"; };
+		FAD3201D24B8229E0044C83E /* RMSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSearch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -422,6 +424,7 @@
 			children = (
 				FA1CF62824B3D41F00409CB0 /* RMFactCategory.swift */,
 				FA1CF63E24B4F86300409CB0 /* RMNorrisFact.swift */,
+				FAD3201D24B8229E0044C83E /* RMSearch.swift */,
 			);
 			path = DatabaseEntities;
 			sourceTree = "<group>";
@@ -800,6 +803,7 @@
 				FA1CF5E324B1169700409CB0 /* FactsListCoordinator.swift in Sources */,
 				FA1CF60324B12CAA00409CB0 /* HttpService+Rx.swift in Sources */,
 				FA1CF63924B4D4F400409CB0 /* FactItemViewModel.swift in Sources */,
+				FAD3201E24B8229E0044C83E /* RMSearch.swift in Sources */,
 				FA1CF60924B12EFD00409CB0 /* Strings.swift in Sources */,
 				FA1CF5E624B1181D00409CB0 /* FactsListViewController.swift in Sources */,
 				FA1CF5E024B1127C00409CB0 /* Coordinator.swift in Sources */,
