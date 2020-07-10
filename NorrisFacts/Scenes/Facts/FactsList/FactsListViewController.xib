@@ -46,12 +46,21 @@
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="empty_view_label"/>
+                            </userDefinedRuntimeAttributes>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wir-dM-ECS">
                             <rect key="frame" x="130.5" y="208.5" width="89" height="30"/>
                             <state key="normal" title="Search Facts"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="empty_view_button"/>
+                            </userDefinedRuntimeAttributes>
                         </button>
                     </subviews>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="empty_view"/>
+                    </userDefinedRuntimeAttributes>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="6tj-nY-ep7" userLabel="errorView">
                     <rect key="frame" x="32" y="329" width="350" height="238.5"/>
@@ -75,6 +84,9 @@
                             <state key="normal" title="Button"/>
                         </button>
                     </subviews>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="error_view"/>
+                    </userDefinedRuntimeAttributes>
                 </stackView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NS8-Xy-60j">
                     <rect key="frame" x="0.0" y="102" width="414" height="794"/>
@@ -107,6 +119,9 @@
                         <constraint firstItem="uJ7-gL-7Xo" firstAttribute="leading" secondItem="WSM-Go-Bq9" secondAttribute="trailing" constant="8" id="tNN-VB-Vle"/>
                         <constraint firstItem="WSM-Go-Bq9" firstAttribute="leading" secondItem="xxR-kv-oF4" secondAttribute="leading" constant="12" id="vaZ-sM-so6"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="current_search_view"/>
+                    </userDefinedRuntimeAttributes>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k33-D5-3S0" customClass="AnimationView" customModule="Lottie">
                     <rect key="frame" x="358" y="52" width="34" height="34"/>
@@ -115,6 +130,9 @@
                         <constraint firstAttribute="height" constant="34" id="CNX-B7-gJ2"/>
                         <constraint firstAttribute="width" constant="34" id="pv3-Vy-dSV"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="accessibilityidentifier" value="loading_view"/>
+                    </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>

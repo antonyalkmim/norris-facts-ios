@@ -10,30 +10,37 @@ import XCTest
 
 class NorrisFactsUITests: XCTestCase {
 
+    var app: XCUIApplication!
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
+        app = XCUIApplication()
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        
     }
 
     func testShowEmptyViewWhenFirstAccess() throws {
-        
-        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-env"]
         app.launch()
-//        app.launchArguments = ["-reset", "-with-fake-facts"]
-        // TODO: tratar launchArguments para:
-        // - limpar banco de dados quando passar o arg -reset
-        // - salvar dados no database quando passar o arg -with-fake-facts
         
-        let emptyViewLabel = app.staticTexts["You haven't seen any Chuck Norris facts yet."]
-        XCTAssert(emptyViewLabel.exists)
+        let emptyView = app.otherElements["empty_view"]
+        XCTAssertTrue(emptyView.exists)
+        
+        let emptyViewLabel = app.staticTexts["empty_view_label"]
+        XCTAssertTrue(emptyViewLabel.exists)
+        
+        let emptyViewButton = app.buttons["empty_view_button"]
+        XCTAssertTrue(emptyViewButton.exists)
+        XCTAssertTrue(emptyViewButton.isEnabled)
+    }
+    
+    func testLoad10RandomFacts() throws {
+        app.launchArguments = ["--ui-testing", "--reset-env", "--mock-database"]
+        app.launch()
+        
+        XCTAssertEqual(app.tables.cells.count, 10)
     }
 
 }
