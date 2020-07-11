@@ -18,6 +18,12 @@
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Asset {
+  internal static let closeIcon = ImageAsset(name: "close_icon")
+  internal static let searchBigIcon = ImageAsset(name: "search-big-icon")
+  internal static let searchIcon = ImageAsset(name: "search-icon")
+  internal static let shareIcon = ImageAsset(name: "share_icon")
+  internal static let warning = ImageAsset(name: "warning")
+  internal static let wifiError = ImageAsset(name: "wifi-error")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
 
