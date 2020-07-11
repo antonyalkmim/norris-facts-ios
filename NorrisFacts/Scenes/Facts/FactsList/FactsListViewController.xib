@@ -13,6 +13,7 @@
                 <outlet property="clearSearchButton" destination="WSM-Go-Bq9" id="Gsy-LC-rU7"/>
                 <outlet property="emptyView" destination="701-AP-E51" id="flH-qR-u2b"/>
                 <outlet property="errorActionButton" destination="TRF-nT-CQO" id="shT-cN-ZUb"/>
+                <outlet property="errorImageView" destination="hwG-Oo-9iU" id="qxb-Ck-nuF"/>
                 <outlet property="errorMessageLabel" destination="vct-D4-5RK" id="xw2-TO-qwC"/>
                 <outlet property="errorView" destination="6tj-nY-ep7" id="hO7-S2-cf3"/>
                 <outlet property="loadingView" destination="k33-D5-3S0" id="GrS-QD-gIC"/>
@@ -33,8 +34,8 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="701-AP-E51" userLabel="emptyView">
                     <rect key="frame" x="32" y="329" width="350" height="238.5"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magnifyingglass" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Tf5-Vz-oPQ">
-                            <rect key="frame" x="100" y="1" width="150" height="148"/>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search-big-icon" translatesAutoresizingMaskIntoConstraints="NO" id="Tf5-Vz-oPQ">
+                            <rect key="frame" x="100" y="0.0" width="150" height="150"/>
                             <color key="tintColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="56e-Ib-m9M"/>
@@ -65,8 +66,8 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="6tj-nY-ep7" userLabel="errorView">
                     <rect key="frame" x="32" y="329" width="350" height="238.5"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="exclamationmark.triangle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hwG-Oo-9iU">
-                            <rect key="frame" x="100" y="0.5" width="150" height="148"/>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="warning" translatesAutoresizingMaskIntoConstraints="NO" id="hwG-Oo-9iU">
+                            <rect key="frame" x="100" y="0.0" width="150" height="150"/>
                             <color key="tintColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="BWn-VD-Jjb"/>
@@ -130,9 +131,6 @@
                         <constraint firstAttribute="height" constant="34" id="CNX-B7-gJ2"/>
                         <constraint firstAttribute="width" constant="34" id="pv3-Vy-dSV"/>
                     </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="accessibilityidentifier" value="loading_view"/>
-                    </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
@@ -160,7 +158,7 @@
     </objects>
     <resources>
         <image name="close_icon" width="12" height="12"/>
-        <image name="exclamationmark.triangle.fill" catalog="system" width="128" height="112"/>
-        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="search-big-icon" width="124" height="124"/>
+        <image name="warning" width="142" height="123.5"/>
     </resources>
 </document>

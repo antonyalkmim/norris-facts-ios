@@ -63,6 +63,7 @@
 		FAD3203424B902F10044C83E /* political-facts.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3203324B902F10044C83E /* political-facts.json */; };
 		FAD3203924B91C990044C83E /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3203724B91C990044C83E /* ToastView.swift */; };
 		FAD3203C24B91D670044C83E /* UIColor+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3203B24B91D670044C83E /* UIColor+ext.swift */; };
+		FAD3203E24BA3DC00044C83E /* FactsListErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3203D24BA3DC00044C83E /* FactsListErrorViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +152,7 @@
 		FAD3203324B902F10044C83E /* political-facts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "political-facts.json"; sourceTree = "<group>"; };
 		FAD3203724B91C990044C83E /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		FAD3203B24B91D670044C83E /* UIColor+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+ext.swift"; sourceTree = "<group>"; };
+		FAD3203D24BA3DC00044C83E /* FactsListErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListErrorViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -396,6 +398,7 @@
 				FA1CF61824B3804700409CB0 /* FactsListViewModelTests.swift */,
 				FA1CF63024B41E4500409CB0 /* FactsListViewControllerTests.swift */,
 				FAD3201524B64A6C0044C83E /* FactItemViewModel.swift */,
+				FAD3203D24BA3DC00044C83E /* FactsListErrorViewModelTests.swift */,
 			);
 			path = FactsList;
 			sourceTree = "<group>";
@@ -890,6 +893,7 @@
 			files = (
 				FA1CF63124B41E4500409CB0 /* FactsListViewControllerTests.swift in Sources */,
 				FA1CF64224B5145900409CB0 /* TestHelpers.swift in Sources */,
+				FAD3203E24BA3DC00044C83E /* FactsListErrorViewModelTests.swift in Sources */,
 				FA1CF61924B3804700409CB0 /* FactsListViewModelTests.swift in Sources */,
 				FA1CF62024B3853E00409CB0 /* FactCategoryTests.swift in Sources */,
 				FA1CF63524B4212700409CB0 /* NorrisFactsServiceTests.swift in Sources */,

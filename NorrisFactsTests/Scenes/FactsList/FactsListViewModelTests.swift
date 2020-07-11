@@ -65,15 +65,7 @@ class FactsListViewModelTests: XCTestCase {
         
         // error message
         let errorViewModel = errorObserver.events.compactMap { $0.value.element }.first
-        
-        switch errorViewModel?.factListError {
-        case .syncCategories:
-            XCTAssert(true)
-        default:
-            XCTFail("Error should be FactsListViewModel.FactListError.syncCategories")
-        }
-        
-        XCTAssertEqual(errorViewModel?.factListError.error.code, NetworkError.noInternetConnection.code)
+        XCTAssertEqual(errorViewModel?.errorMessage, L10n.Errors.noInternetConnection)
     }
     
     // TODO: this test should be removed when change the syncCategories to the search form screen

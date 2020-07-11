@@ -45,7 +45,7 @@ class FactsListViewControllerTests: XCTestCase {
         
         XCTAssertFalse(viewController.errorView.isHidden)
         XCTAssertTrue(viewController.emptyView.isHidden)
-        XCTAssertFalse(viewController.errorActionButton.isHidden)
+        XCTAssertTrue(viewController.errorActionButton.isHidden)
         XCTAssertEqual(viewController.errorMessageLabel.text, L10n.Errors.noInternetConnection)
     }
     
