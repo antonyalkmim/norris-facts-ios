@@ -20,6 +20,7 @@ class FactsListViewController: UIViewController {
     @IBOutlet weak var errorView: UIStackView!
     @IBOutlet weak var errorMessageLabel: UILabel!
     @IBOutlet weak var errorActionButton: UIButton!
+    @IBOutlet weak var errorImageView: UIImageView!
     
     @IBOutlet weak var searchFactsButton: UIButton!
     @IBOutlet weak var emptyView: UIStackView!
@@ -167,7 +168,7 @@ extension FactsListViewController {
             .map { _, errorViewModel in errorViewModel }
             .observeOn(MainScheduler.instance)
             .bind { [weak self] errorViewModel in
-                self?.showToast(text: errorViewModel.factListError.localizedDescription)
+                self?.showToast(text: errorViewModel.errorMessage)
             }.disposed(by: disposeBag)
     }
     
@@ -221,22 +222,9 @@ extension FactsListViewController {
     private func bindErrorViewModel(_ errorViewModel: FactListErrorViewModel) {
         errorView.isHidden = false
         emptyView.isHidden = true
-        
-        switch  errorViewModel.factListError {
-        case .syncCategories:
-            errorActionButton.isHidden = false
-        default:
-            errorActionButton.isHidden = true
-        }
-        
-        let error = errorViewModel.factListError.error
-        switch error.code {
-        case NetworkError.noInternetConnection.code:
-            errorMessageLabel.text = L10n.Errors.noInternetConnection
-            errorActionButton.setTitle(L10n.FactsList.retryButton, for: .normal)
-        default:
-            errorMessageLabel.text = L10n.Errors.unknow
-        }
+        errorActionButton.isHidden = !errorViewModel.isRetryEnabled
+        errorMessageLabel.text = errorViewModel.errorMessage
+        errorImageView.image = errorViewModel.iconImage
         
     }
 }
