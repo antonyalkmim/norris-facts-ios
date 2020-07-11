@@ -165,8 +165,9 @@ extension FactsListViewController {
             .combineLatest(isFactListEmpty, errorViewModel )
             .filter { isListEmpty, _  in !isListEmpty } // list not empty
             .map { _, errorViewModel in errorViewModel }
-            .bind {
-                print("Show toast for \($0.factListError.localizedDescription)")
+            .observeOn(MainScheduler.instance)
+            .bind { [weak self] errorViewModel in
+                self?.showToast(text: errorViewModel.factListError.localizedDescription)
             }.disposed(by: disposeBag)
     }
     

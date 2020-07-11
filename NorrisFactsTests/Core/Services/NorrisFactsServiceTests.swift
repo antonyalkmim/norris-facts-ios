@@ -58,7 +58,7 @@ class NorrisFactsServiceTests: XCTestCase {
             .subscribe()
             .disposed(by: disposeBag)
         
-        currentCategories = try storageMock.getCategories().toBlocking().first() ?? []
+        currentCategories = try storageMock.getCategories().toBlocking(timeout: 1).first() ?? []
         XCTAssertEqual(currentCategories.count, 3)
     }
     
