@@ -48,7 +48,9 @@ class NorrisFactsServiceTests: XCTestCase {
     
     func testSyncCategories() throws {
         
-        var currentCategories = try storageMock.getCategories().toBlocking().first() ?? []
+        var currentCategories = try storageMock.getCategories()
+            .toBlocking(timeout: executionTimeAllowance)
+            .first() ?? []
         XCTAssertTrue(currentCategories.isEmpty)
         
         let jsonData = "[\"develop\", \"political\", \"tecnology\"]".data(using: .utf8)!
@@ -58,7 +60,9 @@ class NorrisFactsServiceTests: XCTestCase {
             .subscribe()
             .disposed(by: disposeBag)
         
-        currentCategories = try storageMock.getCategories().toBlocking(timeout: 1).first() ?? []
+        currentCategories = try storageMock.getCategories()
+            .toBlocking(timeout: executionTimeAllowance)
+            .first() ?? []
         XCTAssertEqual(currentCategories.count, 3)
     }
     
@@ -89,7 +93,8 @@ class NorrisFactsServiceTests: XCTestCase {
         
         // assert the database is empty
         var currentFacts = try storageMock.getFacts(searchTerm: searchTerm)
-            .toBlocking().first() ?? []
+            .toBlocking(timeout: executionTimeAllowance)
+            .first() ?? []
         XCTAssertTrue(currentFacts.isEmpty)
         
         service.searchFacts(searchTerm: searchTerm)
@@ -98,7 +103,8 @@ class NorrisFactsServiceTests: XCTestCase {
         
         // assert that facts were saved
         currentFacts = try storageMock.getFacts(searchTerm: searchTerm)
-            .toBlocking().first() ?? []
+            .toBlocking(timeout: executionTimeAllowance)
+            .first() ?? []
         XCTAssertFalse(currentFacts.isEmpty)
     }
     
@@ -125,7 +131,9 @@ class NorrisFactsServiceTests: XCTestCase {
         
         scheduler.start()
         
-        let allFacts = try storageMock.getFacts(searchTerm: "").toBlocking().first() ?? []
+        let allFacts = try storageMock.getFacts(searchTerm: "")
+            .toBlocking(timeout: executionTimeAllowance)
+            .first() ?? []
         XCTAssertEqual(allFacts.count, 14)
         
         let facts = factsObserver.events.compactMap { $0.value.element }.first
