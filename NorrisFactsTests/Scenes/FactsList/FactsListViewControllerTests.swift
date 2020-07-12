@@ -49,18 +49,36 @@ class FactsListViewControllerTests: XCTestCase {
         XCTAssertEqual(viewController.errorMessageLabel.text, L10n.Errors.noInternetConnection)
     }
     
-    func testEmptyState() {
+    func testEmptyStateForEmptySearchTerm() {
         let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
             
+        // show empty state
         factsServiceMocked.getFactsResult[""] = .just([])
         viewModel.inputs.viewDidAppear.onNext(())
         XCTAssertFalse(viewController.emptyView.isHidden)
         XCTAssertTrue(viewController.tableView.isHidden)
+        XCTAssertEqual(viewController.emptyMessageLabel.text, L10n.FactsList.emptyMessage)
+        XCTAssertEqual(viewController.emptyImageView.image, Asset.searchBigIcon.image)
         
+        // hide empty state
         factsServiceMocked.getFactsResult[""] = .just(factsToTest)
-        viewModel.inputs.viewDidAppear.onNext(())
+        viewModel.inputs.setCurrentSearchTerm.onNext("")
         XCTAssertTrue(viewController.emptyView.isHidden)
         XCTAssertFalse(viewController.tableView.isHidden)
+
+    }
+    
+    func testEmptyStateWhenFilteringSearchTerm() {
+        
+        factsServiceMocked.getFactsResult["something"] = .just([])
+        
+        viewModel.inputs.viewDidAppear.onNext(())
+        viewModel.inputs.setCurrentSearchTerm.onNext("something")
+        
+        XCTAssertFalse(viewController.emptyView.isHidden)
+        XCTAssertTrue(viewController.tableView.isHidden)
+        XCTAssertEqual(viewController.emptyMessageLabel.text, L10n.FactsList.emptySearchMessage)
+        XCTAssertEqual(viewController.emptyImageView.image, Asset.warning.image)
     }
     
     func testFactCellFontSizeWithShortText() {

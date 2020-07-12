@@ -13,6 +13,10 @@ import Foundation
 internal enum L10n {
 
   internal enum FactsList {
+    /// You haven't seen any Chuck Norris facts yet.
+    internal static let emptyMessage = L10n.tr("Localizable", "FactsList.emptyMessage")
+    /// No one fact found.
+    internal static let emptySearchMessage = L10n.tr("Localizable", "FactsList.emptySearchMessage")
     /// Try again
     internal static let retryButton = L10n.tr("Localizable", "FactsList.retryButton")
     /// Norris Facts

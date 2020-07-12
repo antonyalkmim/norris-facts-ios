@@ -9,6 +9,8 @@
 "FactsList.title" = "Norris Facts";
 "FactsList.retryButton" = "Try again";
 "FactsList.uncategorized" = "Uncategorized";
+"FactsList.emptyMessage" = "You haven't seen any Chuck Norris facts yet.";
+"FactsList.emptySearchMessage" = "No one fact found.";
 
 
 "errors.noInternetConnection" = "There is no internet connection. Please turn on your Wi-fi or 4G.";
