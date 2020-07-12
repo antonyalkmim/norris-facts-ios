@@ -47,7 +47,6 @@ class SearchFactViewController: UIViewController {
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.enablesReturnKeyAutomatically = true
         searchController.searchBar.returnKeyType = .search
-        
     }
     
     private func bindViewModel() {
