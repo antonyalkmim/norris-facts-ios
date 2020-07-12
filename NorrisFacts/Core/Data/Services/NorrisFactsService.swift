@@ -14,6 +14,9 @@ protocol NorrisFactsServiceType {
     /// get categories if there is no one on local database
     func syncFactsCategories() -> Single<Void>
     
+    /// get facts categories saved on local database
+    func getFactCategories() -> Observable<[FactCategory]>
+    
     /// get facts saved on local database filtering by searchTerm
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]>
     
@@ -51,6 +54,10 @@ class NorrisFactsService: NorrisFactsServiceType {
                 $0.isEmpty ? syncCategories : .just(())
             }
             .asSingle()
+    }
+    
+    func getFactCategories() -> Observable<[FactCategory]> {
+        storage.getCategories()
     }
     
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]> {

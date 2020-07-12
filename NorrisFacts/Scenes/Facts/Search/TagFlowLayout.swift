@@ -31,7 +31,7 @@ class TagFlowLayout: UICollectionViewFlowLayout {
                 attributes.frame = newLeftAlignedFrame
             }
             // calculate new value for current margin
-            leftMargin += attributes.frame.size.width + 4
+            leftMargin += attributes.frame.size.width + 2
             newAttributesForElementsInRect.append(attributes)
         }
         

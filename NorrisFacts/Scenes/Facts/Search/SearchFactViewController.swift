@@ -88,7 +88,9 @@ class SearchFactViewController: UIViewController {
         
         // suggestions collectionView
         let tagFlowLayout = TagFlowLayout()
-        tagFlowLayout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        tagFlowLayout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        tagFlowLayout.minimumLineSpacing = 4
+        
         tagsCollectionView.collectionViewLayout = tagFlowLayout
         tagsCollectionView.delegate = self
         tagsCollectionView.registerCellWithNib(TagCell.self)
@@ -99,6 +101,10 @@ class SearchFactViewController: UIViewController {
         guard let viewModel = viewModel else { return }
         
         // Inputs
+        
+        rx.viewWillAppear
+            .bind(to: viewModel.inputs.viewWillAppear)
+            .disposed(by: disposeBag)
         
         searchController.searchBar.rx.text
             .compactMap { $0 }
@@ -123,7 +129,8 @@ class SearchFactViewController: UIViewController {
         
         // suggestions tags
         viewModel.outputs.suggestions
-            .bind(to: tagsCollectionView.rx.items(dataSource: suggestionsDataSource))
+            .asDriver(onErrorJustReturn: [])
+            .drive(tagsCollectionView.rx.items(dataSource: suggestionsDataSource))
             .disposed(by: disposeBag)
         
         let itemSelected = tagsCollectionView.rx.modelSelected(String.self).share()
