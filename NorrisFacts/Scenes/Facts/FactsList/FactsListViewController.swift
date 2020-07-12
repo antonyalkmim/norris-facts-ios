@@ -38,10 +38,11 @@ class FactsListViewController: UIViewController {
     
     @IBOutlet weak var loadingView: AnimationView!
     
-    let searchBarButtonItem = UIBarButtonItem.init(image: Asset.searchIcon.image,
-                                                   style: .plain,
-                                                   target: nil,
-                                                   action: nil)
+    lazy var searchBarButtonItem: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: Asset.searchIcon.image, style: .plain, target: nil, action: nil)
+        button.accessibilityIdentifier = "search_bar_button_item"
+        return button
+    }()
     
     init(viewModel: FactsListViewModelType) {
         self.viewModel = viewModel
@@ -60,16 +61,22 @@ class FactsListViewController: UIViewController {
     
     private func setupViews() {
         title = L10n.FactsList.title
+        
+        // navigationBar
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = searchBarButtonItem
         
+        // retry button
         errorActionButton.setTitle(L10n.FactsList.retryButton, for: .normal)
         
+        // current searchTerm view
         searchTermView.layer.cornerRadius = 16
         
+        // loading animation
         loadingView.animation = Animation.named("loading-blue")
         loadingView.loopMode = .loop
         
+        // tableView
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
@@ -237,6 +244,5 @@ extension FactsListViewController {
         errorActionButton.isHidden = !errorViewModel.isRetryEnabled
         errorMessageLabel.text = errorViewModel.errorMessage
         errorImageView.image = errorViewModel.iconImage
-        
     }
 }

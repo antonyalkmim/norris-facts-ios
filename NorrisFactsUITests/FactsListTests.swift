@@ -8,7 +8,7 @@
 
 import XCTest
 
-class NorrisFactsUITests: XCTestCase {
+class FactsListTests: XCTestCase {
 
     var app: XCUIApplication!
     
@@ -17,13 +17,12 @@ class NorrisFactsUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    override func tearDownWithError() throws {
-        
-    }
-
     func testShowEmptyViewWhenFirstAccess() throws {
         app.launchArguments = ["--ui-testing", "--reset-env"]
         app.launch()
+        
+        let searchBarButtonItem = app.navigationBars.buttons["search_bar_button_item"]
+        XCTAssertTrue(searchBarButtonItem.exists)
         
         let emptyView = app.otherElements["empty_view"]
         XCTAssertTrue(emptyView.exists)

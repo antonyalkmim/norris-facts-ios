@@ -13,7 +13,7 @@
 		FA1CF5AA24B0EBBB00409CB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5A924B0EBBB00409CB0 /* AppDelegate.swift */; };
 		FA1CF5B324B0EBBD00409CB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA1CF5B224B0EBBD00409CB0 /* Assets.xcassets */; };
 		FA1CF5B624B0EBBD00409CB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA1CF5B424B0EBBD00409CB0 /* LaunchScreen.storyboard */; };
-		FA1CF5CC24B0EBBD00409CB0 /* NorrisFactsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5CB24B0EBBD00409CB0 /* NorrisFactsUITests.swift */; };
+		FA1CF5CC24B0EBBD00409CB0 /* FactsListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5CB24B0EBBD00409CB0 /* FactsListTests.swift */; };
 		FA1CF5DD24B110F900409CB0 /* AppCoodinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5DC24B110F900409CB0 /* AppCoodinator.swift */; };
 		FA1CF5E024B1127C00409CB0 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5DF24B1127C00409CB0 /* Coordinator.swift */; };
 		FA1CF5E324B1169700409CB0 /* FactsListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF5E224B1169700409CB0 /* FactsListCoordinator.swift */; };
@@ -64,6 +64,12 @@
 		FAD3203924B91C990044C83E /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3203724B91C990044C83E /* ToastView.swift */; };
 		FAD3203C24B91D670044C83E /* UIColor+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3203B24B91D670044C83E /* UIColor+ext.swift */; };
 		FAD3203E24BA3DC00044C83E /* FactsListErrorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3203D24BA3DC00044C83E /* FactsListErrorViewModelTests.swift */; };
+		FAD3204124BA5AFE0044C83E /* SearchFactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3204024BA5AFE0044C83E /* SearchFactViewModel.swift */; };
+		FAD3204324BA5B0A0044C83E /* SearchFactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3204224BA5B0A0044C83E /* SearchFactCoordinator.swift */; };
+		FAD3204624BA5B190044C83E /* SearchFactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3204424BA5B190044C83E /* SearchFactViewController.swift */; };
+		FAD3204724BA5B190044C83E /* SearchFactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAD3204524BA5B190044C83E /* SearchFactViewController.xib */; };
+		FAD3204A24BAD3210044C83E /* SearchFactViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3204924BAD3210044C83E /* SearchFactViewModelTests.swift */; };
+		FAD3204C24BAD6A20044C83E /* SearchFactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3204B24BAD6A20044C83E /* SearchFactsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,7 +107,7 @@
 		FA1CF5BC24B0EBBD00409CB0 /* NorrisFactsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NorrisFactsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA1CF5C224B0EBBD00409CB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA1CF5C724B0EBBD00409CB0 /* NorrisFactsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NorrisFactsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FA1CF5CB24B0EBBD00409CB0 /* NorrisFactsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactsUITests.swift; sourceTree = "<group>"; };
+		FA1CF5CB24B0EBBD00409CB0 /* FactsListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListTests.swift; sourceTree = "<group>"; };
 		FA1CF5CD24B0EBBD00409CB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA1CF5DC24B110F900409CB0 /* AppCoodinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoodinator.swift; sourceTree = "<group>"; };
 		FA1CF5DF24B1127C00409CB0 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -153,6 +159,12 @@
 		FAD3203724B91C990044C83E /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		FAD3203B24B91D670044C83E /* UIColor+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+ext.swift"; sourceTree = "<group>"; };
 		FAD3203D24BA3DC00044C83E /* FactsListErrorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsListErrorViewModelTests.swift; sourceTree = "<group>"; };
+		FAD3204024BA5AFE0044C83E /* SearchFactViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactViewModel.swift; sourceTree = "<group>"; };
+		FAD3204224BA5B0A0044C83E /* SearchFactCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactCoordinator.swift; sourceTree = "<group>"; };
+		FAD3204424BA5B190044C83E /* SearchFactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactViewController.swift; sourceTree = "<group>"; };
+		FAD3204524BA5B190044C83E /* SearchFactViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchFactViewController.xib; sourceTree = "<group>"; };
+		FAD3204924BAD3210044C83E /* SearchFactViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactViewModelTests.swift; sourceTree = "<group>"; };
+		FAD3204B24BAD6A20044C83E /* SearchFactsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactsTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,7 +269,8 @@
 		FA1CF5CA24B0EBBD00409CB0 /* NorrisFactsUITests */ = {
 			isa = PBXGroup;
 			children = (
-				FA1CF5CB24B0EBBD00409CB0 /* NorrisFactsUITests.swift */,
+				FA1CF5CB24B0EBBD00409CB0 /* FactsListTests.swift */,
+				FAD3204B24BAD6A20044C83E /* SearchFactsTests.swift */,
 				FA1CF5CD24B0EBBD00409CB0 /* Info.plist */,
 			);
 			path = NorrisFactsUITests;
@@ -331,6 +344,7 @@
 		FA1CF5F524B126AD00409CB0 /* Facts */ = {
 			isa = PBXGroup;
 			children = (
+				FAD3203F24BA5AC50044C83E /* Search */,
 				FA1CF5E124B1164600409CB0 /* FactsList */,
 			);
 			path = Facts;
@@ -386,6 +400,7 @@
 		FA1CF61624B3802000409CB0 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				FAD3204824BAD30A0044C83E /* SearchFact */,
 				FA1CF61724B3802D00409CB0 /* FactsList */,
 			);
 			path = Scenes;
@@ -546,6 +561,25 @@
 			path = Toast;
 			sourceTree = "<group>";
 		};
+		FAD3203F24BA5AC50044C83E /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				FAD3204224BA5B0A0044C83E /* SearchFactCoordinator.swift */,
+				FAD3204024BA5AFE0044C83E /* SearchFactViewModel.swift */,
+				FAD3204424BA5B190044C83E /* SearchFactViewController.swift */,
+				FAD3204524BA5B190044C83E /* SearchFactViewController.xib */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		FAD3204824BAD30A0044C83E /* SearchFact */ = {
+			isa = PBXGroup;
+			children = (
+				FAD3204924BAD3210044C83E /* SearchFactViewModelTests.swift */,
+			);
+			path = SearchFact;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -665,6 +699,7 @@
 				FAD3203224B902AE0044C83E /* sport-facts.json in Resources */,
 				FA1CF5B624B0EBBD00409CB0 /* LaunchScreen.storyboard in Resources */,
 				FA1CF64D24B62B3A00409CB0 /* FactTableViewCell.xib in Resources */,
+				FAD3204724BA5B190044C83E /* SearchFactViewController.xib in Resources */,
 				FA1CF5B324B0EBBD00409CB0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -850,6 +885,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAD3204124BA5AFE0044C83E /* SearchFactViewModel.swift in Sources */,
 				FA1CF62324B3895000409CB0 /* RxSwift+Ext.swift in Sources */,
 				FA1CF5FF24B1283500409CB0 /* Codable+ext.swift in Sources */,
 				FA1CF5DD24B110F900409CB0 /* AppCoodinator.swift in Sources */,
@@ -859,6 +895,7 @@
 				FA1CF64924B629FC00409CB0 /* UITableView+ext.swift in Sources */,
 				FAD3203924B91C990044C83E /* ToastView.swift in Sources */,
 				FA1CF5AA24B0EBBB00409CB0 /* AppDelegate.swift in Sources */,
+				FAD3204324BA5B0A0044C83E /* SearchFactCoordinator.swift in Sources */,
 				FAD3203C24B91D670044C83E /* UIColor+ext.swift in Sources */,
 				FA1CF60124B128C700409CB0 /* NorrisFactsService.swift in Sources */,
 				FA1CF62924B3D41F00409CB0 /* RMFactCategory.swift in Sources */,
@@ -872,6 +909,7 @@
 				FA1CF60724B12EF500409CB0 /* Assets.swift in Sources */,
 				FA1CF63D24B4D61100409CB0 /* NorrisFact.swift in Sources */,
 				FA1CF62B24B408D000409CB0 /* UIViewController+Rx.swift in Sources */,
+				FAD3204624BA5B190044C83E /* SearchFactViewController.swift in Sources */,
 				FA1CF5F124B1245000409CB0 /* Reachability.swift in Sources */,
 				FA1CF61324B37D2200409CB0 /* FactsListViewModel.swift in Sources */,
 				FA1CF64724B5285300409CB0 /* DateFormatter+ext.swift in Sources */,
@@ -895,6 +933,7 @@
 				FA1CF64224B5145900409CB0 /* TestHelpers.swift in Sources */,
 				FAD3203E24BA3DC00044C83E /* FactsListErrorViewModelTests.swift in Sources */,
 				FA1CF61924B3804700409CB0 /* FactsListViewModelTests.swift in Sources */,
+				FAD3204A24BAD3210044C83E /* SearchFactViewModelTests.swift in Sources */,
 				FA1CF62024B3853E00409CB0 /* FactCategoryTests.swift in Sources */,
 				FA1CF63524B4212700409CB0 /* NorrisFactsServiceTests.swift in Sources */,
 				FAD3201624B64A6C0044C83E /* FactItemViewModel.swift in Sources */,
@@ -905,7 +944,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA1CF5CC24B0EBBD00409CB0 /* NorrisFactsUITests.swift in Sources */,
+				FA1CF5CC24B0EBBD00409CB0 /* FactsListTests.swift in Sources */,
+				FAD3204C24BAD6A20044C83E /* SearchFactsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

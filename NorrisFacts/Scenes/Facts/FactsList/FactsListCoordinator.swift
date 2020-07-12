@@ -26,7 +26,7 @@ class FactsListCoordinator: Coordinator<Void> {
         viewModel.outputs.showSearchFactForm
             .flatMap { [weak self] _ -> Observable<String?> in
                 guard let `self` = self else { return .empty() }
-                return self.showSearchForm()
+                return self.showSearchForm(on: factsListViewController)
             }
             .filter { $0 != nil }
             .compactMap { $0 }
@@ -39,8 +39,17 @@ class FactsListCoordinator: Coordinator<Void> {
         return .never()
     }
     
-    private func showSearchForm() -> Observable<String?> {
-        .just("political")
+    private func showSearchForm(on rootViewController: UIViewController) -> Observable<String?> {
+        let searchCoordinator = SearchFactCoordinator(rootViewController: rootViewController)
+        return coordinate(to: searchCoordinator)
+            .map { result in
+                switch result {
+                case .searchTerm(let term):
+                    return term
+                case .cancel:
+                    return nil
+                }
+            }
     }
 
 }
