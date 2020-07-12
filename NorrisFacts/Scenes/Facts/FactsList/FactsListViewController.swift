@@ -24,6 +24,8 @@ class FactsListViewController: UIViewController {
     
     @IBOutlet weak var searchFactsButton: UIButton!
     @IBOutlet weak var emptyView: UIStackView!
+    @IBOutlet weak var emptyImageView: UIImageView!
+    @IBOutlet weak var emptyMessageLabel: UILabel!
     
     @IBOutlet weak var searchTermView: UIView!
     @IBOutlet weak var searchTermLabel: UILabel!
@@ -114,7 +116,9 @@ extension FactsListViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.outputs.currentSearchTerm
+        let currentSearchTerm = viewModel.outputs.currentSearchTerm.share()
+        
+        currentSearchTerm
             .asDriver(onErrorJustReturn: "")
             .drive(onNext: { [weak self] currentTerm in
                 self?.bindCurrentSearchTerm(currentTerm)
@@ -142,10 +146,11 @@ extension FactsListViewController {
             .share()
         
         // show empty state
-        isFactListEmpty
-            .asDriver(onErrorJustReturn: false)
-            .drive(onNext: { [weak self] isEmpty in
-                self?.showEmptyState(isEmpty)
+        Observable
+            .combineLatest(isFactListEmpty, currentSearchTerm.startWith(""))
+            .asDriver(onErrorJustReturn: (true, ""))
+            .drive(onNext: { [weak self] isEmpty, currentTerm in
+                self?.showEmptyState(isEmpty, isCurrentTermEmpty: currentTerm.isEmpty)
             })
             .disposed(by: disposeBag)
         
@@ -172,10 +177,19 @@ extension FactsListViewController {
             }.disposed(by: disposeBag)
     }
     
-    private func showEmptyState(_ isEmptyState: Bool) {
+    private func showEmptyState(_ isEmptyState: Bool, isCurrentTermEmpty: Bool) {
+        
         emptyView.isHidden = !isEmptyState
         errorView.isHidden = isEmptyState
         tableView.isHidden = isEmptyState
+        
+        if isCurrentTermEmpty {
+            emptyImageView.image = Asset.searchBigIcon.image
+            emptyMessageLabel.text = L10n.FactsList.emptyMessage
+        } else {
+            emptyImageView.image = Asset.warning.image
+            emptyMessageLabel.text = L10n.FactsList.emptySearchMessage
+        }
     }
     
     private func showLoading(_ isLoading: Bool) {
@@ -183,8 +197,6 @@ extension FactsListViewController {
         
         if isLoading {
             errorView.isHidden = true
-            emptyView.isHidden = true
-            
             loadingView.play()
         } else {
             loadingView.stop()

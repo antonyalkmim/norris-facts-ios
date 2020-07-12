@@ -11,6 +11,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FactsListViewController" customModule="NorrisFacts" customModuleProvider="target">
             <connections>
                 <outlet property="clearSearchButton" destination="WSM-Go-Bq9" id="Gsy-LC-rU7"/>
+                <outlet property="emptyImageView" destination="Tf5-Vz-oPQ" id="z65-cm-Wys"/>
+                <outlet property="emptyMessageLabel" destination="yoo-9m-1cl" id="vjb-SH-RuX"/>
                 <outlet property="emptyView" destination="701-AP-E51" id="flH-qR-u2b"/>
                 <outlet property="errorActionButton" destination="TRF-nT-CQO" id="shT-cN-ZUb"/>
                 <outlet property="errorImageView" destination="hwG-Oo-9iU" id="qxb-Ck-nuF"/>
