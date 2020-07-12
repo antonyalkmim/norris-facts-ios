@@ -70,6 +70,10 @@
 		FAD3204724BA5B190044C83E /* SearchFactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAD3204524BA5B190044C83E /* SearchFactViewController.xib */; };
 		FAD3204A24BAD3210044C83E /* SearchFactViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3204924BAD3210044C83E /* SearchFactViewModelTests.swift */; };
 		FAD3204C24BAD6A20044C83E /* SearchFactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3204B24BAD6A20044C83E /* SearchFactsTests.swift */; };
+		FAD3205024BB8C7C0044C83E /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3204E24BB8C7C0044C83E /* TagCell.swift */; };
+		FAD3205124BB8C7C0044C83E /* TagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAD3204F24BB8C7C0044C83E /* TagCell.xib */; };
+		FAD3205324BB8FE70044C83E /* TagFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3205224BB8FE70044C83E /* TagFlowLayout.swift */; };
+		FAD3205B24BBB4460044C83E /* UICollectionView+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3205A24BBB4460044C83E /* UICollectionView+ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,6 +169,10 @@
 		FAD3204524BA5B190044C83E /* SearchFactViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchFactViewController.xib; sourceTree = "<group>"; };
 		FAD3204924BAD3210044C83E /* SearchFactViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactViewModelTests.swift; sourceTree = "<group>"; };
 		FAD3204B24BAD6A20044C83E /* SearchFactsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactsTests.swift; sourceTree = "<group>"; };
+		FAD3204E24BB8C7C0044C83E /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
+		FAD3204F24BB8C7C0044C83E /* TagCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagCell.xib; sourceTree = "<group>"; };
+		FAD3205224BB8FE70044C83E /* TagFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFlowLayout.swift; sourceTree = "<group>"; };
+		FAD3205A24BBB4460044C83E /* UICollectionView+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -453,6 +461,7 @@
 				FA1CF64824B629FC00409CB0 /* UITableView+ext.swift */,
 				FAD3202E24B902190044C83E /* Stubs.swift */,
 				FAD3203B24B91D670044C83E /* UIColor+ext.swift */,
+				FAD3205A24BBB4460044C83E /* UICollectionView+ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -564,6 +573,8 @@
 		FAD3203F24BA5AC50044C83E /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				FAD3204D24BB8C5A0044C83E /* TagCell */,
+				FAD3205224BB8FE70044C83E /* TagFlowLayout.swift */,
 				FAD3204224BA5B0A0044C83E /* SearchFactCoordinator.swift */,
 				FAD3204024BA5AFE0044C83E /* SearchFactViewModel.swift */,
 				FAD3204424BA5B190044C83E /* SearchFactViewController.swift */,
@@ -578,6 +589,15 @@
 				FAD3204924BAD3210044C83E /* SearchFactViewModelTests.swift */,
 			);
 			path = SearchFact;
+			sourceTree = "<group>";
+		};
+		FAD3204D24BB8C5A0044C83E /* TagCell */ = {
+			isa = PBXGroup;
+			children = (
+				FAD3204E24BB8C7C0044C83E /* TagCell.swift */,
+				FAD3204F24BB8C7C0044C83E /* TagCell.xib */,
+			);
+			path = TagCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -698,6 +718,7 @@
 				FAD3203424B902F10044C83E /* political-facts.json in Resources */,
 				FAD3203224B902AE0044C83E /* sport-facts.json in Resources */,
 				FA1CF5B624B0EBBD00409CB0 /* LaunchScreen.storyboard in Resources */,
+				FAD3205124BB8C7C0044C83E /* TagCell.xib in Resources */,
 				FA1CF64D24B62B3A00409CB0 /* FactTableViewCell.xib in Resources */,
 				FAD3204724BA5B190044C83E /* SearchFactViewController.xib in Resources */,
 				FA1CF5B324B0EBBD00409CB0 /* Assets.xcassets in Resources */,
@@ -905,14 +926,17 @@
 				FAD3201E24B8229E0044C83E /* RMSearch.swift in Sources */,
 				FA1CF60924B12EFD00409CB0 /* Strings.swift in Sources */,
 				FA1CF5E624B1181D00409CB0 /* FactsListViewController.swift in Sources */,
+				FAD3205324BB8FE70044C83E /* TagFlowLayout.swift in Sources */,
 				FA1CF5E024B1127C00409CB0 /* Coordinator.swift in Sources */,
 				FA1CF60724B12EF500409CB0 /* Assets.swift in Sources */,
+				FAD3205024BB8C7C0044C83E /* TagCell.swift in Sources */,
 				FA1CF63D24B4D61100409CB0 /* NorrisFact.swift in Sources */,
 				FA1CF62B24B408D000409CB0 /* UIViewController+Rx.swift in Sources */,
 				FAD3204624BA5B190044C83E /* SearchFactViewController.swift in Sources */,
 				FA1CF5F124B1245000409CB0 /* Reachability.swift in Sources */,
 				FA1CF61324B37D2200409CB0 /* FactsListViewModel.swift in Sources */,
 				FA1CF64724B5285300409CB0 /* DateFormatter+ext.swift in Sources */,
+				FAD3205B24BBB4460044C83E /* UICollectionView+ext.swift in Sources */,
 				FA1CF5EC24B1235400409CB0 /* HttpService.swift in Sources */,
 				FA1CF5F424B124CC00409CB0 /* NorrisFactsError.swift in Sources */,
 				FA1CF63F24B4F86300409CB0 /* RMNorrisFact.swift in Sources */,
