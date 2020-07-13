@@ -21,7 +21,9 @@ class SearchFactViewController: UIViewController {
     
     @IBOutlet weak var tagsCollectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
-    var sizingCell: TagCell?
+    
+    /// cell to calculate the tag size for flow layout `sizeForItemAt` method
+    var sizingCell: TagCell? = Bundle.main.loadNibNamed("TagCell", owner: self, options: nil)![0] as? TagCell
     
     let cancelBarButtonItem = UIBarButtonItem(title: L10n.SearchFacts.cancel, style: .plain, target: nil, action: nil)
     
@@ -148,7 +150,6 @@ class SearchFactViewController: UIViewController {
 
 extension SearchFactViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        sizingCell = Bundle.main.loadNibNamed("TagCell", owner: self, options: nil)![0] as? TagCell
         let item = suggestionsDataSource.sectionModels[indexPath.section].items[indexPath.row]
         sizingCell?.setup(title: item)
         sizingCell?.layoutIfNeeded()

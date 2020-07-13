@@ -66,6 +66,22 @@ class NorrisFactsServiceTests: XCTestCase {
         XCTAssertEqual(currentCategories.count, 3)
     }
     
+    func testGetCategories() throws {
+        
+        var currentCategories = try storageMock.getCategories()
+            .toBlocking(timeout: executionTimeAllowance)
+            .first() ?? []
+        XCTAssertTrue(currentCategories.isEmpty)
+        
+        let testCategories = stub("get-categories", type: [FactCategory].self) ?? []
+        storageMock.saveCategories(testCategories)
+        
+        currentCategories = try storageMock.getCategories()
+            .toBlocking()
+            .first() ?? []
+        XCTAssertEqual(currentCategories.count, testCategories.count)
+    }
+    
     func testGetFacts() throws {
         
         let scheduler = TestScheduler(initialClock: 0)
