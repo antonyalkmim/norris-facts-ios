@@ -36,7 +36,7 @@ class SearchFactsTests: XCTestCase {
         // 4 - assert results
         
         // facts filtered by search term
-        XCTAssertEqual(app.tables.cells.count, 4)
+        XCTAssertEqual(app.tables["facts_table_view"].cells.count, 4)
         
         // current search label
         let currentSearchTermView = app.otherElements["current_search_view"]
@@ -51,11 +51,11 @@ class SearchFactsTests: XCTestCase {
         clearSearchButton.tap()
         
         // facts without search term
-        XCTAssertEqual(app.tables.cells.count, 10)
+        XCTAssertEqual(app.tables["facts_table_view"].cells.count, 10)
     }
     
     func testSearchFactsTappingInSuggestions() {
-        app.launchArguments = ["--ui-testing", "--reset-env", "--mock-api-requests"]
+        app.launchArguments = ["--ui-testing", "--reset-env", "--mock-database", "--mock-api-requests"]
         app.launch()
         
         // 1 - tap search button
@@ -72,7 +72,7 @@ class SearchFactsTests: XCTestCase {
         // 4 - assert results
         
         // facts filtered by search term
-        XCTAssertEqual(app.tables.cells.count, 4)
+        XCTAssertEqual(app.tables["facts_table_view"].cells.count, 4)
         
         // current search label
         let currentSearchTermView = app.otherElements["current_search_view"]
@@ -87,7 +87,7 @@ class SearchFactsTests: XCTestCase {
         clearSearchButton.tap()
         
         // facts without search term
-        XCTAssertEqual(app.tables.cells.count, 4)
+        XCTAssertEqual(app.tables["facts_table_view"].cells.count, 10)
     }
 
 }
