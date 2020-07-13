@@ -38,21 +38,21 @@ class NorrisFactsService: NorrisFactsServiceType {
     }
     
     func syncFactsCategories() -> Single<Void> {
-        let syncCategories = api.rx.request(.getCategories)
-            .map([FactCategory].self)
-            .observeOn(MainScheduler.instance)
-            .flatMap { [weak self] remoteCategories -> Single<Void> in
-                guard let `self` = self else { return .never() }
-                self.storage.saveCategories(remoteCategories)
-                return .just(())
+        storage.getCategories()
+            .flatMapLatest { [weak self] categories -> Single<[FactCategory]> in
+                guard let `self` = self else { return Single.never() }
+                guard categories.isEmpty else { return .just([]) }
+                
+                return self.api.rx.request(.getCategories)
+                    .map([FactCategory].self)
+                    .observeOn(MainScheduler.instance)
+                    .do(onSuccess: { [weak self] remoteCategories in
+                        guard let `self` = self else { return }
+                        self.storage.saveCategories(remoteCategories)
+                    })
+                
             }
-
-        return storage.getCategories()
-            .filter { $0.isEmpty }
-            .asObservable()
-            .flatMap {
-                $0.isEmpty ? syncCategories : .just(())
-            }
+            .mapToVoid()
             .asSingle()
     }
     

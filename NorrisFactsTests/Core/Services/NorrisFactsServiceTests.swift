@@ -49,7 +49,7 @@ class NorrisFactsServiceTests: XCTestCase {
     func testSyncCategories() throws {
         
         var currentCategories = try storageMock.getCategories()
-            .toBlocking(timeout: executionTimeAllowance)
+            .toBlocking()
             .first() ?? []
         XCTAssertTrue(currentCategories.isEmpty)
         
@@ -57,11 +57,12 @@ class NorrisFactsServiceTests: XCTestCase {
         apiMock.responseResult = .success(jsonData)
         
         service.syncFactsCategories()
+            .observeOn(MainScheduler.instance)
             .subscribe()
             .disposed(by: disposeBag)
         
         currentCategories = try storageMock.getCategories()
-            .toBlocking(timeout: executionTimeAllowance)
+            .toBlocking()
             .first() ?? []
         XCTAssertEqual(currentCategories.count, 3)
     }
@@ -69,7 +70,7 @@ class NorrisFactsServiceTests: XCTestCase {
     func testGetCategories() throws {
         
         var currentCategories = try storageMock.getCategories()
-            .toBlocking(timeout: executionTimeAllowance)
+            .toBlocking()
             .first() ?? []
         XCTAssertTrue(currentCategories.isEmpty)
         
@@ -114,6 +115,7 @@ class NorrisFactsServiceTests: XCTestCase {
         XCTAssertTrue(currentFacts.isEmpty)
         
         service.searchFacts(searchTerm: searchTerm)
+            .observeOn(MainScheduler.asyncInstance)
             .subscribe()
             .disposed(by: disposeBag)
         
