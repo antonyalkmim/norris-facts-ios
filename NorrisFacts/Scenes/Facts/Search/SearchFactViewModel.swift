@@ -8,10 +8,14 @@
 
 import Foundation
 import RxSwift
+import RxDataSources
+
+typealias SuggestionsSectionViewModel = SectionModel<String, String>
+typealias PastSearchesSectionViewModel = SectionModel<String, String>
 
 protocol SearchFactViewModelInput {
-    /// Call when view did appear to start loading facts and sync categories
-    var viewDidAppear: AnyObserver<Void> { get }
+    /// Call when view will appear to start loading facts and sync categories
+    var viewWillAppear: AnyObserver<Void> { get }
     
     /// Search term filled in searchBar
     var searchTerm: AnyObserver<String> { get }
@@ -29,6 +33,12 @@ protocol SearchFactViewModelOutput {
     
     // Emmit event to cancel search and close search screen
     var didCancelSearch: Observable<Void> { get }
+    
+    // Emmit suggetions to search facts
+    var suggestions: Observable<[SuggestionsSectionViewModel]> { get }
+    
+    // Emmit past searches
+    var pastSearches: Observable<[PastSearchesSectionViewModel]> { get }
 }
 
 protocol SearchFactViewModelType {
@@ -41,9 +51,13 @@ final class SearchFactViewModel: SearchFactViewModelType, SearchFactViewModelInp
     var inputs: SearchFactViewModelInput { self }
     var outputs: SearchFactViewModelOutput { self }
     
+    // MARK: - Dependencies
+    
+    let factsService: NorrisFactsServiceType
+    
     // MARK: - RX Inputs
     
-    var viewDidAppear: AnyObserver<Void>
+    var viewWillAppear: AnyObserver<Void>
     var searchTerm: AnyObserver<String>
     var searchAction: AnyObserver<Void>
     var cancelSearch: AnyObserver<Void>
@@ -52,11 +66,18 @@ final class SearchFactViewModel: SearchFactViewModelType, SearchFactViewModelInp
     
     var didSelectSearchTerm: Observable<String>
     var didCancelSearch: Observable<Void>
+    var suggestions: Observable<[SuggestionsSectionViewModel]>
+    var pastSearches: Observable<[PastSearchesSectionViewModel]>
     
-    init() {
+    let pastSearchesMock = ["Political", "Develop", "Github", "Sports", "Explicit", "Technology", "Food", "Love", "Political", "Develop", "Github", "Sports", "Explicit", "Technology", "Food", "Love"]
+    
+    init(factsService: NorrisFactsServiceType = NorrisFactsService()) {
+        
+        self.factsService = factsService
+        
         // viewDidAppear
-        let viewDidAppearSubject = PublishSubject<Void>()
-        self.viewDidAppear = viewDidAppearSubject.asObserver()
+        let viewWillAppearSubject = PublishSubject<Void>()
+        self.viewWillAppear = viewWillAppearSubject.asObserver()
         
         // searchTerm
         let searchTermSubject = BehaviorSubject<String>(value: "")
@@ -75,6 +96,14 @@ final class SearchFactViewModel: SearchFactViewModelType, SearchFactViewModelInp
         self.didSelectSearchTerm = searchActionSubject
             .withLatestFrom(searchTermSubject)
             .filter { !$0.isEmpty }
-            
+        
+        self.suggestions = viewWillAppearSubject
+            .flatMapLatest { factsService.getFactCategories() }
+            .map { categories in categories.map { $0.title } }
+            .map { Array($0.shuffled().prefix(8)) }
+            .map { [SuggestionsSectionViewModel(model: "", items: $0)] }
+        
+        self.pastSearches = Observable.just(pastSearchesMock)
+            .map { [PastSearchesSectionViewModel(model: "", items: $0)] }
     }
 }

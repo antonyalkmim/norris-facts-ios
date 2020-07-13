@@ -22,7 +22,7 @@ class FactsListErrorViewModelTests: XCTestCase {
         viewModel = nil
     }
     
-    func testLoadFactsNoInterConnectionError() {
+    func testLoadFactsNoInternetConnectionError() {
         viewModel = FactListErrorViewModel(factListError: .loadFacts(NetworkError.noInternetConnection))
         XCTAssertEqual(viewModel.errorMessage, L10n.Errors.noInternetConnection)
         XCTAssertEqual(viewModel.isRetryEnabled, false)

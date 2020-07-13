@@ -17,6 +17,7 @@ import RealmSwift
 class SearchFactViewModelTests: XCTestCase {
     
     var viewModel: SearchFactViewModelType!
+    var factsServiceMocked: NorrisFactsServiceMocked!
     
     var disposeBag: DisposeBag!
     
@@ -24,7 +25,8 @@ class SearchFactViewModelTests: XCTestCase {
 
         disposeBag = DisposeBag()
         
-        viewModel = SearchFactViewModel()
+        factsServiceMocked = NorrisFactsServiceMocked()
+        viewModel = SearchFactViewModel(factsService: factsServiceMocked)
     }
     
     override func tearDown() {
@@ -67,6 +69,28 @@ class SearchFactViewModelTests: XCTestCase {
         
         let cancelTapsCount = cancelObserver.events.compactMap { $0.value.element }.count
         XCTAssertEqual(cancelTapsCount, 1)
+    }
+    
+    func testLoad8RandomSuggestions() {
+        
+        let scheduler = TestScheduler(initialClock: 0)
+        let suggestionsObserver = scheduler.createObserver([SuggestionsSectionViewModel].self)
+        
+        let testCategories = stub("get-categories", type: [FactCategory].self) ?? []
+        factsServiceMocked.getCategoriesResult = .just(testCategories)
+        
+        viewModel.outputs.suggestions
+            .subscribe(suggestionsObserver)
+            .disposed(by: disposeBag)
+        
+        viewModel.inputs.viewWillAppear.onNext(())
+        
+        scheduler.start()
+        
+        let suggestionsSectionViewModel = suggestionsObserver.events.compactMap { $0.value.element }.first
+        XCTAssertEqual(suggestionsSectionViewModel?.count, 1)
+        XCTAssertEqual(suggestionsSectionViewModel?.first?.items.count, 8)
+        XCTAssertEqual(testCategories.count, 16)
     }
     
 }

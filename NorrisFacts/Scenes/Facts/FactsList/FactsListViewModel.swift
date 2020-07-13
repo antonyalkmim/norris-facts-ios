@@ -113,14 +113,14 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
             .mapToVoid()
         
         // attempt to sync categories when view appears of user taps the retryButton
-        // TODO: change to syncCategories in SearchForm screen
         let syncFactsCategoriesError = Observable.merge(viewDidAppearSubject, retrySyncCategories)
             .asObservable()
             .mapToVoid()
             .flatMapLatest {
                 factsService.syncFactsCategories()
+                    .asObservable()
+                    .materialize()
             }
-            .materialize()
             .errors()
             .map { FactListError.syncCategories($0) }
         

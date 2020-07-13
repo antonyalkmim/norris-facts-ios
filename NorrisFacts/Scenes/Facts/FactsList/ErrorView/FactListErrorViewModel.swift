@@ -11,7 +11,7 @@ import UIKit
 
 struct FactListErrorViewModel {
     
-    private let factListError: FactsListViewModel.FactListError
+    let factListError: FactsListViewModel.FactListError
 
     let errorMessage: String
     let isRetryEnabled: Bool

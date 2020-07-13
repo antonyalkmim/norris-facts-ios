@@ -12,7 +12,10 @@ import RxSwift
 protocol NorrisFactsServiceType {
     
     /// get categories if there is no one on local database
-    func syncFactsCategories() -> Single<Void>
+    func syncFactsCategories() -> Observable<Void>
+    
+    /// get facts categories saved on local database
+    func getFactCategories() -> Observable<[FactCategory]>
     
     /// get facts saved on local database filtering by searchTerm
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]>
@@ -34,23 +37,26 @@ class NorrisFactsService: NorrisFactsServiceType {
         self.storage = storage
     }
     
-    func syncFactsCategories() -> Single<Void> {
-        let syncCategories = api.rx.request(.getCategories)
-            .map([FactCategory].self)
-            .observeOn(MainScheduler.instance)
-            .flatMap { [weak self] remoteCategories -> Single<Void> in
+    func syncFactsCategories() -> Observable<Void> {
+        storage.getCategories()
+            .flatMapLatest { [weak self] categories -> Observable<[FactCategory]> in
                 guard let `self` = self else { return .never() }
-                self.storage.saveCategories(remoteCategories)
-                return .just(())
+                guard categories.isEmpty else { return .just([]) }
+                
+                return self.api.rx.request(.getCategories)
+                    .map([FactCategory].self)
+                    .observeOn(MainScheduler.instance)
+                    .do(onSuccess: { [weak self] remoteCategories in
+                        guard let `self` = self else { return }
+                        self.storage.saveCategories(remoteCategories)
+                    })
+                    .asObservable()
             }
-
-        return storage.getCategories()
-            .filter { $0.isEmpty }
-            .asObservable()
-            .flatMap {
-                $0.isEmpty ? syncCategories : .just(())
-            }
-            .asSingle()
+            .mapToVoid()
+    }
+    
+    func getFactCategories() -> Observable<[FactCategory]> {
+        storage.getCategories()
     }
     
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]> {

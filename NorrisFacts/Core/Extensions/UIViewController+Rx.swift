@@ -15,4 +15,10 @@ extension Reactive where Base: UIViewController {
         sentMessage(#selector(Base.viewDidAppear(_:)))
             .mapToVoid()
     }
+    
+    var viewWillAppear: Observable<Void> {
+        sentMessage(#selector(Base.viewWillAppear(_:)))
+            .mapToVoid()
+    }
+    
 }
