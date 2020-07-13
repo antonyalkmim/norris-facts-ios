@@ -35,7 +35,7 @@ class NorrisFactsStorage: NorrisFactsStorageType {
     }
     
     func saveCategories(_ categories: [FactCategory]) {
-        try? realm.write {
+        try? self.realm.write {
             let entities = categories.map(RMFactCategory.init)
             self.realm.add(entities, update: .modified)
         }

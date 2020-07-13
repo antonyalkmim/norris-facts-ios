@@ -12,7 +12,7 @@ import RxSwift
 protocol NorrisFactsServiceType {
     
     /// get categories if there is no one on local database
-    func syncFactsCategories() -> Single<Void>
+    func syncFactsCategories() -> Observable<Void>
     
     /// get facts categories saved on local database
     func getFactCategories() -> Observable<[FactCategory]>
@@ -37,10 +37,10 @@ class NorrisFactsService: NorrisFactsServiceType {
         self.storage = storage
     }
     
-    func syncFactsCategories() -> Single<Void> {
+    func syncFactsCategories() -> Observable<Void> {
         storage.getCategories()
-            .flatMapLatest { [weak self] categories -> Single<[FactCategory]> in
-                guard let `self` = self else { return Single.never() }
+            .flatMapLatest { [weak self] categories -> Observable<[FactCategory]> in
+                guard let `self` = self else { return .never() }
                 guard categories.isEmpty else { return .just([]) }
                 
                 return self.api.rx.request(.getCategories)
@@ -50,10 +50,9 @@ class NorrisFactsService: NorrisFactsServiceType {
                         guard let `self` = self else { return }
                         self.storage.saveCategories(remoteCategories)
                     })
-                
+                    .asObservable()
             }
             .mapToVoid()
-            .asSingle()
     }
     
     func getFactCategories() -> Observable<[FactCategory]> {

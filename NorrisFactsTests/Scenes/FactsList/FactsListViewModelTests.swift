@@ -244,12 +244,12 @@ class FactsListViewModelTests: XCTestCase {
 
 class NorrisFactsServiceMocked: NorrisFactsServiceType {
     
-    var syncFactsCategoriesResult: Single<Void> = .just(())
+    var syncFactsCategoriesResult: Observable<Void> = .just(())
     var getFactsResult: [String: Observable<[NorrisFact]>] = ["": .just([])]
     var searchFactsResult: Observable<[NorrisFact]> = .just([])
     var getCategoriesResult: Observable<[FactCategory]> = .just([])
     
-    func syncFactsCategories() -> Single<Void> {
+    func syncFactsCategories() -> Observable<Void> {
         syncFactsCategoriesResult
     }
     
