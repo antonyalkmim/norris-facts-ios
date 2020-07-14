@@ -79,6 +79,7 @@
 		FAD3206224BC9DAF0044C83E /* search-facts.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3206124BC9DAF0044C83E /* search-facts.json */; };
 		FAD3206624BE24800044C83E /* PastSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3206424BE247F0044C83E /* PastSearchCell.swift */; };
 		FAD3206724BE24800044C83E /* PastSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAD3206524BE247F0044C83E /* PastSearchCell.xib */; };
+		FAD3206B24BE55C30044C83E /* SearchFactViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3206A24BE55C30044C83E /* SearchFactViewControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,6 +184,7 @@
 		FAD3206124BC9DAF0044C83E /* search-facts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "search-facts.json"; sourceTree = "<group>"; };
 		FAD3206424BE247F0044C83E /* PastSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastSearchCell.swift; sourceTree = "<group>"; };
 		FAD3206524BE247F0044C83E /* PastSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PastSearchCell.xib; sourceTree = "<group>"; };
+		FAD3206A24BE55C30044C83E /* SearchFactViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -600,6 +602,7 @@
 			isa = PBXGroup;
 			children = (
 				FAD3204924BAD3210044C83E /* SearchFactViewModelTests.swift */,
+				FAD3206A24BE55C30044C83E /* SearchFactViewControllerTests.swift */,
 			);
 			path = SearchFact;
 			sourceTree = "<group>";
@@ -994,6 +997,7 @@
 				FAD3203E24BA3DC00044C83E /* FactsListErrorViewModelTests.swift in Sources */,
 				FA1CF61924B3804700409CB0 /* FactsListViewModelTests.swift in Sources */,
 				FAD3204A24BAD3210044C83E /* SearchFactViewModelTests.swift in Sources */,
+				FAD3206B24BE55C30044C83E /* SearchFactViewControllerTests.swift in Sources */,
 				FA1CF62024B3853E00409CB0 /* FactCategoryTests.swift in Sources */,
 				FA1CF63524B4212700409CB0 /* NorrisFactsServiceTests.swift in Sources */,
 				FAD3201624B64A6C0044C83E /* FactItemViewModel.swift in Sources */,

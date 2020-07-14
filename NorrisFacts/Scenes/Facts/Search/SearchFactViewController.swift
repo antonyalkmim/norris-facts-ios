@@ -18,8 +18,9 @@ class SearchFactViewController: UIViewController {
     // MARK: - Outlets
     
     @IBOutlet weak var tagsCollectionView: UICollectionView!
-    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tagsCollectionViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var pastSearchLabel: UILabel!
     
     var disposeBag = DisposeBag()
     
@@ -112,6 +113,14 @@ class SearchFactViewController: UIViewController {
         tagsCollectionView.collectionViewLayout = tagFlowLayout
         tagsCollectionView.delegate = self
         tagsCollectionView.registerCellWithNib(TagCell.self)
+        
+        // height of tagsCollectionView increases dinamically
+        totalItemsWitdh
+            .asDriver(onErrorJustReturn: 120)
+            .drive(onNext: { [weak self] totalItemsWidth in
+                self?.updateTagsCollectionViewHeight(totalItemsWidth: totalItemsWidth)
+            })
+            .disposed(by: disposeBag)
     }
     
     /// update tagsCollectionViewHeight for current num of items
@@ -148,23 +157,27 @@ class SearchFactViewController: UIViewController {
             .bind(to: viewModel.inputs.searchAction)
             .disposed(by: disposeBag)
         
+        let pastSearchSectionViewModel = viewModel.outputs.pastSearches.share()
+        
         // past searches
-        viewModel.outputs.pastSearches
+        pastSearchSectionViewModel
             .bind(to: tableView.rx.items(dataSource: pastSearchesDataSource))
             .disposed(by: disposeBag)
         
+        // hide tableView and pastSearchLabel when there is no past searches
+        pastSearchSectionViewModel
+            .map { $0.flatMap { $0.items } } // get all items in all sections
+            .map { $0.isEmpty }
+            .bind { [weak self] isEmpty in
+                self?.pastSearchLabel.isHidden = isEmpty
+                self?.tableView.isHidden = isEmpty
+            }
+            .disposed(by: disposeBag)
+            
         // suggestions tags
         viewModel.outputs.suggestions
             .asDriver(onErrorJustReturn: [])
             .drive(tagsCollectionView.rx.items(dataSource: suggestionsDataSource))
-            .disposed(by: disposeBag)
-        
-        // height of tagsCollectionView increases dinamically
-        totalItemsWitdh
-            .asDriver(onErrorJustReturn: 120)
-            .drive(onNext: { [weak self] totalItemsWidth in
-                self?.updateTagsCollectionViewHeight(totalItemsWidth: totalItemsWidth)
-            })
             .disposed(by: disposeBag)
         
         // select item
@@ -174,11 +187,10 @@ class SearchFactViewController: UIViewController {
         let itemSelected = Observable
             .merge(pastSearchSelected, tagSelected).share()
         
-        itemSelected
-            .bind(to: viewModel.inputs.searchTerm)
+        itemSelected.bind(to: viewModel.inputs.searchTerm)
             .disposed(by: disposeBag)
-        itemSelected
-            .mapToVoid()
+        
+        itemSelected.mapToVoid()
             .bind(to: viewModel.inputs.searchAction)
             .disposed(by: disposeBag)
         

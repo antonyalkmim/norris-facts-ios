@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchFactViewController" customModule="NorrisFacts" customModuleProvider="target">
             <connections>
+                <outlet property="pastSearchLabel" destination="SDP-qH-snL" id="P4v-BL-u2t"/>
                 <outlet property="tableView" destination="vxr-MR-77e" id="3gr-f0-GlJ"/>
                 <outlet property="tagsCollectionView" destination="fs6-AM-lD8" id="nun-4b-c9R"/>
                 <outlet property="tagsCollectionViewHeightConstraint" destination="6bt-rG-Fgj" id="t9m-7J-icf"/>
