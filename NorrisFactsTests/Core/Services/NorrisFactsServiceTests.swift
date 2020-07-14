@@ -150,6 +150,43 @@ class NorrisFactsServiceTests: XCTestCase {
         let facts = factsObserver.events.compactMap { $0.value.element }.first
         XCTAssertEqual(facts?.count, 13)
     }
+    
+    func testLoadPastSearchTerms() throws {
+        let fakeFacts = stub("facts", type: [NorrisFact].self) ?? []
+        guard let smallFact = stub("fact-long-text", type: NorrisFact.self) else {
+            XCTFail("longFact should not be nil")
+            return
+        }
+        
+        storageMock.saveSearch(term: "political", facts: fakeFacts)
+        storageMock.saveSearch(term: "sport", facts: [smallFact])
+        
+        let searches = try storageMock.getPastSearchTerms().toBlocking().first() ?? []
+        XCTAssertEqual(searches.count, 2)
+        XCTAssertEqual(searches.first, "sport")
+        XCTAssertEqual(searches.last, "political")
+        
+    }
+    
+    func testLoadPastSearchTerms_ShouldBeUniqueAndSortedBySearchDate() throws {
+        
+        let fakeFacts = stub("facts", type: [NorrisFact].self) ?? []
+        guard let smallFact = stub("fact-long-text", type: NorrisFact.self) else {
+            XCTFail("longFact should not be nil")
+            return
+        }
+        
+        storageMock.saveSearch(term: "political", facts: fakeFacts)
+        storageMock.saveSearch(term: "sport", facts: [smallFact])
+        storageMock.saveSearch(term: "food", facts: [smallFact])
+        storageMock.saveSearch(term: "sport", facts: [smallFact])
+        
+        let searches = try storageMock.getPastSearchTerms().toBlocking().first() ?? []
+        XCTAssertEqual(searches.count, 3)
+        XCTAssertEqual(searches.first, "sport")
+        XCTAssertEqual(searches.last, "political")
+        
+    }
 
 }
 
@@ -163,30 +200,3 @@ final class HttpServiceMock: HttpService<NorrisFactsAPI> {
         return nil
     }
 }
-
-//final class NorrisFactsStorageMock: NorrisFactsStorageType {
-//
-//    var categories = [FactCategory]()
-//    var facts = [NorrisFact]()
-//    var searches: [String: [NorrisFact]] = ["": []]
-//
-//    func getCategories() -> Observable<[FactCategory]> {
-//        .just(categories)
-//    }
-//
-//    func saveCategories(_ categories: [FactCategory]) {
-//        self.categories.append(contentsOf: categories)
-//    }
-//
-//    func getFacts(searchTerm: String) -> Observable<[NorrisFact]> {
-//        .just(facts)
-//    }
-//
-//    func saveFacts(_ facts: [NorrisFact]) {
-//        self.facts.append(contentsOf: facts)
-//    }
-//
-//    func saveSearch(term: String, facts: [NorrisFact]) {
-//        self.searches[term] = facts
-//    }
-//}

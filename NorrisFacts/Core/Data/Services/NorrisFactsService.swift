@@ -22,6 +22,9 @@ protocol NorrisFactsServiceType {
     
     /// search facts by searchTerm and save it locally
     func searchFacts(searchTerm: String) -> Observable<[NorrisFact]>
+    
+    // get unique past searches terms sorted by date
+    func getPastSearchTerms() -> Observable<[String]>
 }
 
 class NorrisFactsService: NorrisFactsServiceType {
@@ -78,6 +81,10 @@ class NorrisFactsService: NorrisFactsServiceType {
             .do(onNext: { [weak self] facts in
                 self?.storage.saveSearch(term: searchTerm, facts: facts)
             })
-      }
+    }
+    
+    func getPastSearchTerms() -> Observable<[String]> {
+        storage.getPastSearchTerms()
+    }
     
 }

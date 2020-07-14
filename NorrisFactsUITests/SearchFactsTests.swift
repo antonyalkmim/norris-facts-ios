@@ -89,5 +89,34 @@ class SearchFactsTests: XCTestCase {
         // facts without search term
         XCTAssertEqual(app.tables["facts_table_view"].cells.count, 10)
     }
+    
+    func testSearchTermSaveInPastSearches() {
+        app.launchArguments = ["--ui-testing", "--reset-env", "--mock-api-requests"]
+        app.launch()
+        
+        // 1 - tap search button
+        let searchBarButtonItem = app.navigationBars.buttons["search_bar_button_item"]
+        searchBarButtonItem.tap()
+        
+        // 2 - tap suggestions
+        let suggestions = app.collectionViews["suggestions_view"]
+        suggestions.cells.firstMatch.tap()
+        
+        // 4 - tap search button again
+        searchBarButtonItem.tap()
+        
+        // 5 - fill search bar
+        let searchBarField = app.searchFields.element
+        searchBarField.tap()
+        searchBarField.typeText("political")
+        app.keyboards.buttons["Search"].tap()
+        
+        // 6 - open search screen again
+        searchBarButtonItem.tap()
+        
+        let pastSearchTableView = app.tables["past_searches_view"]
+        XCTAssertTrue(pastSearchTableView.exists)
+        XCTAssertEqual(pastSearchTableView.cells.count, 2)
+    }
 
 }

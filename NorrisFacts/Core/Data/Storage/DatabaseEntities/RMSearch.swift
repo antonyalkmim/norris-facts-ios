@@ -11,6 +11,7 @@ import RealmSwift
 class RMSearch: Object {
     @objc dynamic var term: String = ""
     @objc dynamic var createdAt: Date = Date()
+    @objc dynamic var updatedAt: Date = Date()
     let facts = List<RMNorrisFact>()
     
     override static func primaryKey() -> String? {
@@ -24,6 +25,7 @@ extension RMSearch {
         self.init(value: [
             "term": term,
             "createdAt": Date(),
+            "updatedAt": Date(),
             "facts": facts.map(RMNorrisFact.init)
         ])
     }

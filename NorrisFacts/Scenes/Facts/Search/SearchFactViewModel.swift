@@ -69,8 +69,6 @@ final class SearchFactViewModel: SearchFactViewModelType, SearchFactViewModelInp
     var suggestions: Observable<[SuggestionsSectionViewModel]>
     var pastSearches: Observable<[PastSearchesSectionViewModel]>
     
-    let pastSearchesMock = ["Political", "Develop", "Github", "Sports", "Explicit", "Technology", "Food", "Love", "Political", "Develop", "Github", "Sports", "Explicit", "Technology", "Food", "Love"]
-    
     init(factsService: NorrisFactsServiceType = NorrisFactsService()) {
         
         self.factsService = factsService
@@ -103,7 +101,8 @@ final class SearchFactViewModel: SearchFactViewModelType, SearchFactViewModelInp
             .map { Array($0.shuffled().prefix(8)) }
             .map { [SuggestionsSectionViewModel(model: "", items: $0)] }
         
-        self.pastSearches = Observable.just(pastSearchesMock)
+        self.pastSearches = viewWillAppearSubject
+            .flatMapLatest { factsService.getPastSearchTerms() }
             .map { [PastSearchesSectionViewModel(model: "", items: $0)] }
     }
 }

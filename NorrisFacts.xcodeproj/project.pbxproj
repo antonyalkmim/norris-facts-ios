@@ -77,6 +77,9 @@
 		FAD3205D24BC8D020044C83E /* get-categories.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3205C24BC8D020044C83E /* get-categories.json */; };
 		FAD3206024BC9D920044C83E /* get-categories.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3205F24BC9D910044C83E /* get-categories.json */; };
 		FAD3206224BC9DAF0044C83E /* search-facts.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3206124BC9DAF0044C83E /* search-facts.json */; };
+		FAD3206624BE24800044C83E /* PastSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3206424BE247F0044C83E /* PastSearchCell.swift */; };
+		FAD3206724BE24800044C83E /* PastSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAD3206524BE247F0044C83E /* PastSearchCell.xib */; };
+		FAD3206B24BE55C30044C83E /* SearchFactViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3206A24BE55C30044C83E /* SearchFactViewControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +182,9 @@
 		FAD3205C24BC8D020044C83E /* get-categories.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "get-categories.json"; sourceTree = "<group>"; };
 		FAD3205F24BC9D910044C83E /* get-categories.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "get-categories.json"; sourceTree = "<group>"; };
 		FAD3206124BC9DAF0044C83E /* search-facts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "search-facts.json"; sourceTree = "<group>"; };
+		FAD3206424BE247F0044C83E /* PastSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastSearchCell.swift; sourceTree = "<group>"; };
+		FAD3206524BE247F0044C83E /* PastSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PastSearchCell.xib; sourceTree = "<group>"; };
+		FAD3206A24BE55C30044C83E /* SearchFactViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -581,6 +587,7 @@
 		FAD3203F24BA5AC50044C83E /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				FAD3206324BE24610044C83E /* PastSearchCell */,
 				FAD3204D24BB8C5A0044C83E /* TagCell */,
 				FAD3205224BB8FE70044C83E /* TagFlowLayout.swift */,
 				FAD3204224BA5B0A0044C83E /* SearchFactCoordinator.swift */,
@@ -595,6 +602,7 @@
 			isa = PBXGroup;
 			children = (
 				FAD3204924BAD3210044C83E /* SearchFactViewModelTests.swift */,
+				FAD3206A24BE55C30044C83E /* SearchFactViewControllerTests.swift */,
 			);
 			path = SearchFact;
 			sourceTree = "<group>";
@@ -615,6 +623,15 @@
 				FAD3206124BC9DAF0044C83E /* search-facts.json */,
 			);
 			path = Requests;
+			sourceTree = "<group>";
+		};
+		FAD3206324BE24610044C83E /* PastSearchCell */ = {
+			isa = PBXGroup;
+			children = (
+				FAD3206424BE247F0044C83E /* PastSearchCell.swift */,
+				FAD3206524BE247F0044C83E /* PastSearchCell.xib */,
+			);
+			path = PastSearchCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -734,6 +751,7 @@
 				FAD3202724B8F0910044C83E /* loading-blue.json in Resources */,
 				FAD3203424B902F10044C83E /* political-facts.json in Resources */,
 				FAD3203224B902AE0044C83E /* sport-facts.json in Resources */,
+				FAD3206724BE24800044C83E /* PastSearchCell.xib in Resources */,
 				FA1CF5B624B0EBBD00409CB0 /* LaunchScreen.storyboard in Resources */,
 				FAD3205124BB8C7C0044C83E /* TagCell.xib in Resources */,
 				FA1CF64D24B62B3A00409CB0 /* FactTableViewCell.xib in Resources */,
@@ -934,6 +952,7 @@
 				FA1CF61124B1342200409CB0 /* NorricsFactsStorage.swift in Sources */,
 				FAD3202D24B8F9200044C83E /* AppDelegate+LaunchArguments.swift in Sources */,
 				FA1CF64924B629FC00409CB0 /* UITableView+ext.swift in Sources */,
+				FAD3206624BE24800044C83E /* PastSearchCell.swift in Sources */,
 				FAD3203924B91C990044C83E /* ToastView.swift in Sources */,
 				FA1CF5AA24B0EBBB00409CB0 /* AppDelegate.swift in Sources */,
 				FAD3204324BA5B0A0044C83E /* SearchFactCoordinator.swift in Sources */,
@@ -978,6 +997,7 @@
 				FAD3203E24BA3DC00044C83E /* FactsListErrorViewModelTests.swift in Sources */,
 				FA1CF61924B3804700409CB0 /* FactsListViewModelTests.swift in Sources */,
 				FAD3204A24BAD3210044C83E /* SearchFactViewModelTests.swift in Sources */,
+				FAD3206B24BE55C30044C83E /* SearchFactViewControllerTests.swift in Sources */,
 				FA1CF62024B3853E00409CB0 /* FactCategoryTests.swift in Sources */,
 				FA1CF63524B4212700409CB0 /* NorrisFactsServiceTests.swift in Sources */,
 				FAD3201624B64A6C0044C83E /* FactItemViewModel.swift in Sources */,
