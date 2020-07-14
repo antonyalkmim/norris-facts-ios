@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="tableView" destination="vxr-MR-77e" id="3gr-f0-GlJ"/>
                 <outlet property="tagsCollectionView" destination="fs6-AM-lD8" id="nun-4b-c9R"/>
+                <outlet property="tagsCollectionViewHeightConstraint" destination="6bt-rG-Fgj" id="t9m-7J-icf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vxr-MR-77e">
-                    <rect key="frame" x="0.0" y="251" width="414" height="645"/>
+                    <rect key="frame" x="0.0" y="151" width="414" height="745"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="past_searches_view"/>
@@ -34,16 +35,16 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Past Searches" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SDP-qH-snL">
-                    <rect key="frame" x="16" y="223.5" width="111" height="19.5"/>
+                    <rect key="frame" x="16" y="123.5" width="111" height="19.5"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="fs6-AM-lD8">
-                    <rect key="frame" x="16" y="87.5" width="382" height="120"/>
+                    <rect key="frame" x="16" y="87.5" width="382" height="20"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="120" id="6bt-rG-Fgj"/>
+                        <constraint firstAttribute="height" constant="20" id="6bt-rG-Fgj"/>
                     </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ddU-hK-JsZ">
                         <size key="itemSize" width="128" height="128"/>

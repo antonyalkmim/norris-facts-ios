@@ -15,18 +15,23 @@ class SearchFactViewController: UIViewController {
 
     var viewModel: SearchFactViewModelType?
     
+    // MARK: - Outlets
+    
+    @IBOutlet weak var tagsCollectionView: UICollectionView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tagsCollectionViewHeightConstraint: NSLayoutConstraint!
+    
     var disposeBag = DisposeBag()
     
     let searchController = UISearchController(searchResultsController: nil)
     
-    @IBOutlet weak var tagsCollectionView: UICollectionView!
-    @IBOutlet weak var tableView: UITableView!
-    
     /// cell to calculate the tag size for flow layout `sizeForItemAt` method
-    var sizingCell: TagCell? = Bundle.main.loadNibNamed("TagCell", owner: self, options: nil)![0] as? TagCell
+    private var sizingCell: TagCell? = Bundle.main.loadNibNamed("TagCell", owner: self, options: nil)![0] as? TagCell
     
-    let cancelBarButtonItem = UIBarButtonItem(title: L10n.SearchFacts.cancel, style: .plain, target: nil, action: nil)
+    /// Cancel bar button item to dismiss the screen
+    private let cancelBarButtonItem = UIBarButtonItem(title: L10n.SearchFacts.cancel, style: .plain, target: nil, action: nil)
     
+    /// Data source for `tagsCollectionView`
     let suggestionsDataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, String>>(
         configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
             let cell = collectionView.dequeueReusableCell(type: TagCell.self, indexPath: indexPath)
@@ -35,13 +40,22 @@ class SearchFactViewController: UIViewController {
         }
     )
     
+    /// Datasource for past searches `tableView`
     let pastSearchesDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, String>>(
-        configureCell: { _, tableView, indexPath, item -> UITableViewCell in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "kTableViewCell", for: indexPath)
-            cell.textLabel?.text = item
+        configureCell: { _, tableView, indexPath, term -> UITableViewCell in
+            let cell = tableView.dequeueReusableCell(type: PastSearchCell.self, indexPath: indexPath)
+            cell.termLabel.text = term.capitalized
             return cell
         }
     )
+    
+    /// Total cells width sum for current tagCells in tagsView
+    ///
+    /// It updates on `UICollectionViewDelegateFlowLayout.sizeForItemAt`
+    /// and every time it updates, the viewController should update the `tagsCollectionView height
+    private var totalItemsWitdh = BehaviorRelay<CGFloat>(value: 0)
+    
+    // MARK: - Initializers
     
     init(viewModel: SearchFactViewModelType) {
         self.viewModel = viewModel
@@ -84,9 +98,11 @@ class SearchFactViewController: UIViewController {
         
         // past searches tableView
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
+        tableView.estimatedRowHeight = 34
+        tableView.separatorStyle = .singleLine
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.tableFooterView = UIView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "kTableViewCell")
+        tableView.registerCellWithNib(PastSearchCell.self)
         
         // suggestions collectionView
         let tagFlowLayout = TagFlowLayout()
@@ -96,6 +112,14 @@ class SearchFactViewController: UIViewController {
         tagsCollectionView.collectionViewLayout = tagFlowLayout
         tagsCollectionView.delegate = self
         tagsCollectionView.registerCellWithNib(TagCell.self)
+    }
+    
+    /// update tagsCollectionViewHeight for current num of items
+    private func updateTagsCollectionViewHeight(totalItemsWidth: CGFloat) {
+        let cellHeight = CGFloat(58)
+        let numberOfLines = (totalItemsWidth / UIScreen.main.bounds.width).rounded(.up)
+        tagsCollectionViewHeightConstraint.constant = numberOfLines * cellHeight
+        view.layoutIfNeeded()
     }
     
     private func bindViewModel() {
@@ -135,7 +159,21 @@ class SearchFactViewController: UIViewController {
             .drive(tagsCollectionView.rx.items(dataSource: suggestionsDataSource))
             .disposed(by: disposeBag)
         
-        let itemSelected = tagsCollectionView.rx.modelSelected(String.self).share()
+        // height of tagsCollectionView increases dinamically
+        totalItemsWitdh
+            .asDriver(onErrorJustReturn: 120)
+            .drive(onNext: { [weak self] totalItemsWidth in
+                self?.updateTagsCollectionViewHeight(totalItemsWidth: totalItemsWidth)
+            })
+            .disposed(by: disposeBag)
+        
+        // select item
+        let pastSearchSelected = tableView.rx.modelSelected(String.self).asObservable()
+        let tagSelected = tagsCollectionView.rx.modelSelected(String.self).asObservable()
+        
+        let itemSelected = Observable
+            .merge(pastSearchSelected, tagSelected).share()
+        
         itemSelected
             .bind(to: viewModel.inputs.searchTerm)
             .disposed(by: disposeBag)
@@ -148,11 +186,14 @@ class SearchFactViewController: UIViewController {
     
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension SearchFactViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let item = suggestionsDataSource.sectionModels[indexPath.section].items[indexPath.row]
         sizingCell?.setup(title: item)
         sizingCell?.layoutIfNeeded()
-        return sizingCell?.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize) ?? CGSize.zero
+        let cellSize = sizingCell?.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize) ?? CGSize.zero
+        totalItemsWitdh.accept(totalItemsWitdh.value + cellSize.width)
+        return cellSize
     }
 }
