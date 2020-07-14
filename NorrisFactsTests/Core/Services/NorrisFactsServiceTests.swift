@@ -48,10 +48,11 @@ class NorrisFactsServiceTests: XCTestCase {
     
     func testSyncCategories() throws {
         
-        var currentCategories = try storageMock.getCategories()
-            .toBlocking(timeout: executionTimeAllowance)
-            .first() ?? []
-        XCTAssertTrue(currentCategories.isEmpty)
+        let categories = storageMock.getCategories()
+            .observeOn(MainScheduler.instance)
+            
+        let initialCategories = try categories.toBlocking().first() ?? []
+        XCTAssertTrue(initialCategories.isEmpty)
         
         let jsonData = "[\"develop\", \"political\", \"tecnology\"]".data(using: .utf8)!
         apiMock.responseResult = .success(jsonData)
@@ -60,10 +61,22 @@ class NorrisFactsServiceTests: XCTestCase {
             .subscribe()
             .disposed(by: disposeBag)
         
-        currentCategories = try storageMock.getCategories()
-            .toBlocking(timeout: executionTimeAllowance)
-            .first() ?? []
-        XCTAssertEqual(currentCategories.count, 3)
+        let savedCategories = try categories.toBlocking().first() ?? []
+        XCTAssertEqual(savedCategories.count, 3)
+    }
+    
+    func testGetCategories() throws {
+        
+        let categories = storageMock.getCategories()
+
+        let initialCategories = try categories.toBlocking().first() ?? []
+        XCTAssertTrue(initialCategories.isEmpty)
+        
+        let testCategories = stub("get-categories", type: [FactCategory].self) ?? []
+        storageMock.saveCategories(testCategories)
+        
+        let savedCategories = try categories.toBlocking().first() ?? []
+        XCTAssertEqual(savedCategories.count, testCategories.count)
     }
     
     func testGetFacts() throws {
@@ -87,25 +100,23 @@ class NorrisFactsServiceTests: XCTestCase {
     func testSearchFactsBySearchTerm_ShouldSaveNewFacts() throws {
         
         let searchTerm = "sport"
-        
         let responseData = stub("search-facts-response") ?? Data()
         apiMock.responseResult = .success(responseData)
         
-        // assert the database is empty
-        var currentFacts = try storageMock.getFacts(searchTerm: searchTerm)
-            .toBlocking(timeout: executionTimeAllowance)
-            .first() ?? []
-        XCTAssertTrue(currentFacts.isEmpty)
+        let facts = storageMock.getFacts(searchTerm: searchTerm)
+            .observeOn(MainScheduler.instance)
+        
+        // assert that facts were saved
+        let initialFacts = try facts.toBlocking().first() ?? []
+        XCTAssertTrue(initialFacts.isEmpty)
         
         service.searchFacts(searchTerm: searchTerm)
             .subscribe()
             .disposed(by: disposeBag)
         
         // assert that facts were saved
-        currentFacts = try storageMock.getFacts(searchTerm: searchTerm)
-            .toBlocking(timeout: executionTimeAllowance)
-            .first() ?? []
-        XCTAssertFalse(currentFacts.isEmpty)
+        let factsSaved = try facts.toBlocking().first() ?? []
+        XCTAssertEqual(factsSaved.count, 4)
     }
     
     func testGestFactsByTerm_ShouldFilter() throws {
@@ -138,6 +149,43 @@ class NorrisFactsServiceTests: XCTestCase {
         
         let facts = factsObserver.events.compactMap { $0.value.element }.first
         XCTAssertEqual(facts?.count, 13)
+    }
+    
+    func testLoadPastSearchTerms() throws {
+        let fakeFacts = stub("facts", type: [NorrisFact].self) ?? []
+        guard let smallFact = stub("fact-long-text", type: NorrisFact.self) else {
+            XCTFail("longFact should not be nil")
+            return
+        }
+        
+        storageMock.saveSearch(term: "political", facts: fakeFacts)
+        storageMock.saveSearch(term: "sport", facts: [smallFact])
+        
+        let searches = try storageMock.getPastSearchTerms().toBlocking().first() ?? []
+        XCTAssertEqual(searches.count, 2)
+        XCTAssertEqual(searches.first, "sport")
+        XCTAssertEqual(searches.last, "political")
+        
+    }
+    
+    func testLoadPastSearchTerms_ShouldBeUniqueAndSortedBySearchDate() throws {
+        
+        let fakeFacts = stub("facts", type: [NorrisFact].self) ?? []
+        guard let smallFact = stub("fact-long-text", type: NorrisFact.self) else {
+            XCTFail("longFact should not be nil")
+            return
+        }
+        
+        storageMock.saveSearch(term: "political", facts: fakeFacts)
+        storageMock.saveSearch(term: "sport", facts: [smallFact])
+        storageMock.saveSearch(term: "food", facts: [smallFact])
+        storageMock.saveSearch(term: "sport", facts: [smallFact])
+        
+        let searches = try storageMock.getPastSearchTerms().toBlocking().first() ?? []
+        XCTAssertEqual(searches.count, 3)
+        XCTAssertEqual(searches.first, "sport")
+        XCTAssertEqual(searches.last, "political")
+        
     }
 
 }

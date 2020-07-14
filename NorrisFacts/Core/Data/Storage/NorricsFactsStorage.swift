@@ -12,13 +12,22 @@ import RealmSwift
 import RxRealm
 
 protocol NorrisFactsStorageType {
+    
+    /// get categories from local database
     func getCategories() -> Observable<[FactCategory]>
+    /// save categories into local database
     func saveCategories(_ categories: [FactCategory])
     
+    /// get facts from local database
     func getFacts(searchTerm: String) -> Observable<[NorrisFact]>
+    /// save facts into local database
     func saveFacts(_ facts: [NorrisFact])
     
+    /// save searches into local database
     func saveSearch(term: String, facts: [NorrisFact])
+    
+    /// get unique past searches terms sorted by date
+    func getPastSearchTerms() -> Observable<[String]>
 }
 
 class NorrisFactsStorage: NorrisFactsStorageType {
@@ -35,7 +44,7 @@ class NorrisFactsStorage: NorrisFactsStorageType {
     }
     
     func saveCategories(_ categories: [FactCategory]) {
-        try? realm.write {
+        try? self.realm.write {
             let entities = categories.map(RMFactCategory.init)
             self.realm.add(entities, update: .modified)
         }
@@ -65,5 +74,13 @@ class NorrisFactsStorage: NorrisFactsStorageType {
             let entity = RMSearch(term: term, facts: facts)
             self.realm.add(entity, update: .modified)
         }
+    }
+    
+    func getPastSearchTerms() -> Observable<[String]> {
+        let searches = realm.objects(RMSearch.self)
+            .sorted(byKeyPath: "updatedAt", ascending: false)
+        
+        return Observable.collection(from: searches)
+            .map { $0.map { $0.term } }
     }
 }

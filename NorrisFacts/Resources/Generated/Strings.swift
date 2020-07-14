@@ -25,6 +25,13 @@ internal enum L10n {
     internal static let uncategorized = L10n.tr("Localizable", "FactsList.uncategorized")
   }
 
+  internal enum SearchFacts {
+    /// Cancel
+    internal static let cancel = L10n.tr("Localizable", "SearchFacts.cancel")
+    /// Search
+    internal static let title = L10n.tr("Localizable", "SearchFacts.title")
+  }
+
   internal enum Errors {
     /// There is no internet connection. Please turn on your Wi-fi or 4G.
     internal static let noInternetConnection = L10n.tr("Localizable", "errors.noInternetConnection")

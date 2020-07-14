@@ -32,6 +32,10 @@ extension AppDelegate {
     
     func processLaunchArguments() {
         
+        if LaunchArgument.check(.uiTest) {
+            UIView.setAnimationsEnabled(false)
+        }
+        
         if LaunchArgument.check(.resetEnviroments) {
             let realm = try? Realm()
             try? realm?.write {
@@ -55,5 +59,6 @@ extension AppDelegate {
                 realm?.add(searches, update: .modified)
             }
         }
+                
     }
 }

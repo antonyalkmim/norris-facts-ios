@@ -9,12 +9,18 @@
 import Foundation
 
 protocol TargetType {
+    /// API host
     var baseURL: URL { get }
+    /// endpoint path
     var path: String { get }
+    /// HTTP method
     var method: HttpMethod { get }
+    /// HTTP json body
     var body: Data? { get }
+    /// HTTP headers
     var headers: [String: String]? { get }
-    var sampleData: Data { get }
+    /// Mocked data. If `sampleData` is not nil, it will not execute the request and will return the sample data instead
+    var sampleData: Data? { get }
 }
 
 extension TargetType {
@@ -82,7 +88,6 @@ class HttpService<Target: TargetType>: HttpServiceType {
     /// closure executed after response
     typealias ResponseClosure = (HTTPURLResponse?, Data?) -> Void
 
-    private var returnSampleData: Bool
     private var requestClosure: RequestClosure
     private var responseClosure: ResponseClosure
     public let session: URLSession
@@ -90,8 +95,7 @@ class HttpService<Target: TargetType>: HttpServiceType {
     // MARK: - Initializer
     init(urlSession: URLSession? = nil,
          requestClosure: @escaping RequestClosure = { $0.urlRequest() },
-         responseClosure: @escaping ResponseClosure = { _, _ in },
-         returnSampleData: Bool = false) {
+         responseClosure: @escaping ResponseClosure = { _, _ in }) {
 
         self.session = urlSession ?? URLSession(
             configuration: URLSessionConfiguration.default,
@@ -100,7 +104,6 @@ class HttpService<Target: TargetType>: HttpServiceType {
         )
         self.requestClosure = requestClosure
         self.responseClosure = responseClosure
-        self.returnSampleData = returnSampleData
     }
 
     @discardableResult
@@ -110,8 +113,8 @@ class HttpService<Target: TargetType>: HttpServiceType {
 
         //2 - execute task
         // sample data
-        if returnSampleData {
-            responseData(Result.success(endpoint.sampleData))
+        if let sampleData = endpoint.sampleData {
+            responseData(Result.success(sampleData))
             return nil
         }
 
