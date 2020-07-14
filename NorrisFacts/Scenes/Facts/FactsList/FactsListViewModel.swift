@@ -50,7 +50,7 @@ protocol FactsListViewModelType {
     var outputs: FactsListViewModelOutput { get }
 }
 
-final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput, FactsListViewModelOutput {
+struct FactsListViewModel: FactsListViewModelType, FactsListViewModelInput, FactsListViewModelOutput {
     
     var inputs: FactsListViewModelInput { self }
     var outputs: FactsListViewModelOutput { self }
@@ -58,7 +58,6 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
     // MARK: - Dependencies
     
     let factsService: NorrisFactsServiceType
-    var disposeBag = DisposeBag()
     
     // MARK: - RX Inputs
     
@@ -97,9 +96,14 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
         self.setCurrentSearchTerm = currentSearchTermSubject.asObserver()
         self.currentSearchTerm = currentSearchTermSubject.asObservable()
         
+        // show search facts
+        let searchButtonActionSubject = PublishSubject<Void>()
+        self.searchButtonAction = searchButtonActionSubject.asObserver()
+        self.showSearchFactForm = searchButtonActionSubject.asObservable()
+        
         let currentErrorSubject = BehaviorSubject<FactListError?>(value: nil)
         
-        // sync categories
+        // Sync categories
         
         let retrySyncCategories = retryErrorActionSubject
             .withLatestFrom(currentErrorSubject)
@@ -112,7 +116,7 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
             }
             .mapToVoid()
         
-        // attempt to sync categories when view appears of user taps the retryButton
+        // attempt to sync categories when view appears or user taps the retryButton
         let syncFactsCategoriesError = Observable.merge(viewDidAppearSubject, retrySyncCategories)
             .asObservable()
             .mapToVoid()
@@ -123,6 +127,8 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
             }
             .errors()
             .map { FactListError.syncCategories($0) }
+        
+        // Search Facts
         
         // search facts filtering by currentSearchTerm
         let searchFacts = Observable
@@ -138,6 +144,8 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
             .errors()
             .map { FactListError.loadFacts($0) }
         
+        // show 10 random facts if currentSearchTerm is empty
+        // show searched facts for currentSerchTerm when its not empty
         self.factsViewModels = Observable
             .combineLatest(viewDidAppearSubject, currentSearchTerm) { _, term in term }
             .flatMapLatest { term -> Observable<[NorrisFact]> in
@@ -153,28 +161,10 @@ final class FactsListViewModel: FactsListViewModelType, FactsListViewModelInput,
             .map { [FactsSectionViewModel(model: "", items: $0)] }
         
         // General errors
-
+        // emmit errors when syncCategories or searchFact emmits an error
         self.errorViewModel = Observable.merge(syncFactsCategoriesError, searchFactsError)
             .do(onNext: currentErrorSubject.onNext)
             .map(FactListErrorViewModel.init)
-        
-        // show search facts
-        let searchButtonActionSubject = PublishSubject<Void>()
-        self.searchButtonAction = searchButtonActionSubject.asObserver()
-        self.showSearchFactForm = searchButtonActionSubject.asObservable()
     }
-    
-    enum FactListError: Error {
-        case syncCategories(Error)
-        case loadFacts(Error)
-        
-        var error: NorrisFactsErrorType {
-            switch self {
-            case let .syncCategories(syncError):
-                return (syncError as? NorrisFactsErrorType) ?? NorrisFactsError.unknow(syncError)
-            case let .loadFacts(loadError):
-                return (loadError as? NorrisFactsErrorType) ?? NorrisFactsError.unknow(loadError)
-            }
-        }
-    }
+
 }
