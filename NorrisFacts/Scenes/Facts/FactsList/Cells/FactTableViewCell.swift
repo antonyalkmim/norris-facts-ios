@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class FactTableViewCell: UITableViewCell {
 
@@ -14,14 +15,20 @@ class FactTableViewCell: UITableViewCell {
     @IBOutlet weak var factTextLabel: UILabel!
     @IBOutlet weak var categoryView: UIView!
     @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var shareFactButton: UIButton!
     
     let shortTextFontSize = CGFloat(23)
     let longTextFontSize = CGFloat(17)
+        
+    var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         setupViews()
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
     }
     
     private func setupViews() {

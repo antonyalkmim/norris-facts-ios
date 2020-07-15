@@ -46,6 +46,9 @@
                                     <constraint firstAttribute="width" constant="25" id="Olc-Un-z48"/>
                                 </constraints>
                                 <state key="normal" image="share_icon"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="fact_cell_share_button"/>
+                                </userDefinedRuntimeAttributes>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tg4-aV-wAb">
                                 <rect key="frame" x="16" y="16" width="279" height="58.5"/>
@@ -80,6 +83,7 @@
                 <outlet property="categoryLabel" destination="Kxd-kt-WOb" id="cqG-N3-XKn"/>
                 <outlet property="categoryView" destination="8KL-Kk-TUS" id="A1x-m4-ShW"/>
                 <outlet property="factTextLabel" destination="Tg4-aV-wAb" id="Ais-Qb-oLO"/>
+                <outlet property="shareFactButton" destination="sAH-Dw-kaP" id="wgD-wd-dkQ"/>
                 <outlet property="wrapperView" destination="23X-24-7T2" id="mOC-b8-wUX"/>
             </connections>
             <point key="canvasLocation" x="148.55072463768118" y="189.17410714285714"/>

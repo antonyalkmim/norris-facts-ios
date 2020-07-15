@@ -12,6 +12,7 @@ struct NorrisFact: Decodable {
     let id: String
     let text: String
     let iconUrl: String
+    let url: String
     let createdAt: Date
     let updatedAt: Date
     let categories: [FactCategory]
@@ -19,6 +20,7 @@ struct NorrisFact: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
         case text = "value"
+        case url
         case iconUrl
         case createdAt
         case updatedAt

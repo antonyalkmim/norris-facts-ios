@@ -41,5 +41,30 @@ class FactsListTests: XCTestCase {
         
         XCTAssertEqual(app.tables.cells.count, 10)
     }
+    
+    func testShareFact() throws {
+        app.launchArguments = ["--ui-testing", "--reset-env", "--mock-database"]
+        app.launch()
+
+        // 1 - facts list
+        let tableView = app.tables["facts_table_view"]
+        let firstCell = tableView.cells.firstMatch
+        let cellShareButton = firstCell.buttons["fact_cell_share_button"]
+        
+        XCTAssertTrue(cellShareButton.exists)
+        
+        // 2 - tap on share button inside fact cell
+        cellShareButton.tap()
+        
+        // tap close button on share screen
+        let shareOptionList = app.otherElements["ActivityListView"]
+        XCTAssertTrue(shareOptionList.waitForExistence(timeout: 1))
+        
+        let closeButton = shareOptionList.buttons["Close"]
+        closeButton.tap()
+        
+        // 3 - should present facts list again
+        waitForElementToNotExist(element: shareOptionList)
+    }
 
 }

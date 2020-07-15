@@ -25,6 +25,9 @@ protocol FactsListViewModelInput {
     
     /// Call to update the current search term
     var setCurrentSearchTerm: AnyObserver<String> { get }
+    
+    /// Call when user taps item in the list
+    var shareItemAction: AnyObserver<FactItemViewModel> { get }
 }
 
 protocol FactsListViewModelOutput {
@@ -43,6 +46,9 @@ protocol FactsListViewModelOutput {
     
     /// Emmits an event of current searchTerm to be shown
     var currentSearchTerm: Observable<String> { get }
+    
+    /// Emmits an event to coordinator present the share screen for NorrisFact
+    var shareFact: Observable<NorrisFact> { get }
 }
 
 protocol FactsListViewModelType {
@@ -65,6 +71,7 @@ struct FactsListViewModel: FactsListViewModelType, FactsListViewModelInput, Fact
     var retryErrorAction: AnyObserver<Void>
     var searchButtonAction: AnyObserver<Void>
     var setCurrentSearchTerm: AnyObserver<String>
+    var shareItemAction: AnyObserver<FactItemViewModel>
     
     // MARK: - RX Outputs
     
@@ -73,6 +80,7 @@ struct FactsListViewModel: FactsListViewModelType, FactsListViewModelInput, Fact
     var factsViewModels: Observable<[FactsSectionViewModel]>
     var showSearchFactForm: Observable<Void>
     var currentSearchTerm: Observable<String>
+    var shareFact: Observable<NorrisFact>
     
     // MARK: - RX privates
     
@@ -100,6 +108,12 @@ struct FactsListViewModel: FactsListViewModelType, FactsListViewModelInput, Fact
         let searchButtonActionSubject = PublishSubject<Void>()
         self.searchButtonAction = searchButtonActionSubject.asObserver()
         self.showSearchFactForm = searchButtonActionSubject.asObservable()
+        
+        // show share screen
+        let shareItemSubject = PublishSubject<FactItemViewModel>()
+        self.shareItemAction = shareItemSubject.asObserver()
+        self.shareFact = shareItemSubject.map { $0.fact }
+            .asObservable()
         
         let currentErrorSubject = BehaviorSubject<FactListError?>(value: nil)
         

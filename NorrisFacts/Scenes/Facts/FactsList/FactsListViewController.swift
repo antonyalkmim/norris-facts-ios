@@ -48,10 +48,18 @@ class FactsListViewController: UIViewController {
     }()
     
     /// Datasource for FactsTableView
-    let factsDataSource = RxTableViewSectionedAnimatedDataSource<FactsSectionViewModel>(
-        configureCell: { _, tableView, indexPath, factViewModel -> UITableViewCell in
+    private lazy var factsDataSource = RxTableViewSectionedAnimatedDataSource<FactsSectionViewModel>(
+        configureCell: { [weak self] _, tableView, indexPath, factViewModel -> UITableViewCell in
+            
+            guard let viewModel = self?.viewModel else { return UITableViewCell() }
+            
             let cell = tableView.dequeueReusableCell(type: FactTableViewCell.self, indexPath: indexPath)
             cell.bindViewModel(factViewModel)
+            cell.shareFactButton.rx.tap
+                .map { factViewModel }
+                .bind(to: viewModel.inputs.shareItemAction)
+                .disposed(by: cell.disposeBag)
+            
             return cell
         }
     )

@@ -240,6 +240,29 @@ class FactsListViewModelTests: XCTestCase {
         XCTAssertEqual(events.count, 2)
     }
     
+    func testShowShareScreen() {
+        
+        guard let longTextFact = stub("fact-long-text", type: NorrisFact.self) else {
+            XCTFail("fact-long-text is not a valid JSON for NorrisFact")
+            return
+        }
+        
+        let scheduler = TestScheduler(initialClock: 0)
+        let shareObserver = scheduler.createObserver(NorrisFact.self)
+        
+        viewModel.outputs.shareFact
+            .subscribe(shareObserver)
+            .disposed(by: disposeBag)
+        
+        scheduler.start()
+        
+        let factItemViewModel = FactItemViewModel(fact: longTextFact)
+        viewModel.inputs.shareItemAction.onNext(factItemViewModel)
+        
+        let shareFact = shareObserver.events.compactMap { $0.value.element }.first
+        XCTAssertEqual(shareFact?.id, longTextFact.id)
+    }
+    
 }
 
 class NorrisFactsServiceMocked: NorrisFactsServiceType {
