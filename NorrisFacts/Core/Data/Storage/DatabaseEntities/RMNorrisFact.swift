@@ -13,6 +13,7 @@ class RMNorrisFact: Object {
     @objc dynamic var id: String = ""
     @objc dynamic var text: String = ""
     @objc dynamic var iconUrl: String = ""
+    @objc dynamic var url: String = ""
     @objc dynamic var createdAt: Date = Date()
     @objc dynamic var updatedAt: Date = Date()
     let categories = List<RMFactCategory>()
@@ -31,6 +32,7 @@ extension RMNorrisFact {
             "id": fact.id,
             "text": fact.text,
             "iconUrl": fact.iconUrl,
+            "url": fact.url,
             "createdAt": fact.createdAt,
             "updatedAt": fact.updatedAt,
             "categories": fact.categories.map(RMFactCategory.init)
@@ -42,6 +44,7 @@ extension RMNorrisFact {
             id: id,
             text: text,
             iconUrl: iconUrl,
+            url: url,
             createdAt: createdAt,
             updatedAt: updatedAt,
             categories: categories.map { $0.object }

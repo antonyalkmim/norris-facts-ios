@@ -104,5 +104,26 @@ class FactsListViewControllerTests: XCTestCase {
         let cell = viewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? FactTableViewCell
         XCTAssertEqual(cell?.factTextLabel.font.pointSize, 17)
     }
+    
+    func testShowShareScreenWhenTapsOnShareButtonInsideFactCell() {
+        let politicalFacts = stub("facts", type: [NorrisFact].self) ?? []
+        factsServiceMocked.getFactsResult[""] = .just(politicalFacts)
+        
+        let scheduler = TestScheduler(initialClock: 0)
+        let shareObserver = scheduler.createObserver(NorrisFact.self)
+        
+        viewModel.inputs.viewDidAppear.onNext(())
+        viewModel.outputs.shareFact
+            .subscribe(shareObserver)
+            .disposed(by: disposeBag)
+        
+        scheduler.start()
+        
+        let firstCell = viewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? FactTableViewCell
+        firstCell?.shareFactButton.sendActions(for: .touchUpInside)
+        
+        let events = shareObserver.events.compactMap { $0.value.element }
+        XCTAssertEqual(events.count, 1)
+    }
 
 }

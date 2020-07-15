@@ -33,6 +33,12 @@ class FactsListCoordinator: Coordinator<Void> {
             .bind(to: viewModel.inputs.setCurrentSearchTerm)
             .disposed(by: disposeBag)
         
+        viewModel.shareFact
+            .bind(onNext: { [weak self] fact in
+                self?.showShareActivity(for: fact, in: factsListViewController)
+            })
+            .disposed(by: disposeBag)
+            
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
@@ -50,6 +56,17 @@ class FactsListCoordinator: Coordinator<Void> {
                     return nil
                 }
             }
+    }
+    
+    private func showShareActivity(for fact: NorrisFact, in viewController: UIViewController) {
+        var activityItems: [Any] = [fact.text]
+        
+        if let factUrl = URL(string: fact.url) {
+            activityItems.append(factUrl)
+        }
+        
+        let shareActivity = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        viewController.present(shareActivity, animated: true, completion: nil)
     }
 
 }

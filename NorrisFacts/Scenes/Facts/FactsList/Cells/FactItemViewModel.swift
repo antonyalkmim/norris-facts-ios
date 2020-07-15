@@ -15,14 +15,16 @@ protocol FactItemViewModelType {
 }
 
 struct FactItemViewModel: FactItemViewModelType {
+
     let fact: NorrisFact
     
-    var factText: String {
-        fact.text
-    }
+    let factText: String
+    let categoryTitle: String
     
-    var categoryTitle: String {
-        (fact.categories.first?.title ?? L10n.FactsList.uncategorized).uppercased()
+    init(fact: NorrisFact) {
+        self.fact = fact
+        self.factText = fact.text
+        self.categoryTitle = (fact.categories.first?.title ?? L10n.FactsList.uncategorized).uppercased()
     }
 }
 
