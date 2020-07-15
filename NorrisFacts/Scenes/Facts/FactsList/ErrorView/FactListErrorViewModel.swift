@@ -11,13 +11,13 @@ import UIKit
 
 struct FactListErrorViewModel {
     
-    let factListError: FactsListViewModel.FactListError
+    let factListError: FactListError
 
     let errorMessage: String
     let isRetryEnabled: Bool
     let iconImage: UIImage
     
-    init(factListError: FactsListViewModel.FactListError) {
+    init(factListError: FactListError) {
         self.factListError = factListError
         
         switch factListError.error.code {

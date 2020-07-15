@@ -46,7 +46,7 @@ protocol SearchFactViewModelType {
     var outputs: SearchFactViewModelOutput { get }
 }
 
-final class SearchFactViewModel: SearchFactViewModelType, SearchFactViewModelInput, SearchFactViewModelOutput {
+struct SearchFactViewModel: SearchFactViewModelType, SearchFactViewModelInput, SearchFactViewModelOutput {
     
     var inputs: SearchFactViewModelInput { self }
     var outputs: SearchFactViewModelOutput { self }

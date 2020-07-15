@@ -80,6 +80,7 @@
 		FAD3206624BE24800044C83E /* PastSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3206424BE247F0044C83E /* PastSearchCell.swift */; };
 		FAD3206724BE24800044C83E /* PastSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAD3206524BE247F0044C83E /* PastSearchCell.xib */; };
 		FAD3206B24BE55C30044C83E /* SearchFactViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3206A24BE55C30044C83E /* SearchFactViewControllerTests.swift */; };
+		FAD3206F24BE6C2A0044C83E /* FactListError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3206E24BE6C2A0044C83E /* FactListError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -185,6 +186,7 @@
 		FAD3206424BE247F0044C83E /* PastSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastSearchCell.swift; sourceTree = "<group>"; };
 		FAD3206524BE247F0044C83E /* PastSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PastSearchCell.xib; sourceTree = "<group>"; };
 		FAD3206A24BE55C30044C83E /* SearchFactViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactViewControllerTests.swift; sourceTree = "<group>"; };
+		FAD3206E24BE6C2A0044C83E /* FactListError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactListError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -501,6 +503,7 @@
 			isa = PBXGroup;
 			children = (
 				FA1CF63A24B4D51E00409CB0 /* FactListErrorViewModel.swift */,
+				FAD3206E24BE6C2A0044C83E /* FactListError.swift */,
 			);
 			path = ErrorView;
 			sourceTree = "<group>";
@@ -972,6 +975,7 @@
 				FA1CF63D24B4D61100409CB0 /* NorrisFact.swift in Sources */,
 				FA1CF62B24B408D000409CB0 /* UIViewController+Rx.swift in Sources */,
 				FAD3204624BA5B190044C83E /* SearchFactViewController.swift in Sources */,
+				FAD3206F24BE6C2A0044C83E /* FactListError.swift in Sources */,
 				FA1CF5F124B1245000409CB0 /* Reachability.swift in Sources */,
 				FA1CF61324B37D2200409CB0 /* FactsListViewModel.swift in Sources */,
 				FA1CF64724B5285300409CB0 /* DateFormatter+ext.swift in Sources */,

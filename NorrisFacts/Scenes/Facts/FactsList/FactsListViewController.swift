@@ -13,36 +13,52 @@ import Lottie
 
 class FactsListViewController: UIViewController {
 
-    var disposeBag = DisposeBag()
-    
     var viewModel: FactsListViewModelType?
     
+    // MARK: - IBOutlets
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var loadingView: AnimationView!
+    
+    // error view subviews
     @IBOutlet weak var errorView: UIStackView!
     @IBOutlet weak var errorMessageLabel: UILabel!
     @IBOutlet weak var errorActionButton: UIButton!
     @IBOutlet weak var errorImageView: UIImageView!
     
+    // empty state subviews
     @IBOutlet weak var searchFactsButton: UIButton!
     @IBOutlet weak var emptyView: UIStackView!
     @IBOutlet weak var emptyImageView: UIImageView!
     @IBOutlet weak var emptyMessageLabel: UILabel!
     
+    // current searchTerm label
     @IBOutlet weak var searchTermView: UIView!
     @IBOutlet weak var searchTermLabel: UILabel!
     @IBOutlet weak var clearSearchButton: UIButton!
     
-    @IBOutlet weak var tableView: UITableView!
-    
+    // constraints
     @IBOutlet weak var searchViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var tableViewTopSafeAreaConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var loadingView: AnimationView!
     
     lazy var searchBarButtonItem: UIBarButtonItem = {
         let button = UIBarButtonItem(image: Asset.searchIcon.image, style: .plain, target: nil, action: nil)
         button.accessibilityIdentifier = "search_bar_button_item"
         return button
     }()
+    
+    /// Datasource for FactsTableView
+    let factsDataSource = RxTableViewSectionedAnimatedDataSource<FactsSectionViewModel>(
+        configureCell: { _, tableView, indexPath, factViewModel -> UITableViewCell in
+            let cell = tableView.dequeueReusableCell(type: FactTableViewCell.self, indexPath: indexPath)
+            cell.bindViewModel(factViewModel)
+            return cell
+        }
+    )
+    
+    var disposeBag = DisposeBag()
+    
+    // MARK: - Initializers
     
     init(viewModel: FactsListViewModelType) {
         self.viewModel = viewModel
@@ -53,11 +69,15 @@ class FactsListViewController: UIViewController {
         super.init(coder: coder)
     }
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         bindViewModel()
     }
+    
+    // MARK: - Setup methods
     
     private func setupViews() {
         title = L10n.FactsList.title
@@ -82,107 +102,8 @@ class FactsListViewController: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.registerCellWithNib(FactTableViewCell.self)
     }
-
-}
-
-extension FactsListViewController {
     
-    private func bindViewModel() {
-        
-        guard let viewModel = viewModel else { return }
-        
-        // Inputs
-        
-        rx.viewDidAppear
-            .bind(to: viewModel.inputs.viewDidAppear)
-            .disposed(by: disposeBag)
-        
-        errorActionButton.rx.tap
-            .mapToVoid()
-            .bind(to: viewModel.inputs.retryErrorAction)
-            .disposed(by: disposeBag)
-        
-        clearSearchButton.rx.tap
-            .map { "" }
-            .bind(to: viewModel.inputs.setCurrentSearchTerm)
-            .disposed(by: disposeBag)
-        
-        // show search form screen
-        let searchButtonTap = searchFactsButton.rx.tap.mapToVoid()
-        let searchBarButtonItemTap = searchBarButtonItem.rx.tap.mapToVoid()
-        
-        Observable.merge(searchButtonTap, searchBarButtonItemTap)
-            .bind(to: viewModel.inputs.searchButtonAction)
-            .disposed(by: disposeBag)
-        
-        // Outputs
-        
-        viewModel.outputs.isLoading
-            .drive(onNext: { [weak self] isLoading in
-                self?.showLoading(isLoading)
-            })
-            .disposed(by: disposeBag)
-        
-        let currentSearchTerm = viewModel.outputs.currentSearchTerm.share()
-        
-        currentSearchTerm
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { [weak self] currentTerm in
-                self?.bindCurrentSearchTerm(currentTerm)
-            })
-            .disposed(by: disposeBag)
-        
-        let factsViewModels = viewModel.outputs.factsViewModels.share()
-        
-        let dataSource = RxTableViewSectionedAnimatedDataSource<FactsSectionViewModel>(
-            configureCell: { _, tableView, indexPath, factViewModel -> UITableViewCell in
-                let cell = tableView.dequeueReusableCell(type: FactTableViewCell.self, indexPath: indexPath)
-                cell.bindViewModel(factViewModel)
-                return cell
-            }
-        )
-        
-        factsViewModels
-            .asDriver(onErrorJustReturn: [])
-            .drive(tableView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
-        
-        let isFactListEmpty = factsViewModels
-            .map { $0.flatMap { $0.items } } // get all items in all sections
-            .map { $0.isEmpty }
-            .share()
-        
-        // show empty state
-        Observable
-            .combineLatest(isFactListEmpty, currentSearchTerm.startWith(""))
-            .asDriver(onErrorJustReturn: (true, ""))
-            .drive(onNext: { [weak self] isEmpty, currentTerm in
-                self?.showEmptyState(isEmpty, isCurrentTermEmpty: currentTerm.isEmpty)
-            })
-            .disposed(by: disposeBag)
-        
-        let errorViewModel = viewModel.outputs.errorViewModel.share()
-        
-        // show error view when empty list
-        Observable
-            .combineLatest(isFactListEmpty, errorViewModel)
-            .filter { isListEmpty, _  in isListEmpty } // empty list
-            .map { _, errorViewModel in errorViewModel }
-            .bind(onNext: { [weak self] errorViewModel in
-                self?.bindErrorViewModel(errorViewModel)
-            })
-            .disposed(by: disposeBag)
-        
-        // show error toast when list is not empty
-        Observable
-            .combineLatest(isFactListEmpty, errorViewModel )
-            .filter { isListEmpty, _  in !isListEmpty } // list not empty
-            .map { _, errorViewModel in errorViewModel }
-            .observeOn(MainScheduler.instance)
-            .bind { [weak self] errorViewModel in
-                self?.showToast(text: errorViewModel.errorMessage)
-            }.disposed(by: disposeBag)
-    }
+    // MARK: - Private methods
     
     private func showEmptyState(_ isEmptyState: Bool, isCurrentTermEmpty: Bool) {
         
@@ -244,5 +165,97 @@ extension FactsListViewController {
         errorActionButton.isHidden = !errorViewModel.isRetryEnabled
         errorMessageLabel.text = errorViewModel.errorMessage
         errorImageView.image = errorViewModel.iconImage
+    }
+
+}
+
+// MARK: - Rx Bindings
+extension FactsListViewController {
+    
+    private func bindViewModel() {
+        guard let viewModel = viewModel else { return }
+        bindViewModelInputs(viewModel.inputs)
+        bindViewModelOutputs(viewModel.outputs)
+    }
+    
+    private func bindViewModelInputs(_ viewModelInputs: FactsListViewModelInput) {
+        
+        rx.viewDidAppear
+            .bind(to: viewModelInputs.viewDidAppear)
+            .disposed(by: disposeBag)
+        
+        errorActionButton.rx.tap
+            .mapToVoid()
+            .bind(to: viewModelInputs.retryErrorAction)
+            .disposed(by: disposeBag)
+        
+        clearSearchButton.rx.tap
+            .map { "" }
+            .bind(to: viewModelInputs.setCurrentSearchTerm)
+            .disposed(by: disposeBag)
+        
+        // show search form screen
+        let searchButtonTap = searchFactsButton.rx.tap.mapToVoid()
+        let searchBarButtonItemTap = searchBarButtonItem.rx.tap.mapToVoid()
+        
+        Observable.merge(searchButtonTap, searchBarButtonItemTap)
+            .bind(to: viewModelInputs.searchButtonAction)
+            .disposed(by: disposeBag)
+        
+    }
+    
+    private func bindViewModelOutputs(_ viewModelOutputs: FactsListViewModelOutput) {
+        
+        let currentSearchTerm = viewModelOutputs.currentSearchTerm.share()
+        let factsViewModels = viewModelOutputs.factsViewModels.share()
+        let errorViewModel = viewModelOutputs.errorViewModel.share()
+        let isFactListEmpty = factsViewModels
+            .map { $0.flatMap { $0.items } } // get all items in all sections
+            .map { $0.isEmpty }
+            .share()
+        
+        // loading state
+        viewModelOutputs.isLoading
+            .drive(onNext: { [weak self] isLoading in
+                self?.showLoading(isLoading)
+            })
+            .disposed(by: disposeBag)
+        
+        // current search filter label
+        currentSearchTerm
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] currentTerm in
+                self?.bindCurrentSearchTerm(currentTerm)
+            })
+            .disposed(by: disposeBag)
+        
+        // bind facts SectionViewModel to tableView
+        factsViewModels
+            .asDriver(onErrorJustReturn: [])
+            .drive(tableView.rx.items(dataSource: factsDataSource))
+            .disposed(by: disposeBag)
+        
+        // show empty state
+        Observable
+            .combineLatest(isFactListEmpty, currentSearchTerm.startWith(""))
+            .asDriver(onErrorJustReturn: (true, ""))
+            .drive(onNext: { [weak self] isEmpty, currentTerm in
+                self?.showEmptyState(isEmpty, isCurrentTermEmpty: currentTerm.isEmpty)
+            })
+            .disposed(by: disposeBag)
+        
+        // show error view when empty list
+        // show error toast when list is not empty
+        Observable
+            .combineLatest(isFactListEmpty, errorViewModel )
+            .observeOn(MainScheduler.instance)
+            .bind { [weak self] isFactListEmpty, errorViewModel in
+                if isFactListEmpty {
+                    self?.bindErrorViewModel(errorViewModel)
+                } else {
+                    self?.showToast(text: errorViewModel.errorMessage)
+                }
+            }.disposed(by: disposeBag)
+        
     }
 }
