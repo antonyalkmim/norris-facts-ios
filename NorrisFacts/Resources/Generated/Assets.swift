@@ -19,6 +19,7 @@
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Asset {
   internal static let closeIcon = ImageAsset(name: "close_icon")
+  internal static let launchscreen = ImageAsset(name: "launchscreen")
   internal static let retryIcon = ImageAsset(name: "retry_icon")
   internal static let searchBigIcon = ImageAsset(name: "search-big-icon")
   internal static let searchIcon = ImageAsset(name: "search-icon")
