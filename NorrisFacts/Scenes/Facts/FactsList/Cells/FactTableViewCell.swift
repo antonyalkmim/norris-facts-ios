@@ -32,7 +32,6 @@ class FactTableViewCell: UITableViewCell {
     }
     
     private func setupViews() {
-        wrapperView.backgroundColor = UIColor.white
         wrapperView.layer.cornerRadius = 16
         categoryView.layer.cornerRadius = 16
     }
