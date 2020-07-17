@@ -81,24 +81,22 @@ class FactsListViewControllerTests: XCTestCase {
         XCTAssertEqual(viewController.emptyImageView.image, Asset.warning.image)
     }
     
-    func testFactCellFontSizeWithShortText() {
-        guard let factShortText = stub("fact-short-text", type: NorrisFact.self) else {
-            XCTFail("Fact should not be nil")
-            return
-        }
-        factsServiceMocked.getFactsResult[""] = .just([factShortText])
+    func testFactCellFontSizeWithShortText() throws {
+        let smallFactStub = stub("fact-short-text", type: NorrisFact.self)
+        let smallFact = try XCTUnwrap(smallFactStub, "fact-short-text.json could not be parsed as NorrisFact")
+        
+        factsServiceMocked.getFactsResult[""] = .just([smallFact])
         viewModel.inputs.viewDidAppear.onNext(())
         
         let cell = viewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? FactTableViewCell
         XCTAssertEqual(cell?.factTextLabel.font.pointSize, 23)
     }
     
-    func testFactCellFontSizeWithLongText() {
-        guard let factLongText = stub("fact-long-text", type: NorrisFact.self) else {
-            XCTFail("Fact should not be nil")
-            return
-        }
-        factsServiceMocked.getFactsResult[""] = .just([factLongText])
+    func testFactCellFontSizeWithLongText() throws {
+        let longFactStub = stub("fact-long-text", type: NorrisFact.self)
+        let longFact = try XCTUnwrap(longFactStub, "fact-long-text.json could not be parsed as NorrisFact")
+        
+        factsServiceMocked.getFactsResult[""] = .just([longFact])
         viewModel.inputs.viewDidAppear.onNext(())
         
         let cell = viewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? FactTableViewCell

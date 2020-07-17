@@ -15,46 +15,34 @@ import RxTest
 
 class FactsItemViewModelTests: XCTestCase {
     
-    func testCategoryTitle() {
-        
-        guard let fact = stub("fact-short-text", type: NorrisFact.self) else {
-            XCTFail("fact-short-text.json could not be parsed as NorrisFact")
-            return
-        }
+    func testCategoryTitle() throws {
+        let factStub = stub("fact-short-text", type: NorrisFact.self)
+        let fact = try XCTUnwrap(factStub, "fact-short-text.json could not be parsed as NorrisFact")
         
         let viewModel = FactItemViewModel(fact: fact)
         XCTAssertEqual(viewModel.categoryTitle, L10n.FactsList.uncategorized.uppercased())
     }
     
-    func testFactText() {
-        
-        guard let fact = stub("fact-short-text", type: NorrisFact.self) else {
-            XCTFail("fact-short-text.json could not be parsed as NorrisFact")
-            return
-        }
+    func testFactText() throws {
+        let factStub = stub("fact-short-text", type: NorrisFact.self)
+        let fact = try XCTUnwrap(factStub, "fact-short-text.json could not be parsed as NorrisFact")
         
         let viewModel = FactItemViewModel(fact: fact)
         XCTAssertEqual(viewModel.factText, fact.text)
     }
     
-    func testEquatable() {
-        
-        guard let fact = stub("fact-short-text", type: NorrisFact.self) else {
-            XCTFail("fact-short-text.json could not be parsed as NorrisFact")
-            return
-        }
+    func testEquatable() throws {
+        let factStub = stub("fact-short-text", type: NorrisFact.self)
+        let fact = try XCTUnwrap(factStub, "fact-short-text.json could not be parsed as NorrisFact")
         
         let viewModelToTest = FactItemViewModel(fact: fact)
         let viewModel = FactItemViewModel(fact: fact)
         XCTAssertEqual(viewModelToTest, viewModel)
     }
     
-    func testIdentifiable() {
-        
-        guard let fact = stub("fact-short-text", type: NorrisFact.self) else {
-            XCTFail("fact-short-text.json could not be parsed as NorrisFact")
-            return
-        }
+    func testIdentifiable() throws {
+        let factStub = stub("fact-short-text", type: NorrisFact.self)
+        let fact = try XCTUnwrap(factStub, "fact-short-text.json could not be parsed as NorrisFact")
         
         let viewModelToTest = FactItemViewModel(fact: fact)
         XCTAssertEqual(viewModelToTest.identity, fact.id)
