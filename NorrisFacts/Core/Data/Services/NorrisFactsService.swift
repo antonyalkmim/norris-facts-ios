@@ -29,15 +29,18 @@ protocol NorrisFactsServiceType {
 
 class NorrisFactsService: NorrisFactsServiceType {
     
-    var api: HttpService<NorrisFactsAPI>
-    var storage: NorrisFactsStorageType
+    let api: HttpService<NorrisFactsAPI>
+    let storage: NorrisFactsStorageType
+    let scheduler: SchedulerType?
     
     init(
         api: HttpService<NorrisFactsAPI> = HttpService<NorrisFactsAPI>(),
-        storage: NorrisFactsStorageType = NorrisFactsStorage()
+        storage: NorrisFactsStorageType = NorrisFactsStorage(),
+        scheduler: SchedulerType? = nil
     ) {
         self.api = api
         self.storage = storage
+        self.scheduler = scheduler
     }
     
     func syncFactsCategories() -> Observable<Void> {
@@ -48,7 +51,14 @@ class NorrisFactsService: NorrisFactsServiceType {
                 
                 return self.api.rx.request(.getCategories)
                     .map([FactCategory].self)
-                    .observeOn(MainScheduler.instance)
+                    .observeOn(self.scheduler ?? MainScheduler.asyncInstance)
+                    .retryWhen(
+                        networkError: .connectionError,
+                        maxRetries: 2,
+                        retryAfter: .seconds(4),
+                        scheduler: self.scheduler ?? MainScheduler.asyncInstance
+                    )
+                    .observeOn(self.scheduler ?? MainScheduler.instance)
                     .do(onSuccess: { [weak self] remoteCategories in
                         guard let `self` = self else { return }
                         self.storage.saveCategories(remoteCategories)
@@ -74,10 +84,17 @@ class NorrisFactsService: NorrisFactsServiceType {
 
                 return self.api.rx.request(.search(term: term))
                     .map(SearchFactResponse.self)
+                    .observeOn(self.scheduler ?? MainScheduler.asyncInstance)
+                    .retryWhen(
+                        networkError: .connectionError,
+                        maxRetries: 2,
+                        retryAfter: .seconds(4),
+                        scheduler: self.scheduler ?? MainScheduler.asyncInstance
+                    )
                     .map { $0.facts }
                     .asObservable()
             }
-            .observeOn(MainScheduler.instance)
+            .observeOn(self.scheduler ?? MainScheduler.instance)
             .do(onNext: { [weak self] facts in
                 self?.storage.saveSearch(term: searchTerm, facts: facts)
             })

@@ -29,6 +29,7 @@ class FactTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         disposeBag = DisposeBag()
+        super.prepareForReuse()
     }
     
     private func setupViews() {

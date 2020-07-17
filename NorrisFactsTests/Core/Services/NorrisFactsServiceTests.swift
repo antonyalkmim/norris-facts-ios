@@ -23,7 +23,10 @@ class NorrisFactsServiceTests: XCTestCase {
     
     var disposeBag: DisposeBag!
     
+    var testScheduler: TestScheduler!
+    
     override func setUpWithError() throws {
+        testScheduler = TestScheduler(initialClock: 0)
         disposeBag = DisposeBag()
         
         apiMock = HttpServiceMock()
@@ -32,7 +35,8 @@ class NorrisFactsServiceTests: XCTestCase {
         storageMock = NorrisFactsStorage(realm: testRealm)
         
         service = NorrisFactsService(api: apiMock,
-                                     storage: storageMock)
+                                     storage: storageMock,
+                                     scheduler: testScheduler)
     }
     
     override func tearDown() {
@@ -48,21 +52,33 @@ class NorrisFactsServiceTests: XCTestCase {
     
     func testSyncCategories() throws {
         
-        let categories = storageMock.getCategories()
-            .observeOn(MainScheduler.instance)
-            
-        let initialCategories = try categories.toBlocking().first() ?? []
-        XCTAssertTrue(initialCategories.isEmpty)
+        let categoriesObserver = testScheduler.createObserver([FactCategory].self)
         
         let jsonData = "[\"develop\", \"political\", \"tecnology\"]".data(using: .utf8)!
         apiMock.responseResult = .success(jsonData)
+        
+        testScheduler
+            .createHotObservable([
+                .next(0, ()),
+                .next(100, ())
+            ])
+            .flatMapLatest(service.getFactCategories)
+            .subscribe(categoriesObserver)
+            .disposed(by: disposeBag)
         
         service.syncFactsCategories()
             .subscribe()
             .disposed(by: disposeBag)
         
-        let savedCategories = try categories.toBlocking().first() ?? []
-        XCTAssertEqual(savedCategories.count, 3)
+        testScheduler.start()
+        
+        let events = categoriesObserver.events.compactMap { $0.value.element }
+
+        // assert database its empty at the first query
+        XCTAssertEqual(events.first?.count, 0)
+
+        // assert database its not empty after call search
+        XCTAssertEqual(events.last?.count, 3)
     }
     
     func testGetCategories() throws {
@@ -98,25 +114,35 @@ class NorrisFactsServiceTests: XCTestCase {
     }
     
     func testSearchFactsBySearchTerm_ShouldSaveNewFacts() throws {
-        
+
+        let factsObserver = testScheduler.createObserver([NorrisFact].self)
+
         let searchTerm = "sport"
         let responseData = stub("search-facts-response") ?? Data()
         apiMock.responseResult = .success(responseData)
-        
-        let facts = storageMock.getFacts(searchTerm: searchTerm)
-            .observeOn(MainScheduler.instance)
-        
-        // assert that facts were saved
-        let initialFacts = try facts.toBlocking().first() ?? []
-        XCTAssertTrue(initialFacts.isEmpty)
+
+        testScheduler
+            .createHotObservable([
+                .next(0, searchTerm),
+                .next(100, searchTerm)
+            ])
+            .flatMapLatest(service.getFacts)
+            .subscribe(factsObserver)
+            .disposed(by: disposeBag)
         
         service.searchFacts(searchTerm: searchTerm)
             .subscribe()
             .disposed(by: disposeBag)
         
-        // assert that facts were saved
-        let factsSaved = try facts.toBlocking().first() ?? []
-        XCTAssertEqual(factsSaved.count, 4)
+        testScheduler.start()
+
+        let events = factsObserver.events.compactMap { $0.value.element }
+
+        // assert database its empty at the first query
+        XCTAssertEqual(events.first?.count, 0)
+
+        // assert database its not empty after call search
+        XCTAssertEqual(events.last?.count, 4)
     }
     
     func testGestFactsByTerm_ShouldFilter() throws {

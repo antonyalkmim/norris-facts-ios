@@ -66,3 +66,9 @@ enum NetworkError: NorrisFactsErrorType, LocalizedError {
         }
     }
 }
+
+extension NetworkError: Equatable {
+    static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
+        return lhs.code == rhs.code
+    }
+}
