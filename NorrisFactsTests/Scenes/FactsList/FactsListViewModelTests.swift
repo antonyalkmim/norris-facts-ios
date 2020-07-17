@@ -240,12 +240,10 @@ class FactsListViewModelTests: XCTestCase {
         XCTAssertEqual(events.count, 2)
     }
     
-    func testShowShareScreen() {
+    func testShowShareScreen() throws {
         
-        guard let longTextFact = stub("fact-long-text", type: NorrisFact.self) else {
-            XCTFail("fact-long-text is not a valid JSON for NorrisFact")
-            return
-        }
+        let longFactStub = stub("fact-long-text", type: NorrisFact.self)
+        let longFact = try XCTUnwrap(longFactStub, "fact-long-text.json could not be parsed as NorrisFact")
         
         let scheduler = TestScheduler(initialClock: 0)
         let shareObserver = scheduler.createObserver(NorrisFact.self)
@@ -256,11 +254,11 @@ class FactsListViewModelTests: XCTestCase {
         
         scheduler.start()
         
-        let factItemViewModel = FactItemViewModel(fact: longTextFact)
+        let factItemViewModel = FactItemViewModel(fact: longFact)
         viewModel.inputs.shareItemAction.onNext(factItemViewModel)
         
         let shareFact = shareObserver.events.compactMap { $0.value.element }.first
-        XCTAssertEqual(shareFact?.id, longTextFact.id)
+        XCTAssertEqual(shareFact?.id, longFact.id)
     }
     
 }

@@ -130,11 +130,10 @@ class NorrisFactsServiceTests: XCTestCase {
         storageMock.saveSearch(term: searchTerm, facts: fakeFacts)
         
         // save data that should not be listed
-        guard let smallFact = stub("fact-long-text", type: NorrisFact.self) else {
-            XCTFail("smallFact should not be nil")
-            return
-        }
-        storageMock.saveSearch(term: "sport", facts: [smallFact])
+        let longFactStub = stub("fact-long-text", type: NorrisFact.self)
+        let longFact = try XCTUnwrap(longFactStub, "longFactStub should not be nil")
+        
+        storageMock.saveSearch(term: "sport", facts: [longFact])
         
         service.getFacts(searchTerm: searchTerm)
             .subscribe(factsObserver)
@@ -153,13 +152,11 @@ class NorrisFactsServiceTests: XCTestCase {
     
     func testLoadPastSearchTerms() throws {
         let fakeFacts = stub("facts", type: [NorrisFact].self) ?? []
-        guard let smallFact = stub("fact-long-text", type: NorrisFact.self) else {
-            XCTFail("longFact should not be nil")
-            return
-        }
+        let longFactStub = stub("fact-long-text", type: NorrisFact.self)
+        let longFact = try XCTUnwrap(longFactStub, "longFactStub should not be nil")
         
         storageMock.saveSearch(term: "political", facts: fakeFacts)
-        storageMock.saveSearch(term: "sport", facts: [smallFact])
+        storageMock.saveSearch(term: "sport", facts: [longFact])
         
         let searches = try storageMock.getPastSearchTerms().toBlocking().first() ?? []
         XCTAssertEqual(searches.count, 2)
@@ -171,15 +168,13 @@ class NorrisFactsServiceTests: XCTestCase {
     func testLoadPastSearchTerms_ShouldBeUniqueAndSortedBySearchDate() throws {
         
         let fakeFacts = stub("facts", type: [NorrisFact].self) ?? []
-        guard let smallFact = stub("fact-long-text", type: NorrisFact.self) else {
-            XCTFail("longFact should not be nil")
-            return
-        }
+        let longFactStub = stub("fact-long-text", type: NorrisFact.self)
+        let longFact = try XCTUnwrap(longFactStub, "longFactStub should not be nil")
         
         storageMock.saveSearch(term: "political", facts: fakeFacts)
-        storageMock.saveSearch(term: "sport", facts: [smallFact])
-        storageMock.saveSearch(term: "food", facts: [smallFact])
-        storageMock.saveSearch(term: "sport", facts: [smallFact])
+        storageMock.saveSearch(term: "sport", facts: [longFact])
+        storageMock.saveSearch(term: "food", facts: [longFact])
+        storageMock.saveSearch(term: "sport", facts: [longFact])
         
         let searches = try storageMock.getPastSearchTerms().toBlocking().first() ?? []
         XCTAssertEqual(searches.count, 3)
