@@ -47,13 +47,15 @@ enum NetworkError: NorrisFactsErrorType, LocalizedError {
     case jsonMapping(Error?)
     case connectionError
     case noInternetConnection
-
+    case statusCodeError(Int)
+    
     var code: Int {
         switch self {
         case .unknow: return 0
         case .jsonMapping: return 1
         case .connectionError: return 2
         case .noInternetConnection: return 3
+        case .statusCodeError: return 4
         }
     }
     
@@ -63,6 +65,7 @@ enum NetworkError: NorrisFactsErrorType, LocalizedError {
         case .jsonMapping(let err): return err?.localizedDescription ?? "Parser error"
         case .connectionError: return "Connection Error"
         case .noInternetConnection: return "No internet connection"
+        case .statusCodeError(let statusCode): return "Status code error \(statusCode)"
         }
     }
 }

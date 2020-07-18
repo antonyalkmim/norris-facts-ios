@@ -50,6 +50,8 @@
 		FA1CF64924B629FC00409CB0 /* UITableView+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF64824B629FC00409CB0 /* UITableView+ext.swift */; };
 		FA1CF64C24B62B3A00409CB0 /* FactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1CF64A24B62B3A00409CB0 /* FactTableViewCell.swift */; };
 		FA1CF64D24B62B3A00409CB0 /* FactTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA1CF64B24B62B3A00409CB0 /* FactTableViewCell.xib */; };
+		FA6DB40124C38C79005D0C5E /* HttpServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6DB40024C38C79005D0C5E /* HttpServiceMock.swift */; };
+		FA6DB40324C38CBA005D0C5E /* NorrisFactServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6DB40224C38CBA005D0C5E /* NorrisFactServiceMock.swift */; };
 		FAD3201224B6472E0044C83E /* fact-short-text.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3201124B6472E0044C83E /* fact-short-text.json */; };
 		FAD3201424B647580044C83E /* fact-long-text.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3201324B647580044C83E /* fact-long-text.json */; };
 		FAD3201624B64A6C0044C83E /* FactItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3201524B64A6C0044C83E /* FactItemViewModel.swift */; };
@@ -162,6 +164,8 @@
 		FA1CF64824B629FC00409CB0 /* UITableView+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+ext.swift"; sourceTree = "<group>"; };
 		FA1CF64A24B62B3A00409CB0 /* FactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactTableViewCell.swift; sourceTree = "<group>"; };
 		FA1CF64B24B62B3A00409CB0 /* FactTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FactTableViewCell.xib; sourceTree = "<group>"; };
+		FA6DB40024C38C79005D0C5E /* HttpServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpServiceMock.swift; sourceTree = "<group>"; };
+		FA6DB40224C38CBA005D0C5E /* NorrisFactServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactServiceMock.swift; sourceTree = "<group>"; };
 		FAD3201124B6472E0044C83E /* fact-short-text.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fact-short-text.json"; sourceTree = "<group>"; };
 		FAD3201324B647580044C83E /* fact-long-text.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fact-long-text.json"; sourceTree = "<group>"; };
 		FAD3201524B64A6C0044C83E /* FactItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactItemViewModel.swift; sourceTree = "<group>"; };
@@ -292,6 +296,7 @@
 		FA1CF5BF24B0EBBD00409CB0 /* NorrisFactsTests */ = {
 			isa = PBXGroup;
 			children = (
+				FA6DB3FF24C38C66005D0C5E /* Mocks */,
 				FA1CF64024B5144A00409CB0 /* Helpers */,
 				FA1CF61D24B3852700409CB0 /* Core */,
 				FA1CF61624B3802000409CB0 /* Scenes */,
@@ -547,6 +552,15 @@
 				FAD3201324B647580044C83E /* fact-long-text.json */,
 			);
 			path = stubs;
+			sourceTree = "<group>";
+		};
+		FA6DB3FF24C38C66005D0C5E /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				FA6DB40024C38C79005D0C5E /* HttpServiceMock.swift */,
+				FA6DB40224C38CBA005D0C5E /* NorrisFactServiceMock.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		FAD3201724B79D5F0044C83E /* Responses */ = {
@@ -1043,10 +1057,12 @@
 				FAD3203E24BA3DC00044C83E /* FactsListErrorViewModelTests.swift in Sources */,
 				FA1CF61924B3804700409CB0 /* FactsListViewModelTests.swift in Sources */,
 				FAD3204A24BAD3210044C83E /* SearchFactViewModelTests.swift in Sources */,
+				FA6DB40124C38C79005D0C5E /* HttpServiceMock.swift in Sources */,
 				FAD3206B24BE55C30044C83E /* SearchFactViewControllerTests.swift in Sources */,
 				FA1CF62024B3853E00409CB0 /* FactCategoryTests.swift in Sources */,
 				FA1CF63524B4212700409CB0 /* NorrisFactsServiceTests.swift in Sources */,
 				FAD3201624B64A6C0044C83E /* FactItemViewModel.swift in Sources */,
+				FA6DB40324C38CBA005D0C5E /* NorrisFactServiceMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -46,7 +46,7 @@ extension NorrisFactsAPI: TargetType {
         return ["Content-type": "application/json"]
     }
 
-    var sampleData: Data? {
+    var sampleData: HttpResponse? {
         
         guard LaunchArgument.check(.useMockHttpRequests) else {
             return nil
@@ -54,9 +54,11 @@ extension NorrisFactsAPI: TargetType {
         
         switch self {
         case .getCategories:
-            return stub("get-categories")
+            return HttpResponse(statusCode: 200,
+                                data: stub("get-categories"))
         case .search:
-            return stub("search-facts")
+            return HttpResponse(statusCode: 200,
+                                data: stub("search-facts"))
         }
 
     }

@@ -13,68 +13,85 @@ extension HttpService: ReactiveCompatible { }
 
 extension Reactive where Base: HttpServiceType {
 
-    func request(_ endpoint: Base.Target) -> Single<Data> {
-        return Single<Data>
+    func request(_ endpoint: Base.Target) -> Single<HttpResponse> {
+        return Single<HttpResponse>
             .create(subscribe: { [weak base] single in
-                let task = base?.request(endpoint, responseData: { result in
+                let task = base?.request(endpoint) { result in
                     switch result {
-                    case Result.success(let data):
-                        single(SingleEvent.success(data))
-                    case Result.failure(let error):
+                    case .success(let response):
+                        single(SingleEvent.success(response))
+                    case .failure(let error):
                         single(SingleEvent.error(error))
                     }
-                })
+                }
 
                 return Disposables.create { task?.cancel() }
             })
     }
+    
 }
 
-extension PrimitiveSequence where Trait == SingleTrait, Element == Data {
+extension ObservableType where Element == HttpResponse {
     
-    func map<D: Decodable>(_ type: D.Type, using decoder: JSONDecoder = JSON.decoder) -> Single<D> {
-        flatMap { data in
+    /// map current HttpResponse data to an Decodable object
+    func map<D: Decodable>(_ type: D.Type, using decoder: JSONDecoder = JSON.decoder) -> Observable<D> {
+        flatMap { response -> Observable<D> in
             do {
+                
+                guard let data = response.data else {
+                    return .error(NetworkError.jsonMapping(nil))
+                }
+                
                 let res = try decoder.decode(type, from: data)
-                return Single<D>.just(res)
+                return Observable<D>.just(res)
+                
             } catch {
-                return Single<D>.error(NetworkError.jsonMapping(error))
+                return Observable<D>.error(NetworkError.jsonMapping(error))
             }
         }
     }
-}
-
-extension PrimitiveSequence where Trait == SingleTrait {
     
-    /// Retry when given networkError emmits
+    /// Emmits an NetworkError.statusCodeError(statusCode) when current HttpResponse statusCode is in given range
+    func errorWhenStatusCode(in range: Range<Int>) -> Observable<HttpResponse> {
+        flatMap { response -> Observable<HttpResponse> in
+            
+            if range.contains(response.statusCode) {
+                return .error(NorrisFactsError.network(.statusCodeError(response.statusCode)))
+            }
+            
+            return .just(response)
+        }
+    }
+    
+    /// Retry when given HttpResponse statusCode is in range
     func retryWhen(
-        networkError error: NetworkError,
+        statusCode range: Range<Int>,
         maxRetries: Int,
         retryAfter: RxTimeInterval,
         scheduler: SchedulerType = MainScheduler.asyncInstance
-    ) -> Single<Element> {
+    ) -> Observable<Element> {
         
-        return retryWhen { errorObservable -> Observable<Int> in
-            errorObservable
-                .enumerated()
-                .flatMapLatest { index, err -> Observable<Int> in
-                    
-                    // check if is network error
-                    guard case let NorrisFactsError.network(networkError) = err else {
+        return errorWhenStatusCode(in: range)
+            .retryWhen { errorObservable -> Observable<Int> in
+                errorObservable
+                    .enumerated()
+                    .flatMapLatest { index, err -> Observable<Int> in
+                        
+                        // check if is network error
+                        guard case let NorrisFactsError.network(networkError) = err else {
+                            return .error(err)
+                        }
+                        
+                        // check if reach max retries
+                        guard index < maxRetries else { throw err }
+                        
+                        // retry only when NetworkError.statusCodeError
+                        if case NetworkError.statusCodeError = networkError {
+                            return Observable<Int>.timer(retryAfter, scheduler: scheduler)
+                        }
+                        
                         return .error(err)
                     }
-                    
-                    // check if reach max retries
-                    guard index < maxRetries else { throw err }
-                    
-                    // check if should retry for currentError
-                    if networkError == error {
-                        return Observable<Int>.timer(retryAfter, scheduler: scheduler)
-                    }
-                    
-                    return .error(networkError)
-                    
-                }
         }
     }
 }

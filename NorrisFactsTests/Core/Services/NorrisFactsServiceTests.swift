@@ -52,10 +52,10 @@ class NorrisFactsServiceTests: XCTestCase {
     
     func testSyncCategories() throws {
         
-        let categoriesObserver = testScheduler.createObserver([FactCategory].self)
-        
         let jsonData = "[\"develop\", \"political\", \"tecnology\"]".data(using: .utf8)!
-        apiMock.responseResult = .success(jsonData)
+        apiMock.mockRequest(statusCode: 200, jsonData)
+        
+        let categoriesObserver = testScheduler.createObserver([FactCategory].self)
         
         testScheduler
             .createHotObservable([
@@ -115,12 +115,12 @@ class NorrisFactsServiceTests: XCTestCase {
     
     func testSearchFactsBySearchTerm_ShouldSaveNewFacts() throws {
 
+        apiMock.mockRequest(statusCode: 200, stub("search-facts-response"))
+        
         let factsObserver = testScheduler.createObserver([NorrisFact].self)
 
         let searchTerm = "sport"
-        let responseData = stub("search-facts-response") ?? Data()
-        apiMock.responseResult = .success(responseData)
-
+        
         testScheduler
             .createHotObservable([
                 .next(0, searchTerm),
@@ -143,6 +143,26 @@ class NorrisFactsServiceTests: XCTestCase {
 
         // assert database its not empty after call search
         XCTAssertEqual(events.last?.count, 4)
+    }
+    
+    func testSearchFactsErrorForStatusCode() throws {
+
+        let factsObserver = testScheduler.createObserver([NorrisFact].self)
+        apiMock.mockRequest(statusCode: 500, nil)
+        
+        service.searchFacts(searchTerm: "sport")
+            .subscribe(factsObserver)
+            .disposed(by: disposeBag)
+        
+        testScheduler.start()
+
+        let error = try XCTUnwrap(factsObserver.events.compactMap { $0.value.error as? NorrisFactsError }.first)
+        guard case let NorrisFactsError.network(networkError) = error else {
+            XCTFail("Error should be NetworkError")
+            return
+        }
+        
+        XCTAssertEqual(networkError, .statusCodeError(500))
     }
     
     func testGestFactsByTerm_ShouldFilter() throws {
@@ -209,15 +229,4 @@ class NorrisFactsServiceTests: XCTestCase {
         
     }
 
-}
-
-final class HttpServiceMock: HttpService<NorrisFactsAPI> {
-    
-    var responseResult: Result<Data, NorrisFactsError>?
-    
-    override func request(_ endpoint: NorrisFactsAPI,
-                          responseData: @escaping (Result<Data, NorrisFactsError>) -> Void) -> URLSessionDataTask? {
-        responseData(responseResult ?? .failure(.unknow(nil)))
-        return nil
-    }
 }
