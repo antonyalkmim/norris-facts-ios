@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 @testable import NorrisFacts
 
-class NorrisFactsServiceMocked: NorrisFactsServiceType {
+final class NorrisFactsServiceMocked: NorrisFactsServiceType {
     
     var syncFactsCategoriesResult: Observable<Void> = .just(())
     var getFactsResult: [String: Observable<[NorrisFact]>] = ["": .just([])]

@@ -122,12 +122,7 @@ struct FactsListViewModel: FactsListViewModelType, FactsListViewModelInput, Fact
         let retrySyncCategories = retryErrorActionSubject
             .withLatestFrom(currentErrorSubject)
             .compactMap { $0 }
-            .filter { factListError -> Bool in
-                if case FactListError.syncCategories = factListError {
-                    return true
-                }
-                return false
-            }
+            .filter { $0 == .syncCategories($0.error) }
             .mapToVoid()
         
         // attempt to sync categories when view appears or user taps the retryButton
@@ -158,15 +153,17 @@ struct FactsListViewModel: FactsListViewModelType, FactsListViewModelInput, Fact
             .errors()
             .map { FactListError.loadFacts($0) }
         
-        // show 10 random facts if currentSearchTerm is empty
-        // show searched facts for currentSerchTerm when its not empty
         self.factsViewModels = Observable
             .combineLatest(viewDidAppearSubject, currentSearchTerm) { _, term in term }
             .flatMapLatest { term -> Observable<[NorrisFact]> in
+                
+                // show 10 random facts if currentSearchTerm is empty
                 guard !term.isEmpty else {
                     return factsService.getFacts(searchTerm: "")
                         .map { Array($0.shuffled().prefix(10)) }
                 }
+                
+                // show searched facts for currentSerchTerm when its not empty
                 return factsService.getFacts(searchTerm: term)
             }
             .materialize()

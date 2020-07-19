@@ -85,7 +85,8 @@ protocol HttpServiceType: class {
     typealias RequestCompletionHandler = (Result<HttpResponse, NorrisFactsError>) -> Void
     
     associatedtype Target: TargetType
-    var session: URLSession { get }
+    
+    /// Execute a request for a given endpoint target
     func request(_ endpoint: Target, completion: @escaping RequestCompletionHandler) -> URLSessionDataTask?
 }
 
@@ -97,9 +98,9 @@ class HttpService<Target: TargetType>: HttpServiceType {
     /// closure executed after response
     typealias ResponseClosure = (HTTPURLResponse?, Data?) -> Void
     
-    private var requestClosure: RequestClosure
-    private var responseClosure: ResponseClosure
-    public let session: URLSession
+    var requestClosure: RequestClosure
+    var responseClosure: ResponseClosure
+    private let session: URLSession
 
     // MARK: - Initializer
     init(urlSession: URLSession? = nil,

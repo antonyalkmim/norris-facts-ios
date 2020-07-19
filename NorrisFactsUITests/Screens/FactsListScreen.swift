@@ -20,6 +20,7 @@ struct FactsListScreen {
         static let kCurrentSearchView = "current_search_view"
         static let kCurrentSearchLabel = "current_search_label"
         static let kClearSearchButton = "clear_search_button"
+        static let kToastView = "toast_view"
     }
     
     let factsTableView: XCUIElement
@@ -32,6 +33,8 @@ struct FactsListScreen {
     let currentSearchTermView: XCUIElement
     let currentSearchLabel: XCUIElement
     let clearSearchButton: XCUIElement
+    
+    let toastView: XCUIElement
     
     init() {
         let app = XCUIApplication()
@@ -46,6 +49,8 @@ struct FactsListScreen {
         currentSearchTermView = app.otherElements[ElementID.kCurrentSearchView]
         currentSearchLabel = app.staticTexts[ElementID.kCurrentSearchLabel]
         clearSearchButton = app.buttons[ElementID.kClearSearchButton]
+        
+        toastView = app.otherElements[ElementID.kToastView]
     }
     
     func firstCell() -> FactListCellElement {

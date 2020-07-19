@@ -18,6 +18,7 @@ class TagFlowLayout: UICollectionViewFlowLayout {
         
         // use a value to keep track of left margin
         var leftMargin: CGFloat = 0.0
+        let cellHorizontalMargin: CGFloat = 2
         
         for attributes in attributesForElementsInRect! {
             
@@ -31,7 +32,7 @@ class TagFlowLayout: UICollectionViewFlowLayout {
                 attributes.frame = newLeftAlignedFrame
             }
             // calculate new value for current margin
-            leftMargin += attributes.frame.size.width + 2
+            leftMargin += attributes.frame.size.width + cellHorizontalMargin
             newAttributesForElementsInRect.append(attributes)
         }
         

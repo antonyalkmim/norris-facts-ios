@@ -15,7 +15,7 @@ import RxTest
 
 class FactsItemViewModelTests: XCTestCase {
     
-    func testCategoryTitle() throws {
+    func test_categoryTitle_isFormatted() throws {
         let factStub = stub("fact-short-text", type: NorrisFact.self)
         let fact = try XCTUnwrap(factStub, "fact-short-text.json could not be parsed as NorrisFact")
         
@@ -23,7 +23,7 @@ class FactsItemViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.categoryTitle, L10n.FactsList.uncategorized.uppercased())
     }
     
-    func testFactText() throws {
+    func test_factText_isFormatted() throws {
         let factStub = stub("fact-short-text", type: NorrisFact.self)
         let fact = try XCTUnwrap(factStub, "fact-short-text.json could not be parsed as NorrisFact")
         
@@ -31,7 +31,7 @@ class FactsItemViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.factText, fact.text)
     }
     
-    func testEquatable() throws {
+    func test_factItemViewModel_isEquatable() throws {
         let factStub = stub("fact-short-text", type: NorrisFact.self)
         let fact = try XCTUnwrap(factStub, "fact-short-text.json could not be parsed as NorrisFact")
         
@@ -40,7 +40,7 @@ class FactsItemViewModelTests: XCTestCase {
         XCTAssertEqual(viewModelToTest, viewModel)
     }
     
-    func testIdentifiable() throws {
+    func test_factItemViewModel_isIdentifiable() throws {
         let factStub = stub("fact-short-text", type: NorrisFact.self)
         let fact = try XCTUnwrap(factStub, "fact-short-text.json could not be parsed as NorrisFact")
         

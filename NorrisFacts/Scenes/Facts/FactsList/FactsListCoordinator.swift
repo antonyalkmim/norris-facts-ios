@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 
-class FactsListCoordinator: Coordinator<Void> {
+final class FactsListCoordinator: Coordinator<Void> {
     
     private let window: UIWindow
     

@@ -15,7 +15,7 @@ enum SearchFactCoordinatorResult {
     case cancel
 }
 
-class SearchFactCoordinator: Coordinator<SearchFactCoordinatorResult> {
+final class SearchFactCoordinator: Coordinator<SearchFactCoordinatorResult> {
     
     private let rootViewController: UIViewController
     

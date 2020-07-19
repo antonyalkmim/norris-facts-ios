@@ -21,12 +21,14 @@ class FactsListViewModelTests: XCTestCase {
     var apiMock: HttpServiceMock!
     var storageMock: NorrisFactsStorageType!
     var testRealm: Realm!
+    var testScheduler: TestScheduler!
     
     var disposeBag: DisposeBag!
     
     override func setUpWithError() throws {
-
         disposeBag = DisposeBag()
+        
+        testScheduler = TestScheduler(initialClock: 0)
         
         testRealm = try Realm(configuration: .init(inMemoryIdentifier: self.name))
         
@@ -39,6 +41,7 @@ class FactsListViewModelTests: XCTestCase {
     
     override func tearDown() {
         disposeBag = nil
+        testScheduler = nil
         apiMock = nil
         storageMock = nil
         factsServiceMocked = nil
@@ -49,10 +52,9 @@ class FactsListViewModelTests: XCTestCase {
         }
     }
     
-    func testSyncCategoriesError() {
+    func test_syncCategories_withError_shouldEmmitErrorViewModel() {
         
-        let scheduler = TestScheduler(initialClock: 0)
-        let errorObserver = scheduler.createObserver(FactListErrorViewModel.self)
+        let errorObserver = testScheduler.createObserver(FactListErrorViewModel.self)
         
         viewModel.outputs.errorViewModel
             .subscribe(errorObserver)
@@ -61,17 +63,16 @@ class FactsListViewModelTests: XCTestCase {
         factsServiceMocked.syncFactsCategoriesResult = .error(NorrisFactsError.network(.noInternetConnection))
         viewModel.inputs.viewDidAppear.onNext(())
         
-        scheduler.start()
+        testScheduler.start()
         
         // error message
         let errorViewModel = errorObserver.events.compactMap { $0.value.element }.first
         XCTAssertEqual(errorViewModel?.errorMessage, L10n.Errors.noInternetConnection)
     }
     
-    func testSyncCategoriesErrorRetry() {
+    func test_retrySyncCategories() {
 
-        let scheduler = TestScheduler(initialClock: 0)
-        let errorObserver = scheduler.createObserver(FactListErrorViewModel.self)
+        let errorObserver = testScheduler.createObserver(FactListErrorViewModel.self)
 
         viewModel.outputs.errorViewModel
             .subscribe(errorObserver)
@@ -82,7 +83,7 @@ class FactsListViewModelTests: XCTestCase {
         viewModel.inputs.viewDidAppear.onNext(())
         viewModel.inputs.retryErrorAction.onNext(())
 
-        scheduler.start()
+        testScheduler.start()
 
         let errorViewModels = errorObserver.events.compactMap { $0.value.element }
         XCTAssertEqual(errorViewModels.count, 2)
@@ -101,10 +102,9 @@ class FactsListViewModelTests: XCTestCase {
 
     }
     
-    func testSyncCategoriesSuccess() {
+    func test_syncCategories_withSuccessApiResponse_shouldNotReturnError() {
         
-        let scheduler = TestScheduler(initialClock: 0)
-        let errorObserver = scheduler.createObserver(FactListErrorViewModel.self)
+        let errorObserver = testScheduler.createObserver(FactListErrorViewModel.self)
         
         viewModel.outputs.errorViewModel
             .subscribe(errorObserver)
@@ -113,20 +113,19 @@ class FactsListViewModelTests: XCTestCase {
         factsServiceMocked.syncFactsCategoriesResult = .just(())
         viewModel.inputs.viewDidAppear.onNext(())
         
-        scheduler.start()
+        testScheduler.start()
         
         // error message
         let error = errorObserver.events.compactMap { $0.value.element }.first
         XCTAssertNil(error)
     }
     
-    func testLoad10RandomFacts() {
+    func test_factsViewModels_withEmptySearchTerm_shouldLoad10RandomFacts() {
 
         let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
         factsServiceMocked.getFactsResult[""] = .just(factsToTest)
         
-        let scheduler = TestScheduler(initialClock: 0)
-        let itemsObserver = scheduler.createObserver([FactsSectionViewModel].self)
+        let itemsObserver = testScheduler.createObserver([FactsSectionViewModel].self)
         
         viewModel.outputs.factsViewModels
             .subscribe(itemsObserver)
@@ -134,17 +133,16 @@ class FactsListViewModelTests: XCTestCase {
 
         viewModel.inputs.viewDidAppear.onNext(())
         
-        scheduler.start()
+        testScheduler.start()
         
         let sectionViewModels = itemsObserver.events.compactMap { $0.value.element }.first
         let firstSection = sectionViewModels?.first
         XCTAssertEqual(firstSection?.items.count, 10)
     }
     
-    func testChangeSearchTerm() {
+    func test_setCurrentSearchTerm_shouldSearchFactsForTerm() {
 
-        let scheduler = TestScheduler(initialClock: 0)
-        let itemsObserver = scheduler.createObserver([FactsSectionViewModel].self)
+        let itemsObserver = testScheduler.createObserver([FactsSectionViewModel].self)
         
         let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
         
@@ -157,7 +155,7 @@ class FactsListViewModelTests: XCTestCase {
             .subscribe(itemsObserver)
             .disposed(by: disposeBag)
 
-        scheduler.start()
+        testScheduler.start()
         
         // empty search
         viewModel.inputs.viewDidAppear.onNext(())
@@ -181,25 +179,24 @@ class FactsListViewModelTests: XCTestCase {
         XCTAssertEqual(events.count, 3)
     }
     
-    func testChangeSearchTerm_ShouldFilterItems() {
+    func test_setCurrentSearchTerm_shouldFilterLocalFacts() throws {
 
         let service = NorrisFactsService(api: apiMock, storage: storageMock)
         viewModel = FactsListViewModel(factsService: service)
         
-        let longTextFact = stub("fact-long-text", type: NorrisFact.self)
-        storageMock.saveSearch(term: "sport", facts: [longTextFact].compactMap { $0 })
+        let longTextFact = try XCTUnwrap(stub("fact-long-text", type: NorrisFact.self))
+        storageMock.saveSearch(term: "sport", facts: [longTextFact])
         
-        let politicalFacts = stub("facts", type: [NorrisFact].self) ?? []
+        let politicalFacts = try XCTUnwrap(stub("facts", type: [NorrisFact].self))
         storageMock.saveSearch(term: "political", facts: politicalFacts)
         
-        let scheduler = TestScheduler(initialClock: 0)
-        let itemsObserver = scheduler.createObserver([FactsSectionViewModel].self)
+        let itemsObserver = testScheduler.createObserver([FactsSectionViewModel].self)
         
         viewModel.outputs.factsViewModels
             .subscribe(itemsObserver)
             .disposed(by: disposeBag)
 
-        scheduler.start()
+        testScheduler.start()
         
         // empty search
         viewModel.inputs.viewDidAppear.onNext(())
@@ -223,15 +220,14 @@ class FactsListViewModelTests: XCTestCase {
         XCTAssertEqual(events.count, 3) // [local10RandomFacts, sportFacts, politicalFacts]
     }
     
-    func testShowSearchForm() {
-        let scheduler = TestScheduler(initialClock: 0)
-        let itemsObserver = scheduler.createObserver(Void.self)
+    func test_showSearchForm() {
+        let itemsObserver = testScheduler.createObserver(Void.self)
         
         viewModel.outputs.showSearchFactForm
             .subscribe(itemsObserver)
             .disposed(by: disposeBag)
         
-        scheduler.start()
+        testScheduler.start()
         
         viewModel.inputs.searchButtonAction.onNext(())
         viewModel.inputs.searchButtonAction.onNext(())
@@ -240,19 +236,18 @@ class FactsListViewModelTests: XCTestCase {
         XCTAssertEqual(events.count, 2)
     }
     
-    func testShowShareScreen() throws {
+    func test_showShareScreen() throws {
         
         let longFactStub = stub("fact-long-text", type: NorrisFact.self)
         let longFact = try XCTUnwrap(longFactStub, "fact-long-text.json could not be parsed as NorrisFact")
         
-        let scheduler = TestScheduler(initialClock: 0)
-        let shareObserver = scheduler.createObserver(NorrisFact.self)
+        let shareObserver = testScheduler.createObserver(NorrisFact.self)
         
         viewModel.outputs.shareFact
             .subscribe(shareObserver)
             .disposed(by: disposeBag)
         
-        scheduler.start()
+        testScheduler.start()
         
         let factItemViewModel = FactItemViewModel(fact: longFact)
         viewModel.inputs.shareItemAction.onNext(factItemViewModel)

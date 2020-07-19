@@ -37,7 +37,7 @@ class SearchFactViewControllerTests: XCTestCase {
         viewController = nil
     }
     
-    func testShowEmptyPastSearches() {
+    func test_pastSearches_whenEmpty_shouldBeHidden() {
         factsServiceMocked.getPastSearchTermsResult = .just([])
         
         viewModel.inputs.viewWillAppear.onNext(())
@@ -46,16 +46,17 @@ class SearchFactViewControllerTests: XCTestCase {
         XCTAssertTrue(viewController.pastSearchLabel.isHidden)
     }
     
-    func testShowPastSearches() {
+    func test_pastSearches_shouldListItems() {
         factsServiceMocked.getPastSearchTermsResult = .just(["political", "sport"])
         
         viewModel.inputs.viewWillAppear.onNext(())
         
+        XCTAssertEqual(viewController.tableView.numberOfRows(inSection: 0), 2)
         XCTAssertFalse(viewController.tableView.isHidden)
         XCTAssertFalse(viewController.pastSearchLabel.isHidden)
     }
     
-    func testShowSuggestions() {
+    func test_suggestionsView_shouldPresentUpTo8Items() {
         let testCategories = stub("get-categories", type: [FactCategory].self) ?? []
         factsServiceMocked.getCategoriesResult = .just(testCategories)
         

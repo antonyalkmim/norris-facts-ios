@@ -22,14 +22,14 @@ class FactsListErrorViewModelTests: XCTestCase {
         viewModel = nil
     }
     
-    func testLoadFactsNoInternetConnectionError() {
+    func test_loadFacts_whenNoInternetConnection() {
         viewModel = FactListErrorViewModel(factListError: .loadFacts(NetworkError.noInternetConnection))
         XCTAssertEqual(viewModel.errorMessage, L10n.Errors.noInternetConnection)
         XCTAssertEqual(viewModel.isRetryEnabled, false)
         XCTAssertEqual(viewModel.iconImage, Asset.wifiError.image)
     }
     
-    func testLoadFactsConnectionError() {
+    func test_loadFacts_whenConnectionError() {
         viewModel = FactListErrorViewModel(factListError: .loadFacts(NetworkError.connectionError))
         XCTAssertEqual(viewModel.errorMessage, L10n.Errors.unknow)
         XCTAssertEqual(viewModel.isRetryEnabled, true)

@@ -64,7 +64,7 @@ class FactsListViewController: UIViewController {
         }
     )
     
-    var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     // MARK: - Initializers
     

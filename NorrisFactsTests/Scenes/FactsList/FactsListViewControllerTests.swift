@@ -37,7 +37,7 @@ class FactsListViewControllerTests: XCTestCase {
         viewController = nil
     }
     
-    func testShowErrorViewWhenListIsEmpty() {
+    func test_error_whenListIsEmpty_shouldShowErrorView() {
         factsServiceMocked.syncFactsCategoriesResult = .error(NorrisFactsError.network(.noInternetConnection))
         factsServiceMocked.getFactsResult[""] = .just([])
         
@@ -49,8 +49,9 @@ class FactsListViewControllerTests: XCTestCase {
         XCTAssertEqual(viewController.errorMessageLabel.text, L10n.Errors.noInternetConnection)
     }
     
-    func testEmptyStateForEmptySearchTerm() {
-        let factsToTest = stub("facts", type: [NorrisFact].self) ?? []
+    func test_emptyState_withEmptySearchTerm_shouldShowEmptyView() throws {
+        
+        let factsToTest = try XCTUnwrap(stub("facts", type: [NorrisFact].self))
             
         // show empty state
         factsServiceMocked.getFactsResult[""] = .just([])
@@ -68,7 +69,7 @@ class FactsListViewControllerTests: XCTestCase {
 
     }
     
-    func testEmptyStateWhenFilteringSearchTerm() {
+    func test_emptyState_withCurrentSearchTerm_shouldShowWarningEmptyView() {
         
         factsServiceMocked.getFactsResult["something"] = .just([])
         
@@ -81,7 +82,7 @@ class FactsListViewControllerTests: XCTestCase {
         XCTAssertEqual(viewController.emptyImageView.image, Asset.warning.image)
     }
     
-    func testFactCellFontSizeWithShortText() throws {
+    func test_factCellFontSize_whenShortText_shouldBe23() throws {
         let smallFactStub = stub("fact-short-text", type: NorrisFact.self)
         let smallFact = try XCTUnwrap(smallFactStub, "fact-short-text.json could not be parsed as NorrisFact")
         
@@ -92,7 +93,7 @@ class FactsListViewControllerTests: XCTestCase {
         XCTAssertEqual(cell?.factTextLabel.font.pointSize, 23)
     }
     
-    func testFactCellFontSizeWithLongText() throws {
+    func test_factCellFontSize_whenLongText_shouldBe17() throws {
         let longFactStub = stub("fact-long-text", type: NorrisFact.self)
         let longFact = try XCTUnwrap(longFactStub, "fact-long-text.json could not be parsed as NorrisFact")
         
@@ -103,7 +104,7 @@ class FactsListViewControllerTests: XCTestCase {
         XCTAssertEqual(cell?.factTextLabel.font.pointSize, 17)
     }
     
-    func testShowShareScreenWhenTapsOnShareButtonInsideFactCell() {
+    func test_shareFactButtonTap_shouldCallShareScreen() {
         let politicalFacts = stub("facts", type: [NorrisFact].self) ?? []
         factsServiceMocked.getFactsResult[""] = .just(politicalFacts)
         
