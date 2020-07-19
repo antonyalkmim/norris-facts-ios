@@ -24,16 +24,16 @@ class SearchFactViewController: UIViewController {
     
     var disposeBag = DisposeBag()
     
-    let searchController = UISearchController(searchResultsController: nil)
+    private let searchController = UISearchController(searchResultsController: nil)
     
     /// cell to calculate the tag size for flow layout `sizeForItemAt` method
-    private var sizingCell: TagCell? = Bundle.main.loadNibNamed("TagCell", owner: self, options: nil)![0] as? TagCell
+    private var sizingCell: TagCell? = Bundle.main.loadNibNamed(String(describing: TagCell.self), owner: self, options: nil)?.first as? TagCell
     
     /// Cancel bar button item to dismiss the screen
     private let cancelBarButtonItem = UIBarButtonItem(title: L10n.SearchFacts.cancel, style: .plain, target: nil, action: nil)
     
     /// Data source for `tagsCollectionView`
-    let suggestionsDataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, String>>(
+    private let suggestionsDataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, String>>(
         configureCell: { _, collectionView, indexPath, item -> UICollectionViewCell in
             let cell = collectionView.dequeueReusableCell(type: TagCell.self, indexPath: indexPath)
             cell.setup(title: item)
@@ -42,7 +42,7 @@ class SearchFactViewController: UIViewController {
     )
     
     /// Datasource for past searches `tableView`
-    let pastSearchesDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, String>>(
+    private let pastSearchesDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, String>>(
         configureCell: { _, tableView, indexPath, term -> UITableViewCell in
             let cell = tableView.dequeueReusableCell(type: PastSearchCell.self, indexPath: indexPath)
             cell.termLabel.text = term.capitalized

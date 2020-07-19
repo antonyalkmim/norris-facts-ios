@@ -12,12 +12,14 @@ class TagCell: UICollectionViewCell {
 
     @IBOutlet weak var labelView: UIView!
     @IBOutlet weak var textLabel: UILabel!
-    @IBOutlet weak var tagViewMaxWithConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tagViewMaxWidthConstraint: NSLayoutConstraint!
+    
+    private let horizontalMargin = CGFloat(16)
     
     override func awakeFromNib() {
         super.awakeFromNib()
         labelView.layer.cornerRadius = 16
-        tagViewMaxWithConstraint.constant = UIScreen.main.bounds.width - 8 * 2 - 8 * 2
+        tagViewMaxWidthConstraint.constant = UIScreen.main.bounds.width - horizontalMargin - horizontalMargin
     }
 
     func setup(title: String) {
