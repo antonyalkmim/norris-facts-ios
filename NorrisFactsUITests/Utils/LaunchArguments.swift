@@ -19,6 +19,9 @@ enum LaunchArgument: String {
     /// flag to use fake data on API requests
     case useMockHttpRequests = "--mock-api-requests"
     
+    /// flag to use fake errors data on API requests
+    case useMockErrorHttpRequests = "--mock-error-api-requests"
+    
     /// flag to use fake data on API requests
     case useMockDatabase = "--mock-database"
 }

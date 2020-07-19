@@ -13,6 +13,7 @@ extension UIViewController {
     func showToast(text: String) {
         
         let toast = UIView()
+        toast.accessibilityIdentifier = "toast_view"
         toast.translatesAutoresizingMaskIntoConstraints = false
         toast.layer.cornerRadius = 10
         toast.backgroundColor = UIColor(rgb: 0x4E4E4E)

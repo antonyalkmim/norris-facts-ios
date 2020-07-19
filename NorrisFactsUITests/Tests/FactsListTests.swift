@@ -57,5 +57,22 @@ class FactsListTests: XCTestCase {
         
         waitForElementToNotExist(element: shareScreen.activityList)
     }
+    
+    func testShowToastForErrorsWithNotEmptyList() throws {
+        app.setLaunchArguments([.uiTest, .resetEnviroments, .useMockDatabase, .useMockErrorHttpRequests])
+        app.launch()
+        
+        let factsScreen = FactsListScreen()
+        let searchScreen = SearchScreen()
+        
+        // 1 - attempt to search a fact
+        factsScreen.searchBarButtonItem.tap()
+        searchScreen.firstPastSearchCell().element.tap()
+        
+        // assert toastView is visible
+        XCTAssertTrue(factsScreen.toastView.waitForExistence(timeout: 2))
+        
+        waitForElementToNotExist(element: factsScreen.toastView)
+    }
 
 }

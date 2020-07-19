@@ -48,10 +48,18 @@ extension NorrisFactsAPI: TargetType {
 
     var sampleData: HttpResponse? {
         
-        guard LaunchArgument.check(.useMockHttpRequests) else {
-            return nil
+        if LaunchArgument.check(.useMockHttpRequests) {
+            return mockHttpRequest()
         }
         
+        if LaunchArgument.check(.useMockErrorHttpRequests) {
+            return mockErrorHttpRequest()
+        }
+        
+        return nil
+    }
+
+    private func mockHttpRequest() -> HttpResponse {
         switch self {
         case .getCategories:
             return HttpResponse(statusCode: 200,
@@ -60,7 +68,9 @@ extension NorrisFactsAPI: TargetType {
             return HttpResponse(statusCode: 200,
                                 data: stub("search-facts"))
         }
-
     }
-
+    
+    private func mockErrorHttpRequest() -> HttpResponse {
+        HttpResponse(statusCode: 200, data: nil)
+    }
 }
