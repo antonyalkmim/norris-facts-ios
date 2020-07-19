@@ -17,7 +17,7 @@ class FactsListTests: XCTestCase {
         continueAfterFailure = false
     }
 
-    func testShowEmptyViewWhenFirstAccess() throws {
+    func test_showEmptyView_whenFirstAccess() throws {
         app.setLaunchArguments([.uiTest, .resetEnviroments])
         app.launch()
         
@@ -30,7 +30,7 @@ class FactsListTests: XCTestCase {
         XCTAssertTrue(factsScreen.emptyViewButton.isEnabled)
     }
     
-    func testLoad10RandomFacts() throws {
+    func test_load10RandomFacts() throws {
         app.setLaunchArguments([.uiTest, .resetEnviroments, .useMockDatabase])
         app.launch()
         
@@ -38,7 +38,7 @@ class FactsListTests: XCTestCase {
         XCTAssertEqual(factsScreen.factsTableView.cells.count, 10)
     }
     
-    func testShareFact() throws {
+    func test_shareFact() throws {
         app.setLaunchArguments([.uiTest, .resetEnviroments, .useMockDatabase])
         app.launch()
         
@@ -58,7 +58,7 @@ class FactsListTests: XCTestCase {
         waitForElementToNotExist(element: shareScreen.activityList)
     }
     
-    func testShowToastForErrorsWithNotEmptyList() throws {
+    func test_showToastForErrors_whenFactListNotEmpty() throws {
         app.setLaunchArguments([.uiTest, .resetEnviroments, .useMockDatabase, .useMockErrorHttpRequests])
         app.launch()
         

@@ -22,7 +22,7 @@ struct SearchScreen {
     
     init() {
         let app = XCUIApplication()
-        searchBarField = app.searchFields.element
+        searchBarField = app.searchFields["Search"]
         suggestionsCollectionView = app.collectionViews[ElementID.kSuggestionsCollectionView]
         pastSearchTableView = app.tables[ElementID.kPastSearchTableView]
     }

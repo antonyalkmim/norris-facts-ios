@@ -11,13 +11,14 @@ import XCTest
 
 class FactCategoryTests: XCTestCase {
 
-    func testParseFactCategoryList() throws {
-        let jsonData = "[\"develop\", \"political\", \"tecnology\"]".data(using: .utf8)!
+    func test_parseFactCategoryList() throws {
         
+        let jsonData = try XCTUnwrap(stub("get-categories"))
         let categories = try JSONDecoder().decode([FactCategory].self, from: jsonData)
         
-        XCTAssertEqual(categories.first?.title, "develop")
-        XCTAssertEqual(categories.last?.title, "tecnology")
+        XCTAssertEqual(categories.count, 16)
+        XCTAssertEqual(categories.first?.title, "animal")
+        XCTAssertEqual(categories.last?.title, "travel")
     }
 
 }

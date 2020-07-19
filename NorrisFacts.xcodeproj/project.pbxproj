@@ -54,7 +54,7 @@
 		FA6DB40324C38CBA005D0C5E /* NorrisFactServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6DB40224C38CBA005D0C5E /* NorrisFactServiceMock.swift */; };
 		FAD3201224B6472E0044C83E /* fact-short-text.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3201124B6472E0044C83E /* fact-short-text.json */; };
 		FAD3201424B647580044C83E /* fact-long-text.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3201324B647580044C83E /* fact-long-text.json */; };
-		FAD3201624B64A6C0044C83E /* FactItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3201524B64A6C0044C83E /* FactItemViewModel.swift */; };
+		FAD3201624B64A6C0044C83E /* FactItemViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3201524B64A6C0044C83E /* FactItemViewModelTests.swift */; };
 		FAD3201924B79D770044C83E /* SearchFactResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3201824B79D770044C83E /* SearchFactResponse.swift */; };
 		FAD3201C24B7A9EC0044C83E /* search-facts-response.json in Resources */ = {isa = PBXBuildFile; fileRef = FAD3201B24B7A9EC0044C83E /* search-facts-response.json */; };
 		FAD3201E24B8229E0044C83E /* RMSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD3201D24B8229E0044C83E /* RMSearch.swift */; };
@@ -168,7 +168,7 @@
 		FA6DB40224C38CBA005D0C5E /* NorrisFactServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NorrisFactServiceMock.swift; sourceTree = "<group>"; };
 		FAD3201124B6472E0044C83E /* fact-short-text.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fact-short-text.json"; sourceTree = "<group>"; };
 		FAD3201324B647580044C83E /* fact-long-text.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fact-long-text.json"; sourceTree = "<group>"; };
-		FAD3201524B64A6C0044C83E /* FactItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactItemViewModel.swift; sourceTree = "<group>"; };
+		FAD3201524B64A6C0044C83E /* FactItemViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactItemViewModelTests.swift; sourceTree = "<group>"; };
 		FAD3201824B79D770044C83E /* SearchFactResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFactResponse.swift; sourceTree = "<group>"; };
 		FAD3201B24B7A9EC0044C83E /* search-facts-response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "search-facts-response.json"; sourceTree = "<group>"; };
 		FAD3201D24B8229E0044C83E /* RMSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSearch.swift; sourceTree = "<group>"; };
@@ -452,7 +452,7 @@
 				FA1CF64324B5149300409CB0 /* stubs */,
 				FA1CF61824B3804700409CB0 /* FactsListViewModelTests.swift */,
 				FA1CF63024B41E4500409CB0 /* FactsListViewControllerTests.swift */,
-				FAD3201524B64A6C0044C83E /* FactItemViewModel.swift */,
+				FAD3201524B64A6C0044C83E /* FactItemViewModelTests.swift */,
 				FAD3203D24BA3DC00044C83E /* FactsListErrorViewModelTests.swift */,
 			);
 			path = FactsList;
@@ -1061,7 +1061,7 @@
 				FAD3206B24BE55C30044C83E /* SearchFactViewControllerTests.swift in Sources */,
 				FA1CF62024B3853E00409CB0 /* FactCategoryTests.swift in Sources */,
 				FA1CF63524B4212700409CB0 /* NorrisFactsServiceTests.swift in Sources */,
-				FAD3201624B64A6C0044C83E /* FactItemViewModel.swift in Sources */,
+				FAD3201624B64A6C0044C83E /* FactItemViewModelTests.swift in Sources */,
 				FA6DB40324C38CBA005D0C5E /* NorrisFactServiceMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

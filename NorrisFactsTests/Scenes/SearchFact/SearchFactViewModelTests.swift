@@ -21,23 +21,26 @@ class SearchFactViewModelTests: XCTestCase {
     
     var disposeBag: DisposeBag!
     
+    var testScheduler: TestScheduler!
+    
     override func setUpWithError() throws {
 
         disposeBag = DisposeBag()
+        testScheduler = TestScheduler(initialClock: 0)
         
         factsServiceMocked = NorrisFactsServiceMocked()
         viewModel = SearchFactViewModel(factsService: factsServiceMocked)
     }
     
     override func tearDown() {
+        testScheduler = nil
         disposeBag = nil
         viewModel = nil
     }
     
-    func testSelectSearchTermBySearchBar() {
+    func test_searchAction_whenWriteTermOnSearchField_shoulSelectTerm() {
         
-        let scheduler = TestScheduler(initialClock: 0)
-        let selectSearchTermObserver = scheduler.createObserver(String.self)
+        let selectSearchTermObserver = testScheduler.createObserver(String.self)
         
         viewModel.outputs.didSelectSearchTerm
             .subscribe(selectSearchTermObserver)
@@ -46,7 +49,7 @@ class SearchFactViewModelTests: XCTestCase {
         viewModel.inputs.searchTerm.onNext("dev")
         viewModel.inputs.searchAction.onNext(())
         
-        scheduler.start()
+        testScheduler.start()
         
         let selectedSearchTerm = selectSearchTermObserver.events
             .compactMap { $0.value.element }
@@ -54,10 +57,9 @@ class SearchFactViewModelTests: XCTestCase {
         XCTAssertEqual(selectedSearchTerm, "dev")
     }
     
-    func testCancelSearch() {
+    func test_cancelSearch_shoudCallForCancelSearch() {
         
-        let scheduler = TestScheduler(initialClock: 0)
-        let cancelObserver = scheduler.createObserver(Void.self)
+        let cancelObserver = testScheduler.createObserver(Void.self)
         
         viewModel.outputs.didCancelSearch
             .subscribe(cancelObserver)
@@ -65,16 +67,15 @@ class SearchFactViewModelTests: XCTestCase {
         
         viewModel.inputs.cancelSearch.onNext(())
         
-        scheduler.start()
+        testScheduler.start()
         
         let cancelTapsCount = cancelObserver.events.compactMap { $0.value.element }.count
         XCTAssertEqual(cancelTapsCount, 1)
     }
     
-    func testLoad8RandomSuggestions() {
+    func test_loadSuggestions_shouldLoadUpTo8RandomSuggestions() {
         
-        let scheduler = TestScheduler(initialClock: 0)
-        let suggestionsObserver = scheduler.createObserver([SuggestionsSectionViewModel].self)
+        let suggestionsObserver = testScheduler.createObserver([SuggestionsSectionViewModel].self)
         
         let testCategories = stub("get-categories", type: [FactCategory].self) ?? []
         factsServiceMocked.getCategoriesResult = .just(testCategories)
@@ -85,17 +86,16 @@ class SearchFactViewModelTests: XCTestCase {
         
         viewModel.inputs.viewWillAppear.onNext(())
         
-        scheduler.start()
+        testScheduler.start()
         
         let suggestionsSectionViewModel = suggestionsObserver.events.compactMap { $0.value.element }.first
         XCTAssertEqual(suggestionsSectionViewModel?.count, 1)
         XCTAssertEqual(suggestionsSectionViewModel?.first?.items.count, 8)
     }
     
-    func testLoasPastSearches() {
+    func test_loasPastSearches_shouldListPastSearches() {
         
-        let scheduler = TestScheduler(initialClock: 0)
-        let searchesObserver = scheduler.createObserver([PastSearchesSectionViewModel].self)
+        let searchesObserver = testScheduler.createObserver([PastSearchesSectionViewModel].self)
         
         let testSearches = ["political", "sport", "food"]
         factsServiceMocked.getPastSearchTermsResult = .just(testSearches)
@@ -106,7 +106,7 @@ class SearchFactViewModelTests: XCTestCase {
         
         viewModel.inputs.viewWillAppear.onNext(())
         
-        scheduler.start()
+        testScheduler.start()
         
         let pastSearchesSectionViewModel = searchesObserver.events.compactMap { $0.value.element }.first
         XCTAssertEqual(pastSearchesSectionViewModel?.count, 1)

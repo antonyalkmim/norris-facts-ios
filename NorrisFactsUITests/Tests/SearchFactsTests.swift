@@ -17,7 +17,7 @@ class SearchFactsTests: XCTestCase {
         continueAfterFailure = false
     }
     
-    func testSearchFactsFillingSearchBar() throws {
+    func test_searchFacts_whenFillSearchBar() throws {
         app.setLaunchArguments([
             .uiTest,
             .resetEnviroments,
@@ -56,7 +56,7 @@ class SearchFactsTests: XCTestCase {
         XCTAssertEqual(factsScreen.factsTableView.cells.count, 10)
     }
     
-    func testSearchFactsTappingInSuggestions() {
+    func test_searchFacts_whenTapOnSuggestions() {
         app.setLaunchArguments([
             .uiTest,
             .resetEnviroments,
@@ -94,7 +94,7 @@ class SearchFactsTests: XCTestCase {
         XCTAssertEqual(factsScreen.factsTableView.cells.count, 10)
     }
     
-    func testSearchTermSaveInPastSearches() {
+    func test_searchTerm_shouldSavePastSearches() {
         app.setLaunchArguments([.uiTest, .resetEnviroments, .useMockHttpRequests])
         app.launch()
         
