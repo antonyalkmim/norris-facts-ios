@@ -254,11 +254,13 @@ extension FactsListViewController {
         
         // show error view when empty list
         // show error toast when list is not empty
+        let showErrorView = errorViewModel.withLatestFrom(isFactListEmpty)
+        
         Observable
-            .combineLatest(isFactListEmpty, errorViewModel )
+            .combineLatest(showErrorView, errorViewModel)
             .observeOn(MainScheduler.instance)
-            .bind { [weak self] isFactListEmpty, errorViewModel in
-                if isFactListEmpty {
+            .bind { [weak self] showErrorView, errorViewModel in
+                if showErrorView {
                     self?.bindErrorViewModel(errorViewModel)
                 } else {
                     self?.showToast(text: errorViewModel.errorMessage)

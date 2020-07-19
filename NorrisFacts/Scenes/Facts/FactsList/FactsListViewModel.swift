@@ -151,10 +151,10 @@ struct FactsListViewModel: FactsListViewModelType, FactsListViewModelInput, Fact
             .flatMapLatest {
                 factsService.searchFacts(searchTerm: $0)
                     .trackActivity(_isLoading)
+                    .materialize()
             }
         
         let searchFactsError = searchFacts
-            .materialize()
             .errors()
             .map { FactListError.loadFacts($0) }
         

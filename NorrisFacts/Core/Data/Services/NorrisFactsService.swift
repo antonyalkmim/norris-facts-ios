@@ -27,17 +27,20 @@ protocol NorrisFactsServiceType {
     func getPastSearchTerms() -> Observable<[String]>
 }
 
-class NorrisFactsService: NorrisFactsServiceType {
+final class NorrisFactsService: NorrisFactsServiceType {
     
-    var api: HttpService<NorrisFactsAPI>
-    var storage: NorrisFactsStorageType
+    private let api: HttpService<NorrisFactsAPI>
+    private let storage: NorrisFactsStorageType
+    private let scheduler: SchedulerType?
     
     init(
         api: HttpService<NorrisFactsAPI> = HttpService<NorrisFactsAPI>(),
-        storage: NorrisFactsStorageType = NorrisFactsStorage()
+        storage: NorrisFactsStorageType = NorrisFactsStorage(),
+        scheduler: SchedulerType? = nil
     ) {
         self.api = api
         self.storage = storage
+        self.scheduler = scheduler
     }
     
     func syncFactsCategories() -> Observable<Void> {
@@ -47,13 +50,20 @@ class NorrisFactsService: NorrisFactsServiceType {
                 guard categories.isEmpty else { return .just([]) }
                 
                 return self.api.rx.request(.getCategories)
+                    .asObservable()
+                    .observeOn(self.scheduler ?? MainScheduler.asyncInstance)
+                    .retryWhen(
+                        statusCode: 400 ..< 600,
+                        maxRetries: 2,
+                        retryAfter: .seconds(4),
+                        scheduler: self.scheduler ?? MainScheduler.asyncInstance
+                    )
                     .map([FactCategory].self)
-                    .observeOn(MainScheduler.instance)
-                    .do(onSuccess: { [weak self] remoteCategories in
+                    .observeOn(self.scheduler ?? MainScheduler.instance)
+                    .do(onNext: { [weak self] remoteCategories in
                         guard let `self` = self else { return }
                         self.storage.saveCategories(remoteCategories)
                     })
-                    .asObservable()
             }
             .mapToVoid()
     }
@@ -71,13 +81,20 @@ class NorrisFactsService: NorrisFactsServiceType {
             .filter { !$0.isEmpty }
             .flatMapLatest { [weak self] term -> Observable<[NorrisFact]> in
                 guard let `self` = self else { return .empty() }
-
+                
                 return self.api.rx.request(.search(term: term))
+                    .asObservable()
+                    .observeOn(self.scheduler ?? MainScheduler.asyncInstance)
+                    .retryWhen(
+                        statusCode: 400 ..< 600,
+                        maxRetries: 2,
+                        retryAfter: .seconds(4),
+                        scheduler: self.scheduler ?? MainScheduler.asyncInstance
+                    )
                     .map(SearchFactResponse.self)
                     .map { $0.facts }
-                    .asObservable()
             }
-            .observeOn(MainScheduler.instance)
+            .observeOn(self.scheduler ?? MainScheduler.instance)
             .do(onNext: { [weak self] facts in
                 self?.storage.saveSearch(term: searchTerm, facts: facts)
             })

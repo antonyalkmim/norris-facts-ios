@@ -20,7 +20,7 @@ protocol TargetType {
     /// HTTP headers
     var headers: [String: String]? { get }
     /// Mocked data. If `sampleData` is not nil, it will not execute the request and will return the sample data instead
-    var sampleData: Data? { get }
+    var sampleData: HttpResponse? { get }
 }
 
 extension TargetType {
@@ -74,10 +74,19 @@ enum HttpMethod: String {
     case delete = "DELETE"
 }
 
+struct HttpResponse {
+    let statusCode: Int
+    let data: Data?
+}
+
 protocol HttpServiceType: class {
+    
+    /// Completion handler for requests
+    typealias RequestCompletionHandler = (Result<HttpResponse, NorrisFactsError>) -> Void
+    
     associatedtype Target: TargetType
     var session: URLSession { get }
-    func request(_ endpoint: Target, responseData: @escaping (Result<Data, NorrisFactsError>) -> Void) -> URLSessionDataTask?
+    func request(_ endpoint: Target, completion: @escaping RequestCompletionHandler) -> URLSessionDataTask?
 }
 
 class HttpService<Target: TargetType>: HttpServiceType {
@@ -87,7 +96,7 @@ class HttpService<Target: TargetType>: HttpServiceType {
 
     /// closure executed after response
     typealias ResponseClosure = (HTTPURLResponse?, Data?) -> Void
-
+    
     private var requestClosure: RequestClosure
     private var responseClosure: ResponseClosure
     public let session: URLSession
@@ -107,39 +116,46 @@ class HttpService<Target: TargetType>: HttpServiceType {
     }
 
     @discardableResult
-    func request(_ endpoint: Target, responseData: @escaping (Result<Data, NorrisFactsError>) -> Void) -> URLSessionDataTask? {
+    func request(_ endpoint: Target, completion: @escaping RequestCompletionHandler) -> URLSessionDataTask? {
+        
         //1 - pass through interceptors
         let request = requestClosure(endpoint)
 
         //2 - execute task
         // sample data
         if let sampleData = endpoint.sampleData {
-            responseData(Result.success(sampleData))
+            completion(.success(sampleData))
             return nil
         }
 
         // reachability
         if !Reachability.isConnectedToNetwork {
-            responseData(Result.failure(.network(.noInternetConnection)))
+            completion(.failure(.network(.noInternetConnection)))
             return nil
         }
 
         // real request
         let task = self.session.dataTask(with: request) { [weak self] data, response, error in
-
+            
             if let err = error {
-                responseData(Result.failure(.network(.unknow(err))))
+                completion(.failure(.network(.unknow(err))))
                 return
             }
-
-            let httpResponse = response as? HTTPURLResponse
-            self?.responseClosure(httpResponse, data)
-
-            guard let data = data else {
-                responseData(Result.failure(.network(.connectionError)))
+            
+            guard let httpURLResponse = response as? HTTPURLResponse else {
+                completion(.failure(.network(.connectionError)))
                 return
             }
-            responseData(Result.success(data))
+            
+            // run interceptors for response
+            self?.responseClosure(httpURLResponse, data)
+
+            let httpResponse = HttpResponse(
+                statusCode: httpURLResponse.statusCode,
+                data: data
+            )
+            
+            completion(.success(httpResponse))
         }
         task.resume()
 
