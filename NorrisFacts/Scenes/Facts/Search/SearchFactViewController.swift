@@ -22,7 +22,7 @@ class SearchFactViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var pastSearchLabel: UILabel!
     
-    var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     private let searchController = UISearchController(searchResultsController: nil)
     

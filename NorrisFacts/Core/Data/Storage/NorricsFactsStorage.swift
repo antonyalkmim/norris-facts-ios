@@ -30,9 +30,9 @@ protocol NorrisFactsStorageType {
     func getPastSearchTerms() -> Observable<[String]>
 }
 
-class NorrisFactsStorage: NorrisFactsStorageType {
+struct NorrisFactsStorage: NorrisFactsStorageType {
     
-    let realm: Realm!
+    private let realm: Realm!
     
     init(realm: Realm? = nil) {
         self.realm = realm ?? (try? Realm())
