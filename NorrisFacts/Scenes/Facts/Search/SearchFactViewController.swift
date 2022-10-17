@@ -87,6 +87,7 @@ class SearchFactViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.barTintColor = Asset.screenBackground.color
+        navigationController?.navigationBar.backgroundColor = Asset.screenBackground.color
         
         navigationItem.searchController = searchController
         navigationItem.leftBarButtonItem = cancelBarButtonItem
