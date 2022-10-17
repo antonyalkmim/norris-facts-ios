@@ -51,7 +51,7 @@ final class NorrisFactsService: NorrisFactsServiceType {
                 
                 return self.api.rx.request(.getCategories)
                     .asObservable()
-                    .observeOn(self.scheduler ?? MainScheduler.asyncInstance)
+                    .observe(on: self.scheduler ?? MainScheduler.asyncInstance)
                     .retryWhen(
                         statusCode: 400 ..< 600,
                         maxRetries: 2,
@@ -59,7 +59,7 @@ final class NorrisFactsService: NorrisFactsServiceType {
                         scheduler: self.scheduler ?? MainScheduler.asyncInstance
                     )
                     .map([FactCategory].self)
-                    .observeOn(self.scheduler ?? MainScheduler.instance)
+                    .observe(on: self.scheduler ?? MainScheduler.instance)
                     .do(onNext: { [weak self] remoteCategories in
                         guard let `self` = self else { return }
                         self.storage.saveCategories(remoteCategories)
@@ -84,7 +84,7 @@ final class NorrisFactsService: NorrisFactsServiceType {
                 
                 return self.api.rx.request(.search(term: term))
                     .asObservable()
-                    .observeOn(self.scheduler ?? MainScheduler.asyncInstance)
+                    .observe(on: self.scheduler ?? MainScheduler.asyncInstance)
                     .retryWhen(
                         statusCode: 400 ..< 600,
                         maxRetries: 2,
@@ -94,7 +94,7 @@ final class NorrisFactsService: NorrisFactsServiceType {
                     .map(SearchFactResponse.self)
                     .map { $0.facts }
             }
-            .observeOn(self.scheduler ?? MainScheduler.instance)
+            .observe(on: self.scheduler ?? MainScheduler.instance)
             .do(onNext: { [weak self] facts in
                 self?.storage.saveSearch(term: searchTerm, facts: facts)
             })

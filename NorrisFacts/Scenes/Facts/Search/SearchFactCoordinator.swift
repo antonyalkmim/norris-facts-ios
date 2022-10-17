@@ -38,7 +38,7 @@ final class SearchFactCoordinator: Coordinator<SearchFactCoordinatorResult> {
         
         return Observable.merge(didSelectSearchTerm, cancelSearch)
             .take(1)
-            .observeOn(MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .do(onNext: { _ in navigationController.dismiss(animated: true) })
     }
 

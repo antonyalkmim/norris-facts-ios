@@ -258,7 +258,7 @@ extension FactsListViewController {
         
         Observable
             .combineLatest(showErrorView, errorViewModel)
-            .observeOn(MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .bind { [weak self] showErrorView, errorViewModel in
                 if showErrorView {
                     self?.bindErrorViewModel(errorViewModel)
