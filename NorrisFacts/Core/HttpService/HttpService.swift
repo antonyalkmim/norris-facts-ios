@@ -79,7 +79,7 @@ struct HttpResponse {
     let data: Data?
 }
 
-protocol HttpServiceType: class {
+protocol HttpServiceType: AnyObject {
     
     /// Completion handler for requests
     typealias RequestCompletionHandler = (Result<HttpResponse, NorrisFactsError>) -> Void

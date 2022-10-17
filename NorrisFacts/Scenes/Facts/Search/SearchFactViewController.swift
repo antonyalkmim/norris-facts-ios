@@ -27,7 +27,7 @@ class SearchFactViewController: UIViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     
     /// cell to calculate the tag size for flow layout `sizeForItemAt` method
-    private var sizingCell: TagCell? = Bundle.main.loadNibNamed(String(describing: TagCell.self), owner: self, options: nil)?.first as? TagCell
+    private var sizingCell: TagCell? = Bundle.main.loadNibNamed(String(describing: TagCell.self), owner: SearchFactViewController.self, options: nil)?.first as? TagCell
     
     /// Cancel bar button item to dismiss the screen
     private let cancelBarButtonItem = UIBarButtonItem(title: L10n.SearchFacts.cancel, style: .plain, target: nil, action: nil)

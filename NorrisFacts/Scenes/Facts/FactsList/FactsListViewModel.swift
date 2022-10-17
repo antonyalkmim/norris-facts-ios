@@ -83,7 +83,8 @@ struct FactsListViewModel: FactsListViewModelType, FactsListViewModelInput, Fact
     var shareFact: Observable<NorrisFact>
     
     // MARK: - RX privates
-    
+
+    // swiftlint:disable:next function_body_length
     init(factsService: NorrisFactsServiceType = NorrisFactsService()) {
         self.factsService = factsService
             

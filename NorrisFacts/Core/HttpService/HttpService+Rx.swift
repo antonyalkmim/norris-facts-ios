@@ -14,19 +14,18 @@ extension HttpService: ReactiveCompatible { }
 extension Reactive where Base: HttpServiceType {
 
     func request(_ endpoint: Base.Target) -> Single<HttpResponse> {
-        return Single<HttpResponse>
-            .create(subscribe: { [weak base] single in
-                let task = base?.request(endpoint) { result in
-                    switch result {
-                    case .success(let response):
-                        single(.success(response))
-                    case .failure(let error):
-                        single(.failure(error))
-                    }
+        Single<HttpResponse>.create(subscribe: { [weak base] single in
+            let task = base?.request(endpoint) { result in
+                switch result {
+                case .success(let response):
+                    single(.success(response))
+                case .failure(let error):
+                    single(.failure(error))
                 }
+            }
 
-                return Disposables.create { task?.cancel() }
-            })
+            return Disposables.create { task?.cancel() }
+        })
     }
     
 }
@@ -70,9 +69,8 @@ extension ObservableType where Element == HttpResponse {
         retryAfter: RxTimeInterval,
         scheduler: SchedulerType = MainScheduler.asyncInstance
     ) -> Observable<Element> {
-        
-        return errorWhenStatusCode(in: range)
-            .retryWhen { errorObservable -> Observable<Int> in
+        errorWhenStatusCode(in: range)
+            .retry { errorObservable -> Observable<Int> in
                 errorObservable
                     .enumerated()
                     .flatMapLatest { index, err -> Observable<Int> in
