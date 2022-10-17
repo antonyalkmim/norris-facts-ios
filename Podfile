@@ -1,4 +1,4 @@
-platform :ios, '11.0'
+platform :ios, '13.0'
 
 
 def common_pods
@@ -7,13 +7,13 @@ def common_pods
   pod 'SwiftLint'
   pod 'SwiftGen'
   
-  pod 'RealmSwift', '~> 5.2.0'
+  pod 'RealmSwift', '~> 10.32.0'
   
   # Rx
-  pod 'RxSwift', '~> 5'
-  pod 'RxCocoa', '~> 5'
-  pod 'RxRealm', '~> 3.1.0'
-  pod 'RxDataSources', '~> 4.0'
+  pod 'RxSwift', '~> 6.5'
+  pod 'RxCocoa', '~> 6.5'
+  pod 'RxRealm', '~> 5'
+  pod 'RxDataSources', '~> 5'
   
   # UI
   pod 'lottie-ios'
@@ -21,8 +21,8 @@ def common_pods
 end
 
 def test_pods
-  pod 'RxBlocking', '~> 5'
-  pod 'RxTest', '~> 5'
+  pod 'RxBlocking', '~> 6.5'
+  pod 'RxTest', '~> 6.5'
 end
 
 target 'NorrisFacts' do

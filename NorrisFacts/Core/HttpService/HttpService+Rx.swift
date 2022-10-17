@@ -19,9 +19,9 @@ extension Reactive where Base: HttpServiceType {
                 let task = base?.request(endpoint) { result in
                     switch result {
                     case .success(let response):
-                        single(SingleEvent.success(response))
+                        single(.success(response))
                     case .failure(let error):
-                        single(SingleEvent.error(error))
+                        single(.failure(error))
                     }
                 }
 
